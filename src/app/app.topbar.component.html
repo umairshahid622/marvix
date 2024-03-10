@@ -1,0 +1,29 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="">
+        <img src="assets/svgs/{{appMain.config.dark ? 'logomarvix' : 'logomarvix'}}.png" alt="logo">
+        <span></span>
+    </a>
+
+    <a class="p-link layout-menu-button layout-topbar-button" href="#" (click)="appMain.toggleMenu($event)">
+        <i class="pi pi-bars"></i>
+    </a>
+
+    <a class="p-link layout-topbar-menu-button layout-topbar-button" href="#" (click)="appMain.toggleTopMenu($event)">
+        <i class="pi pi-ellipsis-v"></i>
+    </a>
+
+    <div class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active':appMain.topMenuActive}">
+<!--          <a  class="p-link layout-topbar-button" routerLink="/pages/query" pTooltip="UserInfo">-->
+<!--            <i class="pi pi-calender"></i>-->
+<!--            <span>UserInfo</span>-->
+<!--        </a>-->
+<!--        <a href="#" class="p-link layout-topbar-button">-->
+<!--            <i class="pi pi-cog"></i>-->
+<!--            <span>Settings</span>-->
+<!--        </a> -->
+        <button style="font-weight: bold;" class="btn btn-light" (click)="logout()" >
+            <img style="padding-top: 2px;" width="30px" height="30px" src="assets/svgs/noun-logout-2028508.svg" alt="logout">
+            Logout
+        </button>
+    </div>
+</div>

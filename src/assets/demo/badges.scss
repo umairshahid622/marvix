@@ -1,0 +1,224 @@
+.product-badge {
+    border-radius: var(--border-radius);
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+
+    &.status-instock {
+        background: #C8E6C9;
+        color: #256029;
+    }
+
+    &.status-outofstock {
+        background: #FFCDD2;
+        color: #C63737;
+    }
+
+    &.status-lowstock {
+        background: #FEEDAF;
+        color: #8A5340;
+    }
+}
+
+.customer-badge {
+    border-radius: var(--border-radius);
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+
+    &.status-qualified {
+        background: #C8E6C9;
+        color: #256029;
+    }
+
+    &.status-unqualified {
+        background: #FFCDD2;
+        color: #C63737;
+    }
+
+    &.status-negotiation {
+        background: #FEEDAF;
+        color: #8A5340;
+    }
+
+    &.status-new {
+        background: #B3E5FC;
+        color: #23547B;
+    }
+
+    &.status-renewal {
+        background: #ECCFFF;
+        color: #694382;
+    }
+
+    &.status-proposal {
+        background: #FFD8B2;
+        color: #805B36;
+    }
+}
+
+.order-badge {
+    border-radius: var(--border-radius);
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+
+    &.order-delivered {
+        background: #C8E6C9;
+        color: #256029;
+    }
+
+    &.order-cancelled {
+        background: #FFCDD2;
+        color: #C63737;
+    }
+
+    &.order-pending {
+        background: #FEEDAF;
+        color: #8A5340;
+    }
+
+    &.order-returned {
+        background: #ECCFFF;
+        color: #694382;
+    }
+}
+
+
+:host::ng-deep {
+    .ui-paginator-bottom.ui-paginator {
+        background: white;
+        border-color: #b7afaf;
+
+        .ui-dropdown {
+            border-color: #b7afaf !important;
+
+            .ui-dropdown-label {
+                color: black !important;
+            }
+        }
+    }
+    .ui-paginator-current {
+        color: black;
+    }
+    .ui-paginator-element {
+        color: black !important;
+    }
+
+}
+:host::ng-deep .ui-dropdown-label-container .ui-dropdown-label{
+    text-overflow: ellipsis;
+}
+
+:host::ng-deep {
+    .lineChart {
+        canvas {
+            height: 377px !important;
+        }
+    }
+}
+:host::ng-deep {
+    .doughnut{
+        canvas{
+            display: block;
+            width: 200px;
+            height: 149px !important;
+        }
+    }
+}
+.zoom:hover{
+    -ms-transform: scale(1.03); /* IE 9 */
+    -webkit-transform: scale(1.03); /* Safari 3-8 */
+    transform: scale(1.03);
+}
+.zoom{
+    transition: transform .1s;
+}
+
+
+
+.searchIcon {
+    position: absolute;
+    top: 14px;
+    right: 25px;
+}
+.zoom1:hover{
+    -ms-transform: scale(1.01); /* IE 9 */
+    -webkit-transform: scale(1.01); /* Safari 3-8 */
+    transform: scale(1.01);
+}
+.zoom1{
+    transition: transform .1s;
+}
+.form-control {
+    border: 1px solid #cdcdcd;
+    background-image: none;
+    height: 42px;
+    border-radius: 14px;
+    padding-left: 12px;
+    margin-left: 0px!important;
+
+    &:focus {
+        border: 1px solid #cdcdcd;
+    }
+}
+* {
+    box-sizing: border-box;
+}
+
+:host::ng-deep .chartjs-render-monitor {
+    display: block;
+    width: 356px;
+    height: 240px !important;
+}
+//:host::ng-deep.ui-corner-all {
+//  -moz-border-radius: 3px;
+//  -webkit-border-radius: 3px;
+//  border-radius: 10px;
+//
+//}
+:host::ng-deep.ui-panel {
+    padding: 13px;
+    border-radius: 25px;
+}
+
+.searchIcon {
+    position: absolute;
+    top: 16px;
+    right: 25px;
+}
+:host::ng-deep .ui-corner-all {
+    border-radius: 50px!important;
+}
+:host::ng-deep .ui-dropdown {
+    width: 100% !important;
+    border-radius: 24px !important;
+}
+:host::ng-deep .ui-dialog-titlebar  {
+    background-color:#ebebeb!important;
+    border-radius: 38px !important;
+    border-bottom-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+
+}
+:host::ng-deep .ui-panel-title
+{
+    padding-left: 60vh !important;
+    color: black !important;
+    font-size: 3vh !important;
+
+}
+td {
+    overflow: hidden;
+    //text-overflow: ellipsis;
+    //white-space: nowrap;
+}
+/////////////////////////////////////////
+
+

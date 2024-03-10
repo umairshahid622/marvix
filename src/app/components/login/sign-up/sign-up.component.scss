@@ -1,0 +1,33 @@
+:host ::ng-deep p-chips .p-chips .p-inputtext {
+    width: 100% !important;
+}
+
+:host ::ng-deep p-chips .p-chips {
+    width: 100% !important;
+}
+
+.password-field {
+    padding-right: 3.2rem;
+}
+.eye-button i {
+    cursor: pointer;
+    color: var(--primary-color) !important;
+    display: flex;
+    font-size: 1.5rem;
+}
+a {
+    text-decoration: none;
+}
+.eye-button {
+    position: absolute !important;
+    top: 50%;
+    right: 0;
+    transform: translate(-50%, -50%);
+}
+input {
+    height: 44px;
+    transition: all 150ms ease-in-out;
+}
+input:hover {
+    border: 1px solid rgba(11, 94, 215, 0.6);
+}

@@ -1,0 +1,284 @@
+<div class="surface-0 container flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="col-12 col-md-10 col-xl-8 card">
+        <div class="card-body">
+            <div class="text-center mb-1 mb-md-4">
+                <span class="font-medium display-6">Sign-up to continue</span>
+            </div>
+            <form action="" [formGroup]="registerForm" (ngSubmit)="signUp()" #registerFormRef="ngForm">
+                <div class="row">
+                    <div class="form-group flex flex-column gap-1 col-12 col-md-6">
+                        <label for="company_id" class="fw-medium">Company Id</label>
+                        <input id="company_id" class="form-control m-0" type="text" placeholder="Enter id of company"
+                            formControlName="companyId" required />
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('companyId')
+                                    .hasError('required') &&
+                                (this.registerForm.get('companyId').dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            Company Id is required
+                        </small>
+                    </div>
+                    <div class="form-group flex flex-column gap-1 col-12 col-md-6">
+                        <label for="comapany_name" class="fw-medium">Company Name</label>
+                        <input id="comapany_name" class="form-control m-0" type="text"
+                            placeholder="Enter name of company" formControlName="comapanyName" required />
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('comapanyName')
+                                    .hasError('required') &&
+                                (this.registerForm.get('comapanyName').dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            Company Name is required
+                        </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group flex flex-column gap-1 col-12 col-md-6">
+                        <label for="email" class="fw-medium">Email</label>
+                        <input type="email" id="email" class="form-control m-0" placeholder="Enter your email"
+                            formControlName="email" required />
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('email')
+                                    .hasError('required') &&
+                                (this.registerForm.get('email').dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            Email is required
+                        </small>
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('email')
+                                    .hasError('email') &&
+                                (this.registerForm.get('email').dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            Plz provide valid email
+                        </small>
+                    </div>
+                    <div class="form-group flex flex-column gap-1 col-12 col-md-6">
+                        <label for="name" class="fw-medium">Name</label>
+                        <input id="name" class="form-control m-0" type="text" placeholder="Enter name"
+                            formControlName="name" required />
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('name')
+                                    .hasError('required') &&
+                                (this.registerForm.get('name').dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            Name is required
+                        </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group flex flex-column gap-1 col-12 col-md-6">
+                        <label for="password" class="fw-medium">Password</label>
+                        <div class="position-relative">
+                            <input id="password" class="form-control m-0 password-field" placeholder="Enter your password"
+                                formControlName="password" [type]="getPasswordType()" [class.invalid]="
+                                    registerForm.get('password').invalid &&
+                                    (registerForm.get('password').dirty ||
+                                        registerForm.get('password').touched)
+                                " required />
+                            <a class="eye-button" (click)="toggleShowPassword()">
+                                <i *ngIf="!showPassword" class="pi pi-eye"></i>
+                                <i *ngIf="showPassword" class="pi pi-eye-slash"></i>
+                            </a>
+                        </div>
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('password')
+                                    .hasError('required') &&
+                                (this.registerForm.get('password').dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            Password is required
+                        </small>
+                        <small *ngIf="
+                                !passwordValidator() &&
+                                this.registerForm.get('password').value
+                                    .length !== 0
+                            " class="text-danger">
+                            Password should be 8 characters long
+                        </small>
+                    </div>
+                    <div class="form-group flex flex-column gap-1 col-12 col-md-6">
+                        <label for="confirmPassword" class="fw-medium">Confirm Password</label>
+                        <div class="position-relative">
+                            <input id="confirmPassword" class="form-control m-0 password-field"
+                                [type]="getConfirmPasswordType()" placeholder="Re-Enter your password"
+                                formControlName="confirmPassword" required />
+                            <a class="eye-button" (click)="toggleShowConfirmPassword()">
+                                <i *ngIf="!showConfirmPassword" class="pi pi-eye"></i>
+                                <i *ngIf="showConfirmPassword" class="pi pi-eye-slash"></i>
+                            </a>
+                        </div>
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('confirmPassword')
+                                    .hasError('required') &&
+                                (this.registerForm.get('confirmPassword')
+                                    .dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            Confirm password is required
+                        </small>
+                        <small *ngIf="
+                                !passwordMatched() &&
+                                this.registerForm.get('confirmPassword').value
+                                    .length !== 0
+                            " class="text-danger">
+                            Password and confirm password does not match
+                        </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="flex flex-column gap-1 col-12 col-md-6">
+                        <label for="cpCode" class="fw-medium">CPV Code</label>
+                        <p-chips separator="," placeholder="you can enter multiple cpv codes here"
+                            formControlName="cpvCodes" required></p-chips>
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('cpvCodes')
+                                    .hasError('required') &&
+                                (this.registerForm.get('cpvCodes').dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            At least 1 cpv code is required
+                        </small>
+                    </div>
+                    <div class="flex flex-column gap-1 col-12 col-md-6">
+                        <label for="locations" class="fw-medium">Locations</label>
+                        <p-chips [separator]="separatorExp" placeholder="you can enter multiple locations here"
+                            formControlName="locations" required></p-chips>
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('locations')
+                                    .hasError('required') &&
+                                (this.registerForm.get('locations').dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            At least 1 location is required
+                        </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="flex flex-column gap-1 col-12 col-md-6">
+                        <label for="keywords" class="fw-medium">Key Words</label>
+                        <p-chips separator="," placeholder="you can your key words codes here"
+                            formControlName="keywords" required></p-chips>
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('keywords')
+                                    .hasError('required') &&
+                                (this.registerForm.get('keywords').dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            At least 1 keyword is required
+                        </small>
+                    </div>
+                    <div class="flex flex-column gap-1 col-12 col-md-6">
+                        <label for="competitors" class="fw-medium">Competitors</label>
+                        <p-chips [separator]="separatorExp" placeholder="Who's your competitors?"
+                            formControlName="competitors" required></p-chips>
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('competitors')
+                                    .hasError('required') &&
+                                (this.registerForm.get('competitors').dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            At least 1 competitor is required
+                        </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="flex flex-column gap-1 col-12 col-md-6">
+                        <label for="tinder_min_value" class="fw-medium">Tinder min value</label>
+                        <input type="number" id="tinderMaxValue" class="form-control m-0" placeholder="00"
+                            formControlName="tenderMinValue" required min="0" />
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('tenderMinValue')
+                                    .hasError('required') &&
+                                (this.registerForm.get('tenderMinValue')
+                                    .dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            Minumum Tinder Value is required
+                        </small>
+                    </div>
+                    <div class="flex flex-column gap-1 col-12 col-md-6">
+                        <label for="tinderMaxValue" class="fw-medium">Tinder max value</label>
+                        <input type="number" id="tinderMaxValue" class="form-control m-0" placeholder="500"
+                            formControlName="tenderMaxValue" required />
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('tenderMaxValue')
+                                    .hasError('required') &&
+                                (this.registerForm.get('tenderMaxValue')
+                                    .dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            Maximum Tinder Value is required
+                        </small>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn btn-lg btn-primary fw-medium" [disabled]="registerForm.invalid">
+                        Register
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="surface-0 flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="grid justify-content-center p-2 lg:p-0" style="min-width: 30%">
+        <div class="col-12 mt-5 xl:mt-0 text-center"></div>
+        <div class="col-12 xl:col-6" style="
+                border-radius: 56px;
+                padding: 0.3rem;
+                background: linear-gradient(
+                    180deg,
+                    var(--primary-color) 10%,
+                    rgba(33, 150, 243, 0) 30%
+                );
+            ">
+            <div class="h-full w-full m-0 py-7 px-4" style="
+                    border-radius: 53px;
+                    background: linear-gradient(
+                        180deg,
+                        var(--surface-50) 38.9%,
+                        var(--surface-0)
+                    );
+                ">
+                <div class="text-center mb-5">
+                    <span class="text-600 font-medium">Sign-up to continue</span>
+                </div>
+                <form class="w-full md:w-10 mx-auto" [formGroup]="signUpForm">
+                    <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
+                    <input id="email1" type="text" placeholder="Email address" pInputText class="w-full mb-3"
+                        style="padding: 1rem" formControlName="email" />
+
+                    <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
+                    <p-password id="password1" [(ngModel)]="password" placeholder="Password" [toggleMask]="true"
+                        styleClass="w-full mb-3" formControlName="pass"></p-password>
+
+                    <div class="flex align-items-center justify-content-between mb-5">
+                        <div class="flex align-items-center">
+                            <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
+                            <label for="rememberme1">Remember me</label>
+                        </div>
+                    </div>
+                    <button pButton pRipple label="Sign Up" class="w-full p-3 text-xl" (click)="signUp()"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> -->
