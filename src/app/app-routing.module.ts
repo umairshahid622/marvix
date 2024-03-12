@@ -5,6 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import {RecomendationsComponent} from "./components/recomendations/recomendations.component";
 import { SignUpComponent } from './components/login/sign-up/sign-up.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { SignUpComponent } from './components/login/sign-up/sign-up.component';
                     { path: '', component: DashboardComponent },
                     { path: 'Dashboard', component: DashboardComponent },
                     { path: 'Recomendations/AIModel', component: RecomendationsComponent },
+                    { path: 'user-profile', component: UserProfileComponent },
 
 
                 ],
