@@ -20,6 +20,16 @@ export class UserProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    let token = localStorage.getItem('access_token')
+    console.log("access_token:", token);
+
+    this.http.get('http://45.85.250.231:8000/api/user/me').subscribe((resposne) => {
+      console.log("User" ,resposne);
+    })
+
+
+
+
     this.tenderMinValueForm = this.formBuilder.group({
       tenderMinValue: [null, Validators.required]
     })
@@ -148,8 +158,10 @@ export class UserProfileComponent implements OnInit {
 
   onTenderMinValueSubmit() {
     console.log("Tender Min Value", this.tenderMinValueForm.value);
-
   }
+
+
+
   onTenderMaxValueSubmit() {
     console.log("Tender Max Value", this.tenderMaxValueForm.value);
   }

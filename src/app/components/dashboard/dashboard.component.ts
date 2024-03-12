@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
         // Fetch user data
         this.loading = true;
         this.http
-            .get<UserData>('http://localhost:5000/api/users/me', {
+            .get<UserData>('http://45.85.250.231:8000/api/users/me', {
                 withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${this.accessToken}`,
@@ -65,7 +65,7 @@ export class DashboardComponent implements OnInit {
             );
 
         this.http
-            .get<any>('http://127.0.0.1:5000/api/posts/get_data_by_user_id?skip=0&limit=1000', {
+            .get<any>('http://45.85.250.231:8000/api/posts/get_data_by_user_id?skip=0&limit=1000', {
                 withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${this.accessToken}`,

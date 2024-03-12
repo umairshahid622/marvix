@@ -127,10 +127,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.messageService.clear('c');
     }
 
-    login() {
+     login() {
         this.loading = true;
+        
         this.http
-            .post<any>('http://localhost:5000/api/auth/login', {
+            .post<any>('http://45.85.250.231:8000/api/auth/login', {
                 email: this.email,
                 password: this.password,
             })
