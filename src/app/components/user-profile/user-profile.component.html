@@ -138,14 +138,14 @@
 
 <!-- ===== Update ===== -->
 
-<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="tender_min_value_update_visible" [modal]="true" [style]="{ width: '50rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="tender_min_value_update_visible"
+    [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold white-space-nowrap">Umar Awan</span>
         </div>
     </ng-template>
-    <form action="">
+    <form action="" [formGroup]="tenderMinValueForm" (ngSubmit)="onTenderMinValueSubmit()">
         <div class="row">
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
                 <label class="fw-medium" for="tenderMinValue">Current Tender Min Value</label>
@@ -153,20 +153,20 @@
                     readonly>
             </div>
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
-                <label class="fw-medium" for="tenderMaxValue">Enter Updated Tender Min Value</label>
-                <input id="tenderMaxValue" class="form-control m-0" type="email" [placeholder]="data.tenderMaxValue"
-                    readonly>
+                <label class="fw-medium" for="tenderMinValue">Enter Updated Tender Min Value</label>
+                <input id="tenderMinValue" class="form-control m-0" type="number" placeholder="Enter a new min Value"
+                    formControlName="tenderMinValue" min="0">
             </div>
         </div>
         <div class="mt-2 d-flex justify-content-end ">
-            <button pButton pRipple type="button" icon="pi pi-pencil" label="Update"></button>
+            <button pButton pRipple type="submit" icon="pi pi-pencil" label="Update"></button>
         </div>
     </form>
 </p-dialog>
 
 <!-- ===== Delete ===== -->
-<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="tender_min_value_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="tender_min_value_delete_visible"
+    [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold white-space-nowrap">Umar Awan</span>
@@ -186,14 +186,14 @@
 
 <!-- ============= Tender Max Value ============== -->
 <!-- ===== Update ===== -->
-<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="tender_max_value_update_visible" [modal]="true" [style]="{ width: '50rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="tender_max_value_update_visible"
+    [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold white-space-nowrap">Amy Elsner</span>
         </div>
     </ng-template>
-    <form action="">
+    <form action="" [formGroup]="tenderMaxValueForm" (ngSubmit)="onTenderMaxValueSubmit()">
         <div class="row">
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
                 <label class="fw-medium" for="tenderMaxValue">Current Tender Max Value</label>
@@ -202,18 +202,18 @@
             </div>
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
                 <label class="fw-medium" for="tenderMaxValue">Enter Updated Tender Max Value</label>
-                <input id="tenderMaxValue" class="form-control m-0" type="email" [placeholder]="data.tenderMaxValue"
-                    readonly>
+                <input id="tenderMaxValue" class="form-control m-0" type="number"
+                    placeholder="Enter New Tender Max Value" formControlName="tenderMaxValue">
             </div>
         </div>
         <div class="mt-2 d-flex justify-content-end ">
-            <button pButton pRipple type="button" icon="pi pi-pencil" label="Update"></button>
+            <button pButton pRipple type="submit" icon="pi pi-pencil" label="Update"></button>
         </div>
     </form>
 </p-dialog>
 <!-- ===== Delete ===== -->
-<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="tender_max_value_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="tender_max_value_delete_visible"
+    [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold white-space-nowrap">Umar Awan</span>
@@ -233,8 +233,8 @@
 <!-- =============  cpv Code ============== -->
 <!-- ===== Update ===== -->
 
-<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="cpv_codes_update_visible" [modal]="true" [style]="{ width: '50rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="cpv_codes_update_visible" [modal]="true"
+    [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold white-space-nowrap">Umar Awan</span>
@@ -248,19 +248,20 @@
             </div>
         </div>
     </div>
-    <form action="" class="mt-2">
+    <form action="" class="mt-2" [formGroup]="updateCpvCodesForm" (ngSubmit)="onUpdateCpvCodesSubmit()">
         <div class="d-flex flex-column gap-1">
             <label for="cpCode" class="fw-medium">Add CPV Code</label>
-            <p-chips separator="," placeholder="Enter cpv codes you wanted to add" required></p-chips>
+            <p-chips separator="," placeholder="Enter cpv codes you wanted to add" required
+                formControlName="updatedCpvCodes"></p-chips>
         </div>
         <div class="mt-3 d-flex justify-content-end ">
-            <button pButton pRipple type="button" icon="pi pi-plus" label="Add" class=""></button>
+            <button pButton pRipple type="submit" icon="pi pi-plus" label="Add" class=""></button>
         </div>
     </form>
 </p-dialog>
 <!-- ===== Delete ===== -->
-<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="cpv_codes_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="cpv_codes_delete_visible" [modal]="true"
+    [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold white-space-nowrap">Umar Awan</span>
@@ -280,7 +281,7 @@
             <p-chips separator="," placeholder="Enter cpv codes you wanted to delete" required></p-chips>
         </div>
         <div class="mt-3 d-flex justify-content-end ">
-            <button pButton pRipple type="button" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
+            <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
         </div>
     </form>
 </p-dialog>
@@ -289,8 +290,8 @@
 <!-- =============  Locations ============== -->
 <!-- ===== Update ===== -->
 
-<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="locations_update_visible" [modal]="true" [style]="{ width: '50rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="locations_update_visible" [modal]="true"
+    [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold white-space-nowrap">Umar Awan</span>
@@ -304,19 +305,20 @@
             </div>
         </div>
     </div>
-    <form action="" class="mt-2">
+    <form action="" class="mt-2" [formGroup]="updateLocationsForm" (ngSubmit)="onUpdateLocationsSubmit()">
         <div class="d-flex flex-column gap-1">
             <label for="cpCode" class="fw-medium">Add Locations</label>
-            <p-chips separator="," placeholder="Enter locations you wanted to add" required></p-chips>
+            <p-chips separator="," placeholder="Enter locations you wanted to add" required
+                formControlName="updatedLocations"></p-chips>
         </div>
         <div class="mt-3 d-flex justify-content-end ">
-            <button pButton pRipple type="button" icon="pi pi-plus" label="Add" class=""></button>
+            <button pButton pRipple type="submit" icon="pi pi-plus" label="Add" class=""></button>
         </div>
     </form>
 </p-dialog>
 <!-- ===== Delete ===== -->
-<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="locations_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="locations_delete_visible" [modal]="true"
+    [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold white-space-nowrap">Umar Awan</span>
@@ -336,7 +338,7 @@
             <p-chips separator="," placeholder="Enter locations you wanted to delete" required></p-chips>
         </div>
         <div class="mt-3 d-flex justify-content-end ">
-            <button pButton pRipple type="button" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
+            <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
         </div>
     </form>
 </p-dialog>
@@ -345,8 +347,8 @@
 <!-- =============  keywords ============== -->
 <!-- ===== Update ===== -->
 
-<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="keywords_update_visible" [modal]="true" [style]="{ width: '50rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="keywords_update_visible" [modal]="true"
+    [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold white-space-nowrap">Umar Awan</span>
@@ -360,19 +362,20 @@
             </div>
         </div>
     </div>
-    <form action="" class="mt-2">
+    <form action="" class="mt-2" [formGroup]="updateKeywordsForm" (ngSubmit)="onUpdateKeywordsSubmit()">
         <div class="d-flex flex-column gap-1">
             <label for="cpCode" class="fw-medium">Add Keywords</label>
-            <p-chips separator="," placeholder="Enter keywords you wanted to add" required></p-chips>
+            <p-chips separator="," placeholder="Enter keywords you wanted to add" required
+                formControlName="updatedKeywords"></p-chips>
         </div>
         <div class="mt-3 d-flex justify-content-end ">
-            <button pButton pRipple type="button" icon="pi pi-plus" label="Add" class=""></button>
+            <button pButton pRipple type="submit" icon="pi pi-plus" label="Add" class=""></button>
         </div>
     </form>
 </p-dialog>
 <!-- ===== Delete ===== -->
-<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="keywords_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="keywords_delete_visible" [modal]="true"
+    [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold white-space-nowrap">Umar Awan</span>
@@ -392,7 +395,7 @@
             <p-chips separator="," placeholder="Enter keywords you wanted to delete" required></p-chips>
         </div>
         <div class="mt-3 d-flex justify-content-end ">
-            <button pButton pRipple type="button" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
+            <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
         </div>
     </form>
 </p-dialog>
@@ -401,8 +404,8 @@
 <!-- =============  Competitors ============== -->
 <!-- ===== Update ===== -->
 
-<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="competitors_update_visible" [modal]="true" [style]="{ width: '50rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="competitors_update_visible"
+    [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold white-space-nowrap">Umar Awan</span>
@@ -416,19 +419,20 @@
             </div>
         </div>
     </div>
-    <form action="" class="mt-2">
+    <form action="" class="mt-2" [formGroup]="updateCompetitorsForm" (ngSubmit)="onUpdateCompetitorsSubmit()">
         <div class="d-flex flex-column gap-1">
             <label for="cpCode" class="fw-medium">Add Competitors</label>
-            <p-chips separator="," placeholder="Enter competitors you wanted to add" required></p-chips>
+            <p-chips separator="," placeholder="Enter competitors you wanted to add" required
+                formControlName="updatedCompetitors"></p-chips>
         </div>
         <div class="mt-3 d-flex justify-content-end ">
-            <button pButton pRipple type="button" icon="pi pi-plus" label="Add" class=""></button>
+            <button pButton pRipple type="submit" icon="pi pi-plus" label="Add" class=""></button>
         </div>
     </form>
 </p-dialog>
 <!-- ===== Delete ===== -->
-<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="competitors_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="competitors_delete_visible"
+    [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold white-space-nowrap">Umar Awan</span>
@@ -448,7 +452,7 @@
             <p-chips separator="," placeholder="Enter competitors you wanted to delete" required></p-chips>
         </div>
         <div class="mt-3 d-flex justify-content-end ">
-            <button pButton pRipple type="button" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
+            <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
         </div>
     </form>
 </p-dialog>

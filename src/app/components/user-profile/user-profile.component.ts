@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 
@@ -14,13 +15,34 @@ import { Component, OnInit } from '@angular/core';
 export class UserProfileComponent implements OnInit {
 
   constructor(
-    private readonly http: HttpClient
+    private readonly http: HttpClient,
+    private readonly formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
+    this.tenderMinValueForm = this.formBuilder.group({
+      tenderMinValue: [null, Validators.required]
+    })
 
+    this.tenderMaxValueForm = this.formBuilder.group({
+      tenderMaxValue: [null, Validators.required]
+    })
+
+    this.updateCpvCodesForm = this.formBuilder.group({
+      updatedCpvCodes: [[], Validators.required]
+    })
+    this.updateLocationsForm = this.formBuilder.group({
+      updatedLocations: [[], Validators.required]
+    })
+    this.updateKeywordsForm = this.formBuilder.group({
+      updatedKeywords: [[], Validators.required]
+    })
+    this.updateCompetitorsForm = this.formBuilder.group({
+      updatedCompetitors: [[], Validators.required]
+    })
 
   }
+
 
 
   data: any = {
@@ -30,7 +52,7 @@ export class UserProfileComponent implements OnInit {
     name: "testn name",
     tenderMinValue: 5,
     tenderMaxValue: 200,
-    cpvCodes: ["10000", "20000", "30000", "40000","50000"],
+    cpvCodes: ["10000", "20000", "30000", "40000", "50000"],
     keywords: ["keyword-1", "keyword-2", "keyword-3"],
     locations: ["location-1", "location-2", "location-3"],
     competitors: ["competitor-1", "competitor-2", "competitor-3"]
@@ -96,6 +118,54 @@ export class UserProfileComponent implements OnInit {
   }
   showKeywordsDeleteDialog() {
     this.keywords_delete_visible = true;
+  }
+
+  // ======================== Forms ========================
+
+
+  tenderMinValueForm: FormGroup = new FormGroup({
+    tenderMinValue: new FormControl()
+  })
+  tenderMaxValueForm: FormGroup = new FormGroup({
+    tenderMaxValue: new FormControl()
+  })
+
+  updateCpvCodesForm: FormGroup = new FormGroup({
+    updatedCpvCodes: new FormControl()
+  })
+
+  updateLocationsForm: FormGroup = new FormGroup({
+    updatedLocations: new FormControl()
+  })
+
+  updateKeywordsForm: FormGroup = new FormGroup({
+    updatedKeywords: new FormControl()
+  })
+
+  updateCompetitorsForm: FormGroup = new FormGroup({
+    updatedCompetitors: new FormControl()
+  })
+
+  onTenderMinValueSubmit() {
+    console.log("Tender Min Value", this.tenderMinValueForm.value);
+
+  }
+  onTenderMaxValueSubmit() {
+    console.log("Tender Max Value", this.tenderMaxValueForm.value);
+  }
+  onUpdateCpvCodesSubmit() {
+    console.log("CPV Codes", this.updateCpvCodesForm.value);
+  }
+
+  onUpdateLocationsSubmit() {
+    console.log("Locations", this.updateLocationsForm.value);
+  }
+  onUpdateKeywordsSubmit() {
+    console.log("keywords", this.updateKeywordsForm.value);
+  }
+
+  onUpdateCompetitorsSubmit() {
+    console.log("Competitors", this.updateCompetitorsForm.value);
   }
 
 }
