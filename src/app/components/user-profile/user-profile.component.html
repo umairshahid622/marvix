@@ -138,7 +138,7 @@
 
 <!-- ===== Update ===== -->
 
-<p-dialog header="Header" [(visible)]="tender_min_value_update_visible" [modal]="true" [style]="{ width: '50rem' }"
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="tender_min_value_update_visible" [modal]="true" [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -165,7 +165,7 @@
 </p-dialog>
 
 <!-- ===== Delete ===== -->
-<p-dialog header="Header" [(visible)]="tender_min_value_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="tender_min_value_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -186,7 +186,7 @@
 
 <!-- ============= Tender Max Value ============== -->
 <!-- ===== Update ===== -->
-<p-dialog header="Header" [(visible)]="tender_max_value_update_visible" [modal]="true" [style]="{ width: '50rem' }"
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="tender_max_value_update_visible" [modal]="true" [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -212,7 +212,7 @@
     </form>
 </p-dialog>
 <!-- ===== Delete ===== -->
-<p-dialog header="Header" [(visible)]="tender_max_value_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="tender_max_value_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -233,7 +233,7 @@
 <!-- =============  cpv Code ============== -->
 <!-- ===== Update ===== -->
 
-<p-dialog header="Header" [(visible)]="cpv_codes_update_visible" [modal]="true" [style]="{ width: '50rem' }"
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="cpv_codes_update_visible" [modal]="true" [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -259,7 +259,7 @@
     </form>
 </p-dialog>
 <!-- ===== Delete ===== -->
-<p-dialog header="Header" [(visible)]="cpv_codes_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="cpv_codes_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -289,7 +289,7 @@
 <!-- =============  Locations ============== -->
 <!-- ===== Update ===== -->
 
-<p-dialog header="Header" [(visible)]="locations_update_visible" [modal]="true" [style]="{ width: '50rem' }"
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="locations_update_visible" [modal]="true" [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -315,7 +315,7 @@
     </form>
 </p-dialog>
 <!-- ===== Delete ===== -->
-<p-dialog header="Header" [(visible)]="locations_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="locations_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -345,7 +345,7 @@
 <!-- =============  keywords ============== -->
 <!-- ===== Update ===== -->
 
-<p-dialog header="Header" [(visible)]="keywords_update_visible" [modal]="true" [style]="{ width: '50rem' }"
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="keywords_update_visible" [modal]="true" [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -371,7 +371,7 @@
     </form>
 </p-dialog>
 <!-- ===== Delete ===== -->
-<p-dialog header="Header" [(visible)]="keywords_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="keywords_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -401,7 +401,7 @@
 <!-- =============  Competitors ============== -->
 <!-- ===== Update ===== -->
 
-<p-dialog header="Header" [(visible)]="competitors_update_visible" [modal]="true" [style]="{ width: '50rem' }"
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="competitors_update_visible" [modal]="true" [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -427,7 +427,7 @@
     </form>
 </p-dialog>
 <!-- ===== Delete ===== -->
-<p-dialog header="Header" [(visible)]="competitors_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
+<p-dialog header="Header" [draggable]="false" [resizable]="false" [(visible)]="competitors_delete_visible" [modal]="true" [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
