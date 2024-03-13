@@ -11,8 +11,6 @@ import { ConfigService } from '../../../service/app.config.service';
 import { Router } from '@angular/router';
 import {
     HttpClient,
-    HttpErrorResponse,
-    HttpHeaders,
 } from '@angular/common/http';
 
 @Component({
