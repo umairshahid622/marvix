@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 import {
     HttpClient,
 } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
+
 
 @Component({
     selector: 'app-sign-up',
@@ -23,9 +25,12 @@ export class SignUpComponent implements OnInit {
         public configService: ConfigService,
         private r: Router,
         private formBuilder: FormBuilder,
-        private http: HttpClient
+        private http: HttpClient,
+        private messageService: MessageService
     ) { }
-
+    registerSucessfullMessage() {
+        this.messageService.add({ severity: 'success', summary: 'Account Created Successfully', detail: '' });
+    }
     ngOnInit(): void {
         this.showPassword = false;
         this.showConfirmPassword = false;
@@ -147,6 +152,7 @@ export class SignUpComponent implements OnInit {
             )
             .subscribe((response) => {
                 console.log("Response", response);
+                this.registerSucessfullMessage()
                 this.r.navigate['/pages/login']
             }, (err) => {
                 console.log(err);
