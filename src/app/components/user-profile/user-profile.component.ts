@@ -332,10 +332,10 @@ export class UserProfileComponent implements OnInit {
       console.log(res);
     }, (err) => {
       console.log(err);
-    }),
-      () => {
-        window.location.reload()
-      }
+    }, () => {
+      window.location.reload()
+    })
+
   }
 
   // onUpdateLocationsSubmit() {
@@ -405,8 +405,7 @@ export class UserProfileComponent implements OnInit {
         console.log("Error", err);
       },
       () => {
-        this.competitors_update_visible = false
-        window.location.reload()
+        // window.location.reload()
       }
     )
   }
@@ -424,11 +423,12 @@ export class UserProfileComponent implements OnInit {
       }).subscribe(
         (res) => {
           console.log("Response", res);
-          window.location.reload()
+
         }, (err) => {
           console.log("Error", err);
-          this.competitors_delete_visible = false
-        },
+        }, () => {
+          // window.location.reload()
+        }
       )
   }
 
