@@ -6,6 +6,30 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 
 
+interface User {
+  status: string
+  user: {
+    company_id: string
+    company_name: string
+    competitors: string[]
+    cpv_codes: number[]
+    created_at: string
+    email: string
+    id: string
+    keywords: string[]
+    location: string[]
+    name: string
+    photo: string
+    recommended_tender_minimum_value: number
+    role: string
+    tender_maximum_value: number
+    tender_minimum_value: number
+    updated_at: string
+  }
+}
+
+
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -20,17 +44,21 @@ export class UserProfileComponent implements OnInit {
   ) { }
 
   accessToken: any;
+  userResponse: User;
   ngOnInit(): void {
     this.accessToken = localStorage.getItem('access_token')
     console.log("access_token:", this.accessToken);
 
-    this.http.get('http://45.85.250.231:8000/api/user/me', {
-      withCredentials: true,
+    this.http.get('http://45.85.250.231:8000/api/users/me', {
       headers: {
         'Authorization': `Bearer ${this.accessToken}`,
+
       },
     }).subscribe((resposne) => {
-      console.log("User", resposne);
+      this.userResponse = resposne as User
+      console.log("User", this.userResponse);
+    }, (err) => {
+      console.log(err);
     })
 
 
@@ -76,18 +104,18 @@ export class UserProfileComponent implements OnInit {
   }
 
 
-  data: any = {
-    companyId: "af7c1fe6-d669-414e-b066-e9733f0de7a8",
-    companyName: "Test Company pvt",
-    email: "testmail@gmail.com",
-    name: "testn name",
-    tenderMinValue: 5,
-    tenderMaxValue: 200,
-    cpvCodes: ["10000", "20000", "30000", "40000", "50000"],
-    keywords: ["keyword-1", "keyword-2", "keyword-3"],
-    locations: ["location-1", "location-2", "location-3"],
-    competitors: ["competitor-1", "competitor-2", "competitor-3"]
-  }
+  // data: any = {
+  //   companyId: "af7c1fe6-d669-414e-b066-e9733f0de7a8",
+  //   companyName: "Test Company pvt",
+  //   email: "testmail@gmail.com",
+  //   name: "testn name",
+  //   tenderMinValue: 5,
+  //   tenderMaxValue: 200,
+  //   cpvCodes: ["10000", "20000", "30000", "40000", "50000"],
+  //   keywords: ["keyword-1", "keyword-2", "keyword-3"],
+  //   locations: ["location-1", "location-2", "location-3"],
+  //   competitors: ["competitor-1", "competitor-2", "competitor-3"]
+  // }
 
 
   tender_min_value_update_visible: boolean = false;
@@ -190,98 +218,205 @@ export class UserProfileComponent implements OnInit {
   })
 
 
-  onTenderMinValueSubmit() {
-    console.log("Tender Min Value", this.tenderMinValueForm.value);
+  onTenderMinValueUpdateSubmit() {
+    let tenderMinValue: number = this.tenderMinValueForm.value.tenderMinValue
+    console.log("Tender Min Value", tenderMinValue);
+    this.http.put('http://45.85.250.231:8000/api/users/update_user_tender_minimum_value', {}, {
+      params: { tender_minimum_value: tenderMinValue },
+      headers: {
+        'Authorization': `Bearer ${this.accessToken}`,
+      },
+    }).subscribe((data) => {
+      console.log("Response", data);
+    }, (err) => {
+      console.log("Error", err);
+
+    }, () => {
+      window.location.reload()
+    })
+
   }
-  onTenderMaxValueSubmit() {
-    console.log("Tender Max Value", this.tenderMaxValueForm.value);
+
+  onDeleteTenderMinValue() {
+    this.http.delete('http://45.85.250.231:8000/api/users/delete_tender_minimum_value', {
+      headers: {
+        'Authorization': `Bearer ${this.accessToken}`,
+      }
+    }).subscribe((data) => {
+      console.log("Response", data);
+
+    }, (err) => {
+      console.log("Error", err);
+
+    }, () => {
+      window.location.reload()
+    })
+  }
+
+  onTenderMaxValueUpdateSubmit() {
+    let tenderMaxValue: number = this.tenderMaxValueForm.value.tenderMaxValue
+    console.log("Tender Max Value", tenderMaxValue);
+    this.http.put('http://45.85.250.231:8000/api/users/update_user_tender_maximum_value', {}, {
+      params: {
+        tender_maximum_value: tenderMaxValue
+      },
+      headers: {
+        'Authorization': `Bearer ${this.accessToken}`,
+      },
+
+    }).subscribe((data) => {
+      console.log("Response", data);
+
+    }, (err) => {
+      console.log("Error", err);
+
+    }, () => {
+      window.location.reload()
+    }
+    )
+
+  }
+
+  onDeleteTenderMaxValue() {
+    this.http.delete('http://45.85.250.231:8000/api/users/delete_tender_maximum_value', {
+      headers: {
+        'Authorization': `Bearer ${this.accessToken}`,
+      }
+    }).subscribe((data) => {
+      console.log("Response", data);
+
+    }, (err) => {
+      console.log("Error", err);
+
+    }, () => {
+      window.location.reload()
+    })
   }
 
 
   onUpdateCpvCodesSubmit() {
     let updatedCpvCodes: string[] = this.updateCpvCodesForm.value.updatedCpvCodes
     console.log("CPV Codes", updatedCpvCodes);
+    let body = updatedCpvCodes.map((code) => {
+      return code.toString()
+    })
     this.http.put('http://45.85.250.231:8000/api/users/update_user_cpv_codes',
-      {
-        updatedCpvCodes,
-        headers: {
-          'Authorization': `Bearer ${this.accessToken}`,
-        }
-      }).subscribe(
-        (res) => {
-          console.log("Response", res);
-          this.cpv_codes_update_visible = false
-        }, (err) => {
-          console.log("Error", err);
-          this.cpv_codes_update_visible = false
-        },
-      )
+      body, {
+      headers: {
+        'Authorization': `Bearer ${this.accessToken}`,
+      }
+    }).subscribe(
+      (res) => {
+        console.log("Response", res);
+
+      }, (err) => {
+        console.log("Error", err);
+      },
+      () => {
+        this.cpv_codes_update_visible = false
+        window.location.reload()
+      }
+    )
   }
   onDeleteCpvCodesSubmit() {
-    let deletedCpvCodes: string[] = this.deleteCpvCodesForm.value.deletedCpvCodes
-    console.log("Deleted CPV Codes", deletedCpvCodes);
+    let deletedCpvCode: string = this.deleteCpvCodesForm.value.deletedCpvCodes
+    console.log("Deleted CPV Code", deletedCpvCode);
+    this.http.delete('http://45.85.250.231:8000/api/users/delete_cpv_code', {
+      params: {
+        cpv_code: deletedCpvCode
+      },
+      headers: {
+        'Authorization': `Bearer ${this.accessToken}`,
+      }
+    }).subscribe((res) => {
+      console.log(res);
+    }, (err) => {
+      console.log(err);
+    }),
+      () => {
+        window.location.reload()
+      }
   }
 
-  onUpdateLocationsSubmit() {
-    let updatedLocations: string[] = this.updateLocationsForm.value.updatedLocations
-    console.log("Locations", updatedLocations);
+  // onUpdateLocationsSubmit() {
+  //   let updatedLocations: string[] = this.updateLocationsForm.value.updatedLocations
+  //   console.log("Locations", updatedLocations);
 
-  }
-  onDeleteLocationsSubmit() {
-    let deletedLocations: string[] = this.deleteLocationsForm.value.deletedLocations
-    console.log("Deleted Locations", deletedLocations);
-  }
+  // }
+  // onDeleteLocationsSubmit() {
+  //   let deletedLocations: string[] = this.deleteLocationsForm.value.deletedLocations
+  //   console.log("Deleted Locations", deletedLocations);
+  // }
 
   onUpdateKeywordsSubmit() {
     let updatedKeywords: string[] = this.updateKeywordsForm.value.updatedKeywords
     console.log("keywords", updatedKeywords);
     this.http.put('http://45.85.250.231:8000/api/users/update_user_keywords',
+      updatedKeywords,
       {
-        updatedKeywords,
         headers: {
           'Authorization': `Bearer ${this.accessToken}`,
         }
       }).subscribe(
         (res) => {
           console.log("Response", res);
-          this.keywords_update_visible = false
         }, (err) => {
           console.log("Error", err);
-          this.keywords_update_visible = false
         },
+        () => {
+          this.keywords_update_visible = false;
+          window.location.reload()
+        }
       )
   }
   onDeleteKeywordsSubmit() {
-    let deletedKeywords: string[] = this.deleteKeywordsForm.value.deletedKeywords;
-    console.log("Deleted keywords", deletedKeywords);
+    let deletedKeyword: string = this.deleteKeywordsForm.value.deletedKeywords;
+    console.log("Deleted keywords", deletedKeyword);
+    this.http.delete('http://45.85.250.231:8000/api/users/delete_keywords', {
+      params: {
+        keywords: deletedKeyword
+      },
+      headers: {
+        'Authorization': `Bearer ${this.accessToken}`,
+      }
+    }).subscribe((res) => {
+      console.log(res);
+
+    }, (err) => {
+      console.log(err);
+    }, () => {
+      window.location.reload()
+    }
+    )
   }
 
   onUpdateCompetitorsSubmit() {
     let updatedCompetitors: string[] = this.updateCompetitorsForm.value.updatedCompetitors
     console.log("Competitors", updatedCompetitors);
     this.http.put('http://45.85.250.231:8000/api/users/update_user_competitor_names',
-      {
-        updatedCompetitors,
-        headers: {
-          'Authorization': `Bearer ${this.accessToken}`,
-        }
-      }).subscribe(
-        (res) => {
-          console.log("Response", res);
-          this.competitors_update_visible= false
-        }, (err) => {
-          console.log("Error", err);
-          this.competitors_update_visible = false
-        },
-      )
+      updatedCompetitors, {
+      headers: {
+        'Authorization': `Bearer ${this.accessToken}`,
+      }
+    }).subscribe(
+      (res) => {
+        console.log("Response", res);
+      }, (err) => {
+        console.log("Error", err);
+      },
+      () => {
+        this.competitors_update_visible = false
+        window.location.reload()
+      }
+    )
   }
   onDeleteCompetitorsSubmit() {
-    let deletedCompetitors: string = this.deleteCompetitorsForm.value.deletedCompetitors;
-    console.log("Deleted Competitors", deletedCompetitors);
-    this.http.delete('http://45.85.250.231:8000/api/users/delete_cpv_code',
+    let deletedCompetitor: string = this.deleteCompetitorsForm.value.deletedCompetitors;
+    console.log("Deleted Competitors", deletedCompetitor);
+    this.http.delete('http://45.85.250.231:8000/api/users/delete_competitor_name',
       {
         params: {
-          deletedCompetitor: deletedCompetitors
+          competitor_name: deletedCompetitor
         },
         headers: {
           'Authorization': `Bearer ${this.accessToken}`,
@@ -289,7 +424,7 @@ export class UserProfileComponent implements OnInit {
       }).subscribe(
         (res) => {
           console.log("Response", res);
-          this.competitors_delete_visible = false
+          window.location.reload()
         }, (err) => {
           console.log("Error", err);
           this.competitors_delete_visible = false
