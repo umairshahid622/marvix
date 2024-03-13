@@ -76,7 +76,6 @@ export class UserProfileComponent implements OnInit {
   }
 
 
-
   data: any = {
     companyId: "af7c1fe6-d669-414e-b066-e9733f0de7a8",
     companyName: "Test Company pvt",
@@ -269,16 +268,33 @@ export class UserProfileComponent implements OnInit {
       }).subscribe(
         (res) => {
           console.log("Response", res);
-          this.keywords_update_visible = false
+          this.competitors_update_visible= false
         }, (err) => {
           console.log("Error", err);
-          this.keywords_update_visible = false
+          this.competitors_update_visible = false
         },
       )
   }
   onDeleteCompetitorsSubmit() {
-    let deletedCompetitors: string[] = this.deleteCompetitorsForm.value.deletedCompetitors;
+    let deletedCompetitors: string = this.deleteCompetitorsForm.value.deletedCompetitors;
     console.log("Deleted Competitors", deletedCompetitors);
+    this.http.delete('http://45.85.250.231:8000/api/users/delete_cpv_code',
+      {
+        params: {
+          deletedCompetitor: deletedCompetitors
+        },
+        headers: {
+          'Authorization': `Bearer ${this.accessToken}`,
+        },
+      }).subscribe(
+        (res) => {
+          console.log("Response", res);
+          this.competitors_delete_visible = false
+        }, (err) => {
+          console.log("Error", err);
+          this.competitors_delete_visible = false
+        },
+      )
   }
 
 }

@@ -269,8 +269,8 @@
     </ng-template>
     <div class="d-flex flex-column gap-1">
         <label for="" class="fw-medium">Current CPV Codes</label>
-        <div class="input-field d-flex flex-wrap align-items-center gap-1">
-            <div *ngFor="let item of data.keywords" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
+        <div class="input-field d-flex flex-wrap align-items-center gap-1 rounded-2 ">
+            <div *ngFor="let item of data.cpvCodes" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
                 {{item}}
             </div>
         </div>
@@ -278,8 +278,14 @@
     <form action="" class="mt-2" [formGroup]="deleteCpvCodesForm" (ngSubmit)="onDeleteCpvCodesSubmit()">
         <div class="d-flex flex-column gap-1">
             <label for="cpCode" class="fw-medium">Delete CPV Code</label>
-            <p-chips separator="," placeholder="Enter cpv codes you wanted to delete" required
-                formControlName="deletedCpvCodes"></p-chips>
+            <select formControlName="deletedCpvCodes" class="form-select default-padding "
+                aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option *ngFor="let item of data.cpvCodes" [value]="item">{{item}}
+                </option>
+            </select>
+            <!-- <p-chips separator="," placeholder="Enter cpv codes you wanted to delete" required
+                formControlName="deletedCpvCodes"></p-chips> -->
         </div>
         <div class="mt-3 d-flex justify-content-end ">
             <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
@@ -336,9 +342,13 @@
     <form action="" class="mt-2" [formGroup]="deleteLocationsForm" (ngSubmit)="onDeleteLocationsSubmit()">
         <div class="d-flex flex-column gap-1">
             <label for="cpCode" class="fw-medium">Delete Locations</label>
-            <p-chips separator="," placeholder="Enter locations you wanted to delete" required
-            formControlName = "deletedLocations"
-            ></p-chips>
+            <select id="keywords" formControlName="deletedLocations" class="form-select default-padding "
+                aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option *ngFor="let item of data.competitors" [value]="item">
+                    {{item}}
+                </option>
+            </select>
         </div>
         <div class="mt-3 d-flex justify-content-end ">
             <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
@@ -394,9 +404,13 @@
     </div>
     <form action="" class="mt-2" [formGroup]="deleteKeywordsForm" (ngSubmit)="onDeleteKeywordsSubmit()">
         <div class="d-flex flex-column gap-1">
-            <label for="cpCode" class="fw-medium">Delete Keywords</label>
-            <p-chips separator="," placeholder="Enter keywords you wanted to delete" required
-                formControlName="deletedKeywords"></p-chips>
+            <label for="keywords" class="fw-medium">Delete Keywords</label>
+            <select id="keywords" formControlName="deletedKeywords" class="form-select default-padding "
+                aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option *ngFor="let item of data.keywords" [value]="item">{{item}}
+                </option>
+            </select>
         </div>
         <div class="mt-3 d-flex justify-content-end ">
             <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
@@ -452,9 +466,15 @@
     </div>
     <form action="" class="mt-2" [formGroup]="deleteCompetitorsForm" (ngSubmit)="onDeleteCompetitorsSubmit()">
         <div class="d-flex flex-column gap-1">
-            <label for="cpCode" class="fw-medium">Delete Competitors</label>
-            <p-chips separator="," placeholder="Enter competitors you wanted to delete" required
-                formControlName="deletedCompetitors"></p-chips>
+            <label for="competitors" class="fw-medium">Delete Competitors</label>
+            <select id="keywords" formControlName="deletedCompetitors" class="form-select default-padding "
+                aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option *ngFor="let item of data.competitors" [value]="item">{{item}}
+                </option>
+            </select>
+            <!-- <p-chips separator="," placeholder="Enter competitors you wanted to delete" required
+                formControlName="deletedCompetitors"></p-chips> -->
         </div>
         <div class="mt-3 d-flex justify-content-end ">
             <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
