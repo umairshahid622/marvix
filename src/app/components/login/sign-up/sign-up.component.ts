@@ -26,7 +26,7 @@ export class SignUpComponent implements OnInit {
         private r: Router,
         private formBuilder: FormBuilder,
         private http: HttpClient
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.showPassword = false;
@@ -121,29 +121,38 @@ export class SignUpComponent implements OnInit {
         }
 
         const user = {
-            companyId: this.registerForm.value.companyId,
-            comapanyName: this.registerForm.value.comapanyName,
-            email: this.registerForm.value.email,
-            name: this.registerForm.value.name,
-            password: this.registerForm.value.password,
-            confirmPassword: this.registerForm.value.confirmPassword,
-            cpvCodes: this.registerForm.value.cpvCodes,
-            locations: this.registerForm.value.locations,
+            company_id: this.registerForm.value.companyId,
+            company_name: this.registerForm.value.comapanyName,
             keywords: this.registerForm.value.keywords,
+            recommended_tender_minimum_value: 10,
+            tender_minimum_value: this.registerForm.value.tenderMinValue,
+            tender_maximum_value: this.registerForm.value.tenderMaxValue,
+            cpv_codes: this.registerForm.value.cpvCodes,
+            location: this.registerForm.value.locations,
             competitors: this.registerForm.value.competitors,
-            imageUrl: this.registerForm.value.imageUrl,
-            tenderMinValue: this.registerForm.value.tenderMinValue,
-            tenderMaxValue: this.registerForm.value.tenderMaxValue,
+            name: this.registerForm.value.name,
+            email: this.registerForm.value.email,
+            photo: "string",
+            role: "string",
+            created_at: "2024-03-13T20:55:18.195Z",
+            updated_at: "2024-03-13T20:55:18.195Z",
+            password: this.registerForm.value.password,
+            passwordConfirm: this.registerForm.value.confirmPassword,
+            verified: false
         };
         console.log(user);
 
         this.http
             .post(
                 'http://45.85.250.231:8000/api/auth/register',
-                JSON.stringify(user)
+                user
             )
             .subscribe((response) => {
-                console.log(response);
+                console.log("Response", response);
+                this.r.navigate['/pages/login']
+            }, (err) => {
+                console.log(err);
+
             });
     }
     companyIdBlur(event: any) {
@@ -168,7 +177,7 @@ export class SignUpComponent implements OnInit {
     }
 
 
-    goToLoginPage(){
+    goToLoginPage() {
         this.r.navigate(['/pages/login'])
     }
 }
