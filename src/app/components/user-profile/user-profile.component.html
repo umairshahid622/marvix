@@ -243,7 +243,7 @@
     <div class="d-flex flex-column gap-1">
         <label for="" class="fw-medium">Current CPV Codes</label>
         <div class="input-field d-flex flex-wrap align-items-center gap-1">
-            <div *ngFor="let item of data.keywords" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
+            <div *ngFor="let item of data.cpvCodes" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
                 {{item}}
             </div>
         </div>
@@ -275,10 +275,11 @@
             </div>
         </div>
     </div>
-    <form action="" class="mt-2">
+    <form action="" class="mt-2" [formGroup]="deleteCpvCodesForm" (ngSubmit)="onDeleteCpvCodesSubmit()">
         <div class="d-flex flex-column gap-1">
             <label for="cpCode" class="fw-medium">Delete CPV Code</label>
-            <p-chips separator="," placeholder="Enter cpv codes you wanted to delete" required></p-chips>
+            <p-chips separator="," placeholder="Enter cpv codes you wanted to delete" required
+                formControlName="deletedCpvCodes"></p-chips>
         </div>
         <div class="mt-3 d-flex justify-content-end ">
             <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
@@ -332,10 +333,12 @@
             </div>
         </div>
     </div>
-    <form action="" class="mt-2">
+    <form action="" class="mt-2" [formGroup]="deleteLocationsForm" (ngSubmit)="onDeleteLocationsSubmit()">
         <div class="d-flex flex-column gap-1">
             <label for="cpCode" class="fw-medium">Delete Locations</label>
-            <p-chips separator="," placeholder="Enter locations you wanted to delete" required></p-chips>
+            <p-chips separator="," placeholder="Enter locations you wanted to delete" required
+            formControlName = "deletedLocations"
+            ></p-chips>
         </div>
         <div class="mt-3 d-flex justify-content-end ">
             <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
@@ -389,10 +392,11 @@
             </div>
         </div>
     </div>
-    <form action="" class="mt-2">
+    <form action="" class="mt-2" [formGroup]="deleteKeywordsForm" (ngSubmit)="onDeleteKeywordsSubmit()">
         <div class="d-flex flex-column gap-1">
             <label for="cpCode" class="fw-medium">Delete Keywords</label>
-            <p-chips separator="," placeholder="Enter keywords you wanted to delete" required></p-chips>
+            <p-chips separator="," placeholder="Enter keywords you wanted to delete" required
+                formControlName="deletedKeywords"></p-chips>
         </div>
         <div class="mt-3 d-flex justify-content-end ">
             <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
@@ -446,10 +450,11 @@
             </div>
         </div>
     </div>
-    <form action="" class="mt-2">
+    <form action="" class="mt-2" [formGroup]="deleteCompetitorsForm" (ngSubmit)="onDeleteCompetitorsSubmit()">
         <div class="d-flex flex-column gap-1">
             <label for="cpCode" class="fw-medium">Delete Competitors</label>
-            <p-chips separator="," placeholder="Enter competitors you wanted to delete" required></p-chips>
+            <p-chips separator="," placeholder="Enter competitors you wanted to delete" required
+                formControlName="deletedCompetitors"></p-chips>
         </div>
         <div class="mt-3 d-flex justify-content-end ">
             <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>

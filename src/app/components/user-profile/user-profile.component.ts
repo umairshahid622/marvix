@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -19,13 +19,20 @@ export class UserProfileComponent implements OnInit {
     private readonly formBuilder: FormBuilder
   ) { }
 
+  accessToken: any;
   ngOnInit(): void {
-    let token = localStorage.getItem('access_token')
-    console.log("access_token:", token);
+    this.accessToken = localStorage.getItem('access_token')
+    console.log("access_token:", this.accessToken);
 
-    this.http.get('http://45.85.250.231:8000/api/user/me').subscribe((resposne) => {
-      console.log("User" ,resposne);
+    this.http.get('http://45.85.250.231:8000/api/user/me', {
+      withCredentials: true,
+      headers: {
+        'Authorization': `Bearer ${this.accessToken}`,
+      },
+    }).subscribe((resposne) => {
+      console.log("User", resposne);
     })
+
 
 
 
@@ -33,7 +40,6 @@ export class UserProfileComponent implements OnInit {
     this.tenderMinValueForm = this.formBuilder.group({
       tenderMinValue: [null, Validators.required]
     })
-
     this.tenderMaxValueForm = this.formBuilder.group({
       tenderMaxValue: [null, Validators.required]
     })
@@ -41,14 +47,30 @@ export class UserProfileComponent implements OnInit {
     this.updateCpvCodesForm = this.formBuilder.group({
       updatedCpvCodes: [[], Validators.required]
     })
+    this.deleteCpvCodesForm = this.formBuilder.group({
+      deletedCpvCodes: [[], Validators.required]
+    })
+
     this.updateLocationsForm = this.formBuilder.group({
       updatedLocations: [[], Validators.required]
     })
+    this.updateLocationsForm = this.formBuilder.group({
+      deletedLocations: [[], Validators.required]
+    })
+
     this.updateKeywordsForm = this.formBuilder.group({
       updatedKeywords: [[], Validators.required]
     })
+    this.deleteKeywordsForm = this.formBuilder.group({
+      deletedKeywords: [[], Validators.required]
+    })
+
+
     this.updateCompetitorsForm = this.formBuilder.group({
       updatedCompetitors: [[], Validators.required]
+    })
+    this.deleteCompetitorsForm = this.formBuilder.group({
+      deletedCompetitors: [[], Validators.required]
     })
 
   }
@@ -143,41 +165,120 @@ export class UserProfileComponent implements OnInit {
   updateCpvCodesForm: FormGroup = new FormGroup({
     updatedCpvCodes: new FormControl()
   })
+  deleteCpvCodesForm: FormGroup = new FormGroup({
+    deletedCpvCodes: new FormControl()
+  })
 
   updateLocationsForm: FormGroup = new FormGroup({
     updatedLocations: new FormControl()
+  })
+  deleteLocationsForm: FormGroup = new FormGroup({
+    deletedLocations: new FormControl()
   })
 
   updateKeywordsForm: FormGroup = new FormGroup({
     updatedKeywords: new FormControl()
   })
+  deleteKeywordsForm: FormGroup = new FormGroup({
+    deletedKeywords: new FormControl()
+  })
 
   updateCompetitorsForm: FormGroup = new FormGroup({
     updatedCompetitors: new FormControl()
   })
+  deleteCompetitorsForm: FormGroup = new FormGroup({
+    deletedCompetitors: new FormControl()
+  })
+
 
   onTenderMinValueSubmit() {
     console.log("Tender Min Value", this.tenderMinValueForm.value);
   }
-
-
-
   onTenderMaxValueSubmit() {
     console.log("Tender Max Value", this.tenderMaxValueForm.value);
   }
+
+
   onUpdateCpvCodesSubmit() {
-    console.log("CPV Codes", this.updateCpvCodesForm.value);
+    let updatedCpvCodes: string[] = this.updateCpvCodesForm.value.updatedCpvCodes
+    console.log("CPV Codes", updatedCpvCodes);
+    this.http.put('http://45.85.250.231:8000/api/users/update_user_cpv_codes',
+      {
+        updatedCpvCodes,
+        headers: {
+          'Authorization': `Bearer ${this.accessToken}`,
+        }
+      }).subscribe(
+        (res) => {
+          console.log("Response", res);
+          this.cpv_codes_update_visible = false
+        }, (err) => {
+          console.log("Error", err);
+          this.cpv_codes_update_visible = false
+        },
+      )
+  }
+  onDeleteCpvCodesSubmit() {
+    let deletedCpvCodes: string[] = this.deleteCpvCodesForm.value.deletedCpvCodes
+    console.log("Deleted CPV Codes", deletedCpvCodes);
   }
 
   onUpdateLocationsSubmit() {
-    console.log("Locations", this.updateLocationsForm.value);
+    let updatedLocations: string[] = this.updateLocationsForm.value.updatedLocations
+    console.log("Locations", updatedLocations);
+
   }
+  onDeleteLocationsSubmit() {
+    let deletedLocations: string[] = this.deleteLocationsForm.value.deletedLocations
+    console.log("Deleted Locations", deletedLocations);
+  }
+
   onUpdateKeywordsSubmit() {
-    console.log("keywords", this.updateKeywordsForm.value);
+    let updatedKeywords: string[] = this.updateKeywordsForm.value.updatedKeywords
+    console.log("keywords", updatedKeywords);
+    this.http.put('http://45.85.250.231:8000/api/users/update_user_keywords',
+      {
+        updatedKeywords,
+        headers: {
+          'Authorization': `Bearer ${this.accessToken}`,
+        }
+      }).subscribe(
+        (res) => {
+          console.log("Response", res);
+          this.keywords_update_visible = false
+        }, (err) => {
+          console.log("Error", err);
+          this.keywords_update_visible = false
+        },
+      )
+  }
+  onDeleteKeywordsSubmit() {
+    let deletedKeywords: string[] = this.deleteKeywordsForm.value.deletedKeywords;
+    console.log("Deleted keywords", deletedKeywords);
   }
 
   onUpdateCompetitorsSubmit() {
-    console.log("Competitors", this.updateCompetitorsForm.value);
+    let updatedCompetitors: string[] = this.updateCompetitorsForm.value.updatedCompetitors
+    console.log("Competitors", updatedCompetitors);
+    this.http.put('http://45.85.250.231:8000/api/users/update_user_competitor_names',
+      {
+        updatedCompetitors,
+        headers: {
+          'Authorization': `Bearer ${this.accessToken}`,
+        }
+      }).subscribe(
+        (res) => {
+          console.log("Response", res);
+          this.keywords_update_visible = false
+        }, (err) => {
+          console.log("Error", err);
+          this.keywords_update_visible = false
+        },
+      )
+  }
+  onDeleteCompetitorsSubmit() {
+    let deletedCompetitors: string[] = this.deleteCompetitorsForm.value.deletedCompetitors;
+    console.log("Deleted Competitors", deletedCompetitors);
   }
 
 }

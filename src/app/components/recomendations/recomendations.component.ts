@@ -25,7 +25,7 @@ export class RecomendationsComponent implements OnInit {
 
     fetchRecommendations(): void {
         this.http
-            .get<any>('http://localhost:5000/api/users/me', {
+            .get<any>('http://45.85.250.231:8000/api/users/me', {
                 withCredentials: true,
                 headers: {
                     'Authorization': `Bearer ${this.accessToken}`,
