@@ -166,4 +166,9 @@ export class SignUpComponent implements OnInit {
         }
         return true;
     }
+
+
+    goToLoginPage(){
+        this.r.navigate(['/pages/login'])
+    }
 }

@@ -228,8 +228,11 @@
                         </small>
                     </div>
                 </div>
-                <div class="d-flex justify-content-end mt-4">
-                    <button type="submit" class="btn btn-lg btn-primary fw-medium" [disabled]="registerForm.invalid">
+                <div class="d-flex align-items-center  mt-4">
+                    <div class="justify-self-center flex-grow-1 text-center ">
+                        Already have a account? <a class="link-primary" (click)="goToLoginPage()">Login</a>
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-primary fw-medium justify-self-end" [disabled]="registerForm.invalid">
                         Register
                     </button>
                 </div>

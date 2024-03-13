@@ -18,7 +18,13 @@
                         class="w-full mb-3" style="padding:1rem;" required>
                     <label for="password1" class="block text-900 font-medium text-xl mb-2 mt-2">Password</label>
                     <p-password id="password1" [(ngModel)]="password" placeholder="Password" [toggleMask]="true"
-                                styleClass="w-full mb-3" (keydown.enter)="login()" required> </p-password>
+                        styleClass="w-full mb-3" (keydown.enter)="login()" required> </p-password>
+
+                    <div class="d-flex align-items-center mt-4">
+                        <div class="flex-grow-1 text-center ">
+                            Already have a account? <a class="link-primary" (click)="goToSignUpPage()">SignUp</a>
+                        </div>
+                    </div>
                     <div class="flex align-items-center justify-content-between mb-5 mt-3">
                         <div class="flex align-items-center">
                             <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>

@@ -55,6 +55,10 @@ interface UserData {
                 -webkit-animation: spin 2s linear infinite;
                 animation: spin 2s linear infinite;
             }
+            a{
+                cursor: pointer;
+                text-decoration: none;
+            }
 
             @-webkit-keyframes spin {
                 0% {
@@ -106,7 +110,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         private http: HttpClient,
         private messageService: MessageService,
         private appService: AppService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.config = this.configService.config;
@@ -127,9 +131,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.messageService.clear('c');
     }
 
-     login() {
+    login() {
         this.loading = true;
-        
+
         this.http
             .post<any>('http://45.85.250.231:8000/api/auth/login', {
                 email: this.email,
@@ -217,5 +221,11 @@ export class LoginComponent implements OnInit, OnDestroy {
                     console.error('Error fetching user data:', error);
                 }
             );
+    }
+
+
+
+    goToSignUpPage() {
+        this.router.navigate(['pages/signUp'])
     }
 }
