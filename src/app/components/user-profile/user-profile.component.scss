@@ -35,8 +35,32 @@
 }
 
 :host ::ng-deep p-dialog .p-dialog-mask .p-dialog,
-:host ::ng-deep p-dialog .p-dialog-mask .p-dialog .p-dialog-content
-{
+:host ::ng-deep p-dialog .p-dialog-mask .p-dialog .p-dialog-content {
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
+}
+
+.loading-section{
+    height: 70vh;
+}
+
+.loader {
+    border: 16px solid seashell;
+    border-radius: 50%;
+    border-top: 16px solid slateblue;
+    border-bottom: 16px solid slateblue;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
 }

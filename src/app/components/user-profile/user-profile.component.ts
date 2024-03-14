@@ -43,20 +43,21 @@ export class UserProfileComponent implements OnInit {
     private readonly formBuilder: FormBuilder
   ) { }
 
-  accessToken: any;
+  accessToken: string;
   userResponse: User;
+  loading: boolean = false;
   ngOnInit(): void {
+    this.loading = true
     this.accessToken = localStorage.getItem('access_token')
     console.log("access_token:", this.accessToken);
-
     this.http.get('http://45.85.250.231:8000/api/users/me', {
       headers: {
         'Authorization': `Bearer ${this.accessToken}`,
-
       },
     }).subscribe((resposne) => {
       this.userResponse = resposne as User
       console.log("User", this.userResponse);
+      this.loading = false
     }, (err) => {
       console.log(err);
     })

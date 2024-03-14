@@ -121,7 +121,6 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import {ConfirmationService} from "primeng/api";
 import { RecomendationsComponent } from './components/recomendations/recomendations.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-// import { UserProfileComponent } from './component/user-profile/user-profile.component';
 
 // @ts-ignore
 
