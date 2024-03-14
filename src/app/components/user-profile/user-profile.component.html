@@ -83,14 +83,11 @@
                 <label class="fw-medium" for="">Keywords</label>
                 <div class="d-flex flex-column flex-md-row gap-2 gap-md-3 align-items-end align-items-md-center">
                     <div class="input-field d-flex flex-wrap align-items-center gap-1">
-                        <!-- <ng-container *ngIf="userResponse.user.keywords">
+                        <ng-container *ngIf="userResponse.user.keywords">
                             <div *ngFor="let item of userResponse.user.keywords"
                                 class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
                                 {{item}}
                             </div>
-                        </ng-container> -->
-                        <ng-container *ngIf="!userResponse.user.keywords">
-                            no Key words are Here
                         </ng-container>
                     </div>
                     <div class="d-flex gap-2">

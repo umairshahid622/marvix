@@ -152,7 +152,7 @@ export class SignUpComponent implements OnInit {
             .subscribe((response) => {
                 console.log("Response", response);
                 // this.registerSucessfullMessage()
-                this.r.navigate['/pages/login']
+                this.r.navigate(['/pages/login'])
             }, (err) => {
                 console.log(err);
 
