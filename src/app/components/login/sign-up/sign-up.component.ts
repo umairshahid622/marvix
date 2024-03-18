@@ -134,13 +134,8 @@ export class SignUpComponent implements OnInit {
             competitors: this.registerForm.value.competitors,
             name: this.registerForm.value.name,
             email: this.registerForm.value.email,
-            photo: "string",
-            role: "string",
-            created_at: "2024-03-13T20:55:18.195Z",
-            updated_at: "2024-03-13T20:55:18.195Z",
             password: this.registerForm.value.password,
             passwordConfirm: this.registerForm.value.confirmPassword,
-            verified: false
         };
         console.log(user);
 
