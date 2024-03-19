@@ -406,7 +406,7 @@ export class UserProfileComponent implements OnInit {
         console.log("Error", err);
       },
       () => {
-        // window.location.reload()
+        window.location.reload()
       }
     )
   }

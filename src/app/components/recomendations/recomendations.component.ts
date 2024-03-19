@@ -159,20 +159,31 @@ export class RecomendationsComponent implements OnInit {
 
     cpvSubmit() {
         console.log(this.cpvCodesForm.value.cpvCodes);
+        // this.http.get('http://45.85.250.231:8000/api/posts/get_data_by_competitor_name', {
+        //     params: { CompetitorName: "black phishing" },
+        //     headers: {
+        //         'Authorization': `Bearer ${this.accessToken}`,
+        //     }
+        // }).subscribe((dataByCompetitorName: DataByCompetitorName) => {
+        //     console.log(`subscribe`, dataByCompetitorName);
+        //     this.dataByCompetitorName.push(dataByCompetitorName)
+        // }, (errr) => { }, () => {
+        // },
+        // console.log("DataByCompetitorName", this.dataByCompetitorName);
+        // )
         this.cpvCodesForm.value.cpvCodes.map((code: string) => {
-            this.http.get('http://45.85.250.231:8000/api/posts/get_data_by_competitor_name', {
-                params: { CompetitorName: code },
+            this.http.get(`http://45.85.250.231:8000/api/posts/get_data_by_competitor_name?Competitor%20Name=${code}`, {
                 headers: {
                     'Authorization': `Bearer ${this.accessToken}`,
                 }
-            }).subscribe((dataByCompetitorName:DataByCompetitorName)=>{
-                console.log("subscribe",dataByCompetitorName.data);
+            }).subscribe((dataByCompetitorName: DataByCompetitorName) => {
+                console.log(`subscribe ${code}`, dataByCompetitorName);
                 this.dataByCompetitorName.push(dataByCompetitorName)
-            })
-
+            }, (errr) => { }, () => {
+                console.log("DataByCompetitorName", this.dataByCompetitorName);
+            },
+            )
         })
-        console.log("dataByCompetitorName",this.dataByCompetitorName);
-
     }
 
 
