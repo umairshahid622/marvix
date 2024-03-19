@@ -4,12 +4,13 @@
     </div>
     <div class="alert alert-primary col-sm-12 col-xl-12 col-md-12" *ngIf="!loading">
         <span>Welcome {{ userprofile?.user?.name }}, This is your Tender Dashboard</span>
+        <h1>{{filteredProducts?.total_count}}</h1>
     </div>
 
     <div class="col-12 xl:col-12" *ngIf="!loading">
         <div class="card">
             <h5>Tenders list based on CPV Codes</h5>
-
+            
             <!-- Search input for CPV code -->
             <div class="p-inputgroup">
         <span class="p-inputgroup-addon">

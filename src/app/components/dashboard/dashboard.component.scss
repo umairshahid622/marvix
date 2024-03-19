@@ -20,12 +20,14 @@
         font-weight: bold;
         font-size: 15px;
     }
+
     p {
         margin: 0 0 10px 0;
         height: 40px;
         text-overflow: ellipsis;
         overflow: hidden;
     }
+
     div {
         text-align: right;
         padding: 10px 13px;
@@ -45,9 +47,11 @@
             }
         }
     }
+
     .ui-paginator-current {
         color: black;
     }
+
     .ui-paginator-element {
         color: black !important;
     }
@@ -61,6 +65,7 @@
         height: 10px !important;
     }
 }
+
 :host::ng-deep .ui-dropdown-label-container .ui-dropdown-label {
     text-overflow: ellipsis;
 }
@@ -72,6 +77,7 @@
         }
     }
 }
+
 :host::ng-deep {
     .lineChart1 {
         canvas {
@@ -80,6 +86,7 @@
         }
     }
 }
+
 :host::ng-deep {
     .doughnut {
         canvas {
@@ -89,11 +96,15 @@
         }
     }
 }
+
 .zoom:hover {
-    -ms-transform: scale(1.03); /* IE 9 */
-    -webkit-transform: scale(1.03); /* Safari 3-8 */
+    -ms-transform: scale(1.03);
+    /* IE 9 */
+    -webkit-transform: scale(1.03);
+    /* Safari 3-8 */
     transform: scale(1.03);
 }
+
 .zoom {
     transition: transform 0.1s;
 }
@@ -110,13 +121,17 @@
 }
 
 .zoom1:hover {
-    -ms-transform: scale(1.01); /* IE 9 */
-    -webkit-transform: scale(1.01); /* Safari 3-8 */
+    -ms-transform: scale(1.01);
+    /* IE 9 */
+    -webkit-transform: scale(1.01);
+    /* Safari 3-8 */
     transform: scale(1.01);
 }
+
 .zoom1 {
     transition: transform 0.1s;
 }
+
 * {
     box-sizing: border-box;
 }
@@ -140,11 +155,13 @@
     top: 145px;
     right: 62vh;
 }
+
 :host::ng-deep .ui-corner-all {
     -moz-border-radius: 20px;
     -webkit-border-radius: 20px;
     border-radius: 20px !important;
 }
+
 :host::ng-deep .ui-dropdown {
     width: 100% !important;
     border-radius: 20px !important;
@@ -160,14 +177,17 @@
 :host::ng-deep .p-card-body {
     height: 150px;
 }
+
 .overview-content .overview-title {
     font-size: 18px;
 }
+
 .overview-content .overview-badge {
     float: right;
     color: #757575;
     margin-top: -57px;
 }
+
 .overview-content .overview-detail {
     display: block;
     font-size: 24px;
@@ -180,6 +200,7 @@
             overflow: auto !important;
         }
     }
+
     .topSearch {
         margin-bottom: 30px;
 
@@ -214,6 +235,7 @@
             padding-top: 0 !important;
         }
     }
+
     .cardTop {
         .p-card-body {
             background-color: #9f84bd !important;
@@ -236,6 +258,7 @@
             padding-top: 0 !important;
         }
     }
+
     .cardTop2 {
         .p-card-body {
             background-color: #336699 !important;
@@ -278,6 +301,7 @@
     0% {
         -webkit-transform: rotate(0deg);
     }
+
     100% {
         -webkit-transform: rotate(360deg);
     }
@@ -287,22 +311,23 @@
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }
 }
+
 .full-height {
     min-height: 100vh;
 }
+
 .animate-charcter {
     text-transform: uppercase;
-    background-image: linear-gradient(
-            -225deg,
+    background-image: linear-gradient(-225deg,
             #231557 0%,
             #44107a 29%,
             #ff1361 67%,
-            #fff800 100%
-    );
+            #fff800 100%);
     background-size: auto auto;
     background-clip: border-box;
     background-size: 200% auto;
@@ -321,6 +346,7 @@
         background-position: 200% center;
     }
 }
+
 :host::ng-deep {
     .doughnut {
         canvas {
@@ -329,6 +355,7 @@
         }
     }
 }
+
 //:host::ng-deep {
 //    .doughnut{
 //        canvas{
@@ -359,6 +386,7 @@
             overflow-x: hidden;
         }
     }
+
     .sentimet-Analysis {
         .p-panel-content {
             min-height: 336px;
@@ -367,6 +395,7 @@
             display: flex;
             justify-content: center;
         }
+
         .row {
             display: flex;
             width: 100%;
@@ -374,8 +403,9 @@
         }
     }
 }
+
 :host::ng-deep {
-    .toptrends{
+    .toptrends {
         .p-panel-content {
             height: 365px;
             overflow: scroll;
@@ -384,14 +414,17 @@
 
 
 }
-.alert{  position: relative;
+
+.alert {
+    position: relative;
     padding: 0rem 1rem;
     margin-bottom: 0px;
     border: 1px solid transparent;
     border-radius: 0.25rem;
-    min-height:55px;
+    min-height: 55px;
     max-height: 55px;
 }
+
 //alert alert-primary{  position: relative;
 //    padding: 0rem 1rem;
 //    margin-bottom: 0px;
@@ -410,4 +443,11 @@
 .highlight {
     background-color: yellow;
     font-weight: bold;
+}
+
+:host::ng-deep p-multiselect .p-multiselect {
+    width: 100% !important;
+}
+:host::ng-deep p-multiselect .p-element{
+    width: 100% !important;
 }

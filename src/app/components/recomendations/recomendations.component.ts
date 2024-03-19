@@ -3,6 +3,63 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { HttpClient } from '@angular/common/http';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+
+interface ApiCall {
+    total_count: number;
+    data: [];
+}
+
+interface DataByCompetitorName {
+    total_count: number,
+    data: [
+        {
+            _id: string
+            score: number,
+            id: string
+            item: {
+                parentId: string
+                noticeIdentifier: string
+                title: string
+                description: string
+                cpvDescription: string
+                cpvDescriptionExpanded: string
+                publishedDate: string
+                deadlineDate: string
+                awardedDate: string
+                awardedValue: number,
+                awardedSupplier: string
+                approachMarketDate: null,
+                valueLow: number
+                valueHigh: number
+                postcode: string,
+                coordinates: string
+                isSubNotice: true,
+                noticeType: string
+                noticeStatus: string
+                isSuitableForSme: boolean,
+                isSuitableForVco: boolean,
+                awardedToSme: boolean,
+                awardedToVcse: boolean,
+                lastNotifableUpdate: string
+                organisationName: string
+                sector: string
+                cpvCodes: string
+                cpvCodesExtended: string
+                region: string
+                regionText: string
+                start: string
+                end: string
+            },
+            user_id: string
+            SearchCPVCode: string
+            createdAt: string
+            updatedAt: string
+        }
+    ]
+}
+
 
 @Component({
     selector: 'app-recomendations',
@@ -10,54 +67,88 @@ import { HttpClient } from '@angular/common/http';
     styleUrls: ['./recomendations.component.scss'],
 })
 export class RecomendationsComponent implements OnInit {
-    customers1: any;
+    // customers1: any;
     loading = true;
+    user: any[];
+    competitorNames: any[]
+    selectedCompetitorNames: any[]
     userId: string | null = localStorage.getItem('userId');
     accessToken: string | null = localStorage.getItem('access_token');
     @ViewChild('filter') filter!: ElementRef;
+    formBuilder: any;
+    dataByCompetitorName: DataByCompetitorName[] = []
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
     ngOnInit(): void {
         this.loading = true;
         this.fetchRecommendations();
+        this.cpvCodesForm = this.formBuilder.group({
+            cpvCodes: [null, Validators.required]
+        })
     }
+    cpvCodesForm: FormGroup = new FormGroup({
+        cpvCodes: new FormControl()
+    })
+
 
     fetchRecommendations(): void {
         this.http
             .get<any>('http://45.85.250.231:8000/api/users/me', {
-                withCredentials: true,
+                // withCredentials: true,
                 headers: {
                     'Authorization': `Bearer ${this.accessToken}`,
                 },
             })
             .subscribe(
                 (datauser) => {
-                    const userEmail = datauser.user.email;
-                    const apiUrl = this.getApiUrlBasedOnEmail(userEmail);
+                    // console.log("User", datauser);
+                    this.user = datauser
+                    this.competitorNames = datauser?.user?.competitors
+                    console.log("competitors", this.competitorNames);
+                    this.http
+                        .get<any[]>("http://45.85.250.231:8000/api/posts/get_data_by_user_id/api_call?skip=0&limit=10", {
+                            headers: {
+                                'Authorization': `Bearer ${this.accessToken}`,
+                            },
+                        })
+                        .subscribe(
+                            (data) => {
+                                // this.customers1 = data;
+                                // console.log('Data from API:', this.customers1.data);
+                                this.loading = false;
+                            },
+                            (error) => {
+                                console.error('Error fetching recommendations:', error);
+                                this.loading = false;
+                            }
+                        );
 
-                    if (apiUrl) {
-                        this.http
-                            .get<any[]>(apiUrl, {
-                                withCredentials: true,
-                                headers: {
-                                    'Authorization': `Bearer ${this.accessToken}`,
-                                },
-                            })
-                            .subscribe(
-                                (data) => {
-                                    this.customers1 = data;
-                                    console.log('Data from API:', this.customers1);
-                                    this.loading = false;
-                                },
-                                (error) => {
-                                    console.error('Error fetching recommendations:', error);
-                                    this.loading = false;
-                                }
-                            );
-                    } else {
-                        this.loading = false;
-                    }
+                    // const userEmail = datauser.user.email;
+                    // const apiUrl = this.getApiUrlBasedOnEmail(userEmail);
+
+                    // if (apiUrl) {
+                    //     this.http
+                    //         .get<any[]>(apiUrl, {
+                    //             // withCredentials: true,
+                    //             headers: {
+                    //                 'Authorization': `Bearer ${this.accessToken}`,
+                    //             },
+                    //         })
+                    //         .subscribe(
+                    //             (data) => {
+                    //                 this.customers1 = data;
+                    //                 console.log('Data from API:', this.customers1);
+                    //                 this.loading = false;
+                    //             },
+                    //             (error) => {
+                    //                 console.error('Error fetching recommendations:', error);
+                    //                 this.loading = false;
+                    //             }
+                    //         );
+                    // } else {
+                    //     this.loading = false;
+                    // }
                 },
                 (error) => {
                     console.error('Error fetching user data:', error);
@@ -65,6 +156,25 @@ export class RecomendationsComponent implements OnInit {
                 }
             );
     }
+
+    cpvSubmit() {
+        console.log(this.cpvCodesForm.value.cpvCodes);
+        this.cpvCodesForm.value.cpvCodes.map((code: string) => {
+            this.http.get('http://45.85.250.231:8000/api/posts/get_data_by_competitor_name', {
+                params: { CompetitorName: code },
+                headers: {
+                    'Authorization': `Bearer ${this.accessToken}`,
+                }
+            }).subscribe((dataByCompetitorName:DataByCompetitorName)=>{
+                console.log("subscribe",dataByCompetitorName.data);
+                this.dataByCompetitorName.push(dataByCompetitorName)
+            })
+
+        })
+        console.log("dataByCompetitorName",this.dataByCompetitorName);
+
+    }
+
 
     getApiUrlBasedOnEmail(userEmail: string): string | null {
         switch (userEmail) {

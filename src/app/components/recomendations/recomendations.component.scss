@@ -400,3 +400,6 @@
 //   min-height:70px;
 //
 //}
+:host::ng-deep p-multiselect .p-multiselect {
+    width: 100% !important;
+}

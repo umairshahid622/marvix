@@ -25,6 +25,11 @@ interface Contract {
     };
 }
 
+interface ApiCallData {
+    total_count: number;
+    data: []
+}
+
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
@@ -41,20 +46,22 @@ export class DashboardComponent implements OnInit {
 
     @ViewChild('filter') filter!: Table;
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
     ngOnInit(): void {
         // Fetch user data
         this.loading = true;
         this.http
             .get<UserData>('http://45.85.250.231:8000/api/users/me', {
-                withCredentials: true,
+                // withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${this.accessToken}`,
                 },
             })
             .subscribe(
                 (datauser) => {
+                    console.log("Dashboard/api/user/me", datauser);
+
                     this.userprofile = datauser;
                     this.loading = false;
                 },
@@ -65,15 +72,17 @@ export class DashboardComponent implements OnInit {
             );
 
         this.http
-            .get<any>('http://45.85.250.231:8000/api/posts/get_data_by_user_id?skip=0&limit=1000', {
-                withCredentials: true,
+            .get<any>('http://45.85.250.231:8000/api/posts/get_data_by_user_id/api_call?skip=0&limit=1000', {
+                // withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${this.accessToken}`,
                 },
             })
             .subscribe(
                 (data) => {
-                    this.products = data[0].data.map((contract: Contract) => ({
+                    console.log("api/posts/get_data_by_user", data);
+
+                    this.products = data.data.map((contract: Contract) => ({
                         ...contract,
                         item: { ...contract.item, accepted: false },
                     }));
