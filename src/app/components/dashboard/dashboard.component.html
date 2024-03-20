@@ -44,7 +44,7 @@
                         <td>{{ contract?.item?.region }}</td>
                         <td>{{ contract?.item?.awardedDate }}</td>
                         <td>{{ contract?.item?.awardedSupplier }}</td>
-                        <td [innerHTML]="highlightMatches(contract?.cpvCodes)"></td>
+                        <td [innerHTML]="highlightMatches(contract?.item?.cpvCodes)"></td>
 <!--                        <td>-->
 <!--                            <button *ngIf="!contract.item.accepted" (click)="acceptContract(contract)" type="button" class="btn btn-success">Accept</button>-->
 <!--                            <br>-->
