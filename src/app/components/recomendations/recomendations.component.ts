@@ -106,23 +106,23 @@ export class RecomendationsComponent implements OnInit {
                     this.user = datauser
                     this.competitorNames = datauser?.user?.competitors
                     console.log("competitors", this.competitorNames);
-                    this.http
-                        .get<any[]>("http://45.85.250.231:8000/api/posts/get_data_by_user_id/api_call?skip=0&limit=10", {
-                            headers: {
-                                'Authorization': `Bearer ${this.accessToken}`,
-                            },
-                        })
-                        .subscribe(
-                            (data) => {
-                                // this.customers1 = data;
-                                // console.log('Data from API:', this.customers1.data);
-                                this.loading = false;
-                            },
-                            (error) => {
-                                console.error('Error fetching recommendations:', error);
-                                this.loading = false;
-                            }
-                        );
+                    // this.http
+                    //     .get<any[]>("http://45.85.250.231:8000/api/posts/get_data_by_user_id/api_call?skip=0&limit=10", {
+                    //         headers: {
+                    //             'Authorization': `Bearer ${this.accessToken}`,
+                    //         },
+                    //     })
+                    //     .subscribe(
+                    //         (data) => {
+                    //             // this.customers1 = data;
+                    //             // console.log('Data from API:', this.customers1.data);
+                    //             this.loading = false;
+                    //         },
+                    //         (error) => {
+                    //             console.error('Error fetching recommendations:', error);
+                    //             this.loading = false;
+                    //         }
+                    //     );
 
                     // const userEmail = datauser.user.email;
                     // const apiUrl = this.getApiUrlBasedOnEmail(userEmail);
