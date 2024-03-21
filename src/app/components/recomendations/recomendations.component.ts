@@ -83,12 +83,12 @@ export class RecomendationsComponent implements OnInit {
     ngOnInit(): void {
         this.loading = true;
         this.fetchRecommendations();
-        this.cpvCodesForm = this.formBuilder.group({
-            cpvCodes: [null, Validators.required]
+        this.competitorForm = this.formBuilder.group({
+            competitor: [null, Validators.required]
         })
     }
-    cpvCodesForm: FormGroup = new FormGroup({
-        cpvCodes: new FormControl()
+    competitorForm: FormGroup = new FormGroup({
+        competitor: new FormControl()
     })
 
 
@@ -158,32 +158,42 @@ export class RecomendationsComponent implements OnInit {
     }
 
     cpvSubmit() {
-        console.log(this.cpvCodesForm.value.cpvCodes);
-        // this.http.get('http://45.85.250.231:8000/api/posts/get_data_by_competitor_name', {
-        //     params: { CompetitorName: "black phishing" },
+        console.log(this.competitorForm.value.competitor);
+        this.dataByCompetitorName = []
+        // let dummyCode = "Greenfisher Contracting Ltd";
+        // this.http.get(`http://45.85.250.231:8000/api/posts/get_data_by_competitor_name?Competitor%20Name=${dummyCode}`, {
         //     headers: {
         //         'Authorization': `Bearer ${this.accessToken}`,
         //     }
         // }).subscribe((dataByCompetitorName: DataByCompetitorName) => {
-        //     console.log(`subscribe`, dataByCompetitorName);
+        //     // console.log(`subscribe`, dataByCompetitorName.data);
+        //     dataByCompetitorName.data.forEach((competitor) => {
+        //         console.log(competitor);
+        //     })
         //     this.dataByCompetitorName.push(dataByCompetitorName)
         // }, (errr) => { }, () => {
+        //     console.log("DataByCompetitorName", this.dataByCompetitorName);
         // },
-        // console.log("DataByCompetitorName", this.dataByCompetitorName);
         // )
-        this.cpvCodesForm.value.cpvCodes.map((code: string) => {
+        var data_by_competitor_name: number = 0;
+        this.competitorForm.value.competitor.forEach((code: string) => {
+            // let dummyCode = "Greenfisher Contracting Ltd";
+            data_by_competitor_name++;
             this.http.get(`http://45.85.250.231:8000/api/posts/get_data_by_competitor_name?Competitor%20Name=${code}`, {
                 headers: {
                     'Authorization': `Bearer ${this.accessToken}`,
                 }
             }).subscribe((dataByCompetitorName: DataByCompetitorName) => {
-                console.log(`subscribe ${code}`, dataByCompetitorName);
+                data_by_competitor_name += 1;
                 this.dataByCompetitorName.push(dataByCompetitorName)
+
             }, (errr) => { }, () => {
-                console.log("DataByCompetitorName", this.dataByCompetitorName);
             },
             )
+
         })
+        console.log("For Each Completed", this.dataByCompetitorName);
+
     }
 
 

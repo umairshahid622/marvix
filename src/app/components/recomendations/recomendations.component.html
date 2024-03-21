@@ -4,16 +4,16 @@
     <div class="col-12">
         <div class="card">
             <h5>AI Recommendations</h5>
-            <form class="d-flex gap-2 my-4" [formGroup]="cpvCodesForm" (ngSubmit)="cpvSubmit()">
+            <form class="d-flex gap-2 my-4" [formGroup]="competitorForm" (ngSubmit)="cpvSubmit()">
                 <p-multiSelect [options]="competitorNames" [(ngModel)]="selectedCompetitorNames"
-                    placeholder="Select Cpv Codes" formControlName="cpvCodes" style="width: 100%;"></p-multiSelect>
+                    placeholder="Select Cpv Codes" formControlName="competitor" style="width: 90%;"></p-multiSelect>
                 <button pButton pRipple type="button" label="Search" class="p-button-outlined" (click)="cpvSubmit()"></button>
             </form>
 
             <p-table #dt1 [value]="dataByCompetitorName" dataKey="id" [rows]="10" [rowHover]="true"
                 styleClass="p-datatable-gridlines" [paginator]="true"
                 [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll">
-                <ng-template pTemplate="caption">
+                <!-- <ng-template pTemplate="caption">
                     <div class="flex justify-content-between flex-column sm:flex-row">
                         <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
                             (click)="clear(dt1)"></button>
@@ -23,7 +23,7 @@
                                 placeholder="Search By Title or Supplier" class="w-full" />
                         </span>
                     </div>
-                </ng-template>
+                </ng-template> -->
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="min-width: 12rem">
@@ -60,30 +60,54 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-customer>
-                    <tr>
+                    <tr *ngFor="let customer of customer.data">
                         <td>
-                            {{ customer.data[0].item.awardedSupplier }}
+                            {{ customer.item?.awardedSupplier }}
                         </td>
                         <td>
-                            {{ customer.data[0].item.noticeIdentifier }}
+                            {{ customer.item?.noticeIdentifier }}
                         </td>
                         <td>
-                            {{ customer.data[0].item.region }}
+                            {{ customer.item?.region }}
                         </td>
                         <td>
-                            {{"£"}}{{ customer.data[0].item.awardedValue }}
+                            {{"£"}}{{ customer.item?.awardedValue }}
                         </td>
                         <td>
-                            <button *ngIf="!customer.data[0].item.accepted" (click)="acceptRecommendation(customer)"
+                            <button *ngIf="!customer.item?.accepted" (click)="acceptRecommendation(customer)"
                                 type="button" class="btn btn-success">Accept
                             </button>
                             <br>
                             <br>
-                            <button *ngIf="!customer.data[0].item.accepted" (click)="rejectRecommendation(customer)"
+                            <button *ngIf="!customer.item?.accepted" (click)="rejectRecommendation(customer)"
                                 type="button" class="btn btn-danger">Reject
                             </button>
                         </td>
                     </tr>
+                    <!-- <tr>
+                        <td>
+                            {{ customer.data.item?.awardedSupplier }}
+                        </td>
+                        <td>
+                            {{ customer.data.item?.noticeIdentifier }}
+                        </td>
+                        <td>
+                            {{ customer.data.item?.region }}
+                        </td>
+                        <td>
+                            {{"£"}}{{ customer.data.item?.awardedValue }}
+                        </td>
+                        <td>
+                            <button *ngIf="!customer.data.item?.accepted" (click)="acceptRecommendation(customer)"
+                                type="button" class="btn btn-success">Accept
+                            </button>
+                            <br>
+                            <br>
+                            <button *ngIf="!customer.data.item?.accepted" (click)="rejectRecommendation(customer)"
+                                type="button" class="btn btn-danger">Reject
+                            </button>
+                        </td>
+                    </tr> -->
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
