@@ -428,7 +428,7 @@ export class UserProfileComponent implements OnInit {
         }, (err) => {
           console.log("Error", err);
         }, () => {
-          // window.location.reload()
+          window.location.reload()
         }
       )
   }

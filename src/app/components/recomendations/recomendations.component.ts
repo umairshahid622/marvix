@@ -13,7 +13,8 @@ interface ApiCall {
 
 interface DataByCompetitorName {
     total_count: number,
-    isRecomendationAccepted: boolean
+    isRecomendationAccepted: boolean,
+    isRecommendationRejected: boolean
     data: [
         {
             _id: string
@@ -186,7 +187,7 @@ export class RecomendationsComponent implements OnInit {
                 }
             }).subscribe((dataByCompetitorName: DataByCompetitorName) => {
                 if (dataByCompetitorName.total_count !== 0) {
-                    this.dataByCompetitorName.push({ ...dataByCompetitorName, isRecomendationAccepted: false })
+                    this.dataByCompetitorName.push({ ...dataByCompetitorName, isRecomendationAccepted: false, isRecommendationRejected: false })
                 }
             }, (errr) => { }, () => {
             },
@@ -229,6 +230,7 @@ export class RecomendationsComponent implements OnInit {
 
     rejectRecomendationDialogVisible: boolean = false
     rejectRecomendationDialogHeader: string = 'Header';
+
     isRecomendationRejected: boolean = false;
 
     // isRecomendationAccepted: boolean = false;
@@ -237,14 +239,21 @@ export class RecomendationsComponent implements OnInit {
     acceptRecommendation(customer: DataByCompetitorName, index: number): void {
         this.dataByCompetitorName[index].isRecomendationAccepted = !this.dataByCompetitorName[index].isRecomendationAccepted
     }
+    rejectRecommendationIndex: number = null;
 
-    rejectRecommendation(customer: DataByCompetitorName): void {
+    rejectRecommendation(customer: DataByCompetitorName, index: number): void {
         // Implement your logic for rejecting the recommendation here
         console.log("Rejection Name", customer);
         this.rejectRecomendationDialogHeader = customer.data[0].item.awardedSupplier
+        this.rejectRecommendationIndex = index;
         this.rejectRecomendationDialogVisible = true
 
         // customer.accepted = false;
+    }
+
+    onSubmiteRejectRecommendation() {
+        this.dataByCompetitorName[this.rejectRecommendationIndex].isRecommendationRejected = !this.dataByCompetitorName[this.rejectRecommendationIndex].isRecommendationRejected;
+        this.rejectRecomendationDialogVisible = false
     }
 
 }
