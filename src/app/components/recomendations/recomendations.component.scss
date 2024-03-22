@@ -403,3 +403,8 @@
 :host::ng-deep p-multiselect .p-multiselect {
     width: 100% !important;
 }
+:host ::ng-deep p-dialog .p-dialog-mask .p-dialog,
+:host ::ng-deep p-dialog .p-dialog-mask .p-dialog .p-dialog-content {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}

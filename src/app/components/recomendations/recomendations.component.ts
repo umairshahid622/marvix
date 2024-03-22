@@ -229,7 +229,7 @@ export class RecomendationsComponent implements OnInit {
     }
 
     rejectRecomendationDialogVisible: boolean = false
-    rejectRecomendationDialogHeader: string = 'Header';
+    rejectRecomendationDialogHeader: string = 'Feedback';
 
     isRecomendationRejected: boolean = false;
 
@@ -244,7 +244,7 @@ export class RecomendationsComponent implements OnInit {
     rejectRecommendation(customer: DataByCompetitorName, index: number): void {
         // Implement your logic for rejecting the recommendation here
         console.log("Rejection Name", customer);
-        this.rejectRecomendationDialogHeader = customer.data[0].item.awardedSupplier
+        // this.rejectRecomendationDialogHeader = customer.data[0].item.noticeIdentifier
         this.rejectRecommendationIndex = index;
         this.rejectRecomendationDialogVisible = true
 
