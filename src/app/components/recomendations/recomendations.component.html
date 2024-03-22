@@ -72,7 +72,8 @@
                             </button>
                             <br>
                             <br>
-                            <button (click)="rejectRecommendation(customer)" type="button" class="btn btn-danger">
+                            <button *ngIf="!customer.isRecomendationAccepted" (click)="rejectRecommendation(customer)"
+                                type="button" class="btn btn-danger">
                                 Reject
                             </button>
                         </td>
