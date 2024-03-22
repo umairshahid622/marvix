@@ -13,6 +13,7 @@ interface ApiCall {
 
 interface DataByCompetitorName {
     total_count: number,
+    isRecomendationAccepted: boolean
     data: [
         {
             _id: string
@@ -79,7 +80,9 @@ export class RecomendationsComponent implements OnInit {
     dataByCompetitorName: DataByCompetitorName[] = []
 
     constructor(private http: HttpClient) { }
-
+    competitorForm: FormGroup = new FormGroup({
+        competitor: new FormControl()
+    })
     ngOnInit(): void {
         this.loading = true;
         this.fetchRecommendations();
@@ -87,10 +90,6 @@ export class RecomendationsComponent implements OnInit {
             competitor: [null, Validators.required]
         })
     }
-    competitorForm: FormGroup = new FormGroup({
-        competitor: new FormControl()
-    })
-
 
     fetchRecommendations(): void {
         this.http
@@ -102,7 +101,7 @@ export class RecomendationsComponent implements OnInit {
             })
             .subscribe(
                 (datauser) => {
-                    // console.log("User", datauser);
+                    console.log("User", datauser);
                     this.user = datauser
                     this.competitorNames = datauser?.user?.competitors
                     console.log("competitors", this.competitorNames);
@@ -159,6 +158,8 @@ export class RecomendationsComponent implements OnInit {
 
     cpvSubmit() {
         console.log(this.competitorForm.value.competitor);
+        console.log(this.competitorForm.valid);
+
         this.dataByCompetitorName = []
         // let dummyCode = "Greenfisher Contracting Ltd";
         // this.http.get(`http://45.85.250.231:8000/api/posts/get_data_by_competitor_name?Competitor%20Name=${dummyCode}`, {
@@ -184,9 +185,9 @@ export class RecomendationsComponent implements OnInit {
                     'Authorization': `Bearer ${this.accessToken}`,
                 }
             }).subscribe((dataByCompetitorName: DataByCompetitorName) => {
-                data_by_competitor_name += 1;
-                this.dataByCompetitorName.push(dataByCompetitorName)
-
+                if (dataByCompetitorName.total_count !== 0) {
+                    this.dataByCompetitorName.push({ ...dataByCompetitorName, isRecomendationAccepted: false })
+                }
             }, (errr) => { }, () => {
             },
             )
@@ -226,13 +227,31 @@ export class RecomendationsComponent implements OnInit {
         this.filter.nativeElement.value = '';
     }
 
-    acceptRecommendation(customer: any): void {
+    rejectRecomendationDialogVisible: boolean = false
+    rejectRecomendationDialogHeader: string = 'Header';
+    isRecomendationRejected: boolean = false;
+
+    // isRecomendationAccepted: boolean = false;
+
+
+    acceptRecommendation(customer: DataByCompetitorName, index: number): void {
         // Implement your logic for accepting the recommendation here
-        customer.accepted = true;
+        console.log("Acept", customer);
+        console.log(this.dataByCompetitorName.length);
+        console.log("index", index);
+        this.dataByCompetitorName[index].isRecomendationAccepted = !this.dataByCompetitorName[index].isRecomendationAccepted
+
+        // this.isRecomendationAccepted = true
+        // customer.accepted = true;
     }
 
-    rejectRecommendation(customer: any): void {
+    rejectRecommendation(customer: DataByCompetitorName): void {
         // Implement your logic for rejecting the recommendation here
-        customer.accepted = false;
+        console.log("Rejection Name", customer);
+        this.rejectRecomendationDialogHeader = customer.data[0].item.awardedSupplier
+        this.rejectRecomendationDialogVisible = true
+
+        // customer.accepted = false;
     }
+
 }
