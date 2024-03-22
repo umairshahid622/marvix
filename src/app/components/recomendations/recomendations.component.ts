@@ -235,14 +235,7 @@ export class RecomendationsComponent implements OnInit {
 
 
     acceptRecommendation(customer: DataByCompetitorName, index: number): void {
-        // Implement your logic for accepting the recommendation here
-        console.log("Acept", customer);
-        console.log(this.dataByCompetitorName.length);
-        console.log("index", index);
         this.dataByCompetitorName[index].isRecomendationAccepted = !this.dataByCompetitorName[index].isRecomendationAccepted
-
-        // this.isRecomendationAccepted = true
-        // customer.accepted = true;
     }
 
     rejectRecommendation(customer: DataByCompetitorName): void {
