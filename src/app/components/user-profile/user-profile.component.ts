@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 
 
@@ -33,14 +34,16 @@ interface User {
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss']
+  styleUrls: ['./user-profile.component.scss'],
+  providers: [MessageService]
 })
 
 export class UserProfileComponent implements OnInit {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: FormBuilder,
+    private messageService: MessageService
   ) { }
 
   accessToken: string;
@@ -229,6 +232,7 @@ export class UserProfileComponent implements OnInit {
       },
     }).subscribe((data) => {
       console.log("Response", data);
+      this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Tender Min Value Updated " });
     }, (err) => {
       console.log("Error", err);
 
@@ -245,7 +249,7 @@ export class UserProfileComponent implements OnInit {
       }
     }).subscribe((data) => {
       console.log("Response", data);
-
+      this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Tender Min Value Deleted " });
     }, (err) => {
       console.log("Error", err);
 
@@ -267,7 +271,7 @@ export class UserProfileComponent implements OnInit {
 
     }).subscribe((data) => {
       console.log("Response", data);
-
+      this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Tender Max Value Updated " });
     }, (err) => {
       console.log("Error", err);
 
@@ -285,7 +289,7 @@ export class UserProfileComponent implements OnInit {
       }
     }).subscribe((data) => {
       console.log("Response", data);
-
+      this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Tender Max Value Deleted " });
     }, (err) => {
       console.log("Error", err);
 
@@ -309,7 +313,7 @@ export class UserProfileComponent implements OnInit {
     }).subscribe(
       (res) => {
         console.log("Response", res);
-
+        this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "CpvCode Added " });
       }, (err) => {
         console.log("Error", err);
       },
@@ -331,6 +335,7 @@ export class UserProfileComponent implements OnInit {
       }
     }).subscribe((res) => {
       console.log(res);
+      this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "CpvCode Deleted " });
     }, (err) => {
       console.log(err);
     }, () => {
@@ -361,6 +366,7 @@ export class UserProfileComponent implements OnInit {
       }).subscribe(
         (res) => {
           console.log("Response", res);
+          this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Keyword Added " });
         }, (err) => {
           console.log("Error", err);
         },
@@ -382,7 +388,7 @@ export class UserProfileComponent implements OnInit {
       }
     }).subscribe((res) => {
       console.log(res);
-
+      this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Keyword Deleted" });
     }, (err) => {
       console.log(err);
     }, () => {
@@ -402,6 +408,7 @@ export class UserProfileComponent implements OnInit {
     }).subscribe(
       (res) => {
         console.log("Response", res);
+        this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Competitors Added" });
       }, (err) => {
         console.log("Error", err);
       },
@@ -423,10 +430,10 @@ export class UserProfileComponent implements OnInit {
         },
       }).subscribe(
         (res) => {
-          console.log("Response", res);
-
+          console.log("onDeleteCompetitorsSubmitResponse", res);
+          this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Competitor Deleted" });
         }, (err) => {
-          console.log("Error", err);
+          console.log("onDeleteCompetitorsSubmitError", err);
         }, () => {
           window.location.reload()
         }

@@ -3,7 +3,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { HttpClient } from '@angular/common/http';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 
 interface ApiCall {
@@ -11,10 +12,16 @@ interface ApiCall {
     data: [];
 }
 
+interface RejectRecommendation {
+
+    message: string
+    status: string
+}
+
 interface DataByCompetitorName {
     total_count: number,
     isRecomendationAccepted: boolean,
-    isRecommendationRejected: boolean
+    isRecommendationRejected: boolean,
     data: [
         {
             _id: string
@@ -67,6 +74,7 @@ interface DataByCompetitorName {
     selector: 'app-recomendations',
     templateUrl: './recomendations.component.html',
     styleUrls: ['./recomendations.component.scss'],
+    providers: [MessageService]
 })
 export class RecomendationsComponent implements OnInit {
     // customers1: any;
@@ -77,18 +85,24 @@ export class RecomendationsComponent implements OnInit {
     userId: string | null = localStorage.getItem('userId');
     accessToken: string | null = localStorage.getItem('access_token');
     @ViewChild('filter') filter!: ElementRef;
-    formBuilder: any;
     dataByCompetitorName: DataByCompetitorName[] = []
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private formBuilder: FormBuilder, private messageService: MessageService) {
+        this.loading = true;
+        this.fetchRecommendations();
+    }
     competitorForm: FormGroup = new FormGroup({
         competitor: new FormControl()
     })
+
+
     ngOnInit(): void {
-        this.loading = true;
-        this.fetchRecommendations();
         this.competitorForm = this.formBuilder.group({
             competitor: [null, Validators.required]
+        })
+
+        this.recommendationRejectForm = this.formBuilder.group({
+            recommendationReject: ['', Validators.required]
         })
     }
 
@@ -157,9 +171,12 @@ export class RecomendationsComponent implements OnInit {
             );
     }
 
-    cpvSubmit() {
-        console.log(this.competitorForm.value.competitor);
-        console.log(this.competitorForm.valid);
+    competitorsSubmit() {
+        if (this.competitorForm.invalid) {
+            console.log("competitorForm Is Invalid");
+
+            return
+        }
 
         this.dataByCompetitorName = []
         // let dummyCode = "Greenfisher Contracting Ltd";
@@ -231,29 +248,59 @@ export class RecomendationsComponent implements OnInit {
     rejectRecomendationDialogVisible: boolean = false
     rejectRecomendationDialogHeader: string = 'Feedback';
 
-    isRecomendationRejected: boolean = false;
-
-    // isRecomendationAccepted: boolean = false;
-
 
     acceptRecommendation(customer: DataByCompetitorName, index: number): void {
         this.dataByCompetitorName[index].isRecomendationAccepted = !this.dataByCompetitorName[index].isRecomendationAccepted
     }
-    rejectRecommendationIndex: number = null;
+    recommendationIndex: number = null;
 
     rejectRecommendation(customer: DataByCompetitorName, index: number): void {
         // Implement your logic for rejecting the recommendation here
         console.log("Rejection Name", customer);
         // this.rejectRecomendationDialogHeader = customer.data[0].item.noticeIdentifier
-        this.rejectRecommendationIndex = index;
+        this.recommendationIndex = index;
+        
         this.rejectRecomendationDialogVisible = true
 
         // customer.accepted = false;
     }
 
-    onSubmiteRejectRecommendation() {
-        this.dataByCompetitorName[this.rejectRecommendationIndex].isRecommendationRejected = !this.dataByCompetitorName[this.rejectRecommendationIndex].isRecommendationRejected;
-        this.rejectRecomendationDialogVisible = false
+
+    recommendationRejectForm: FormGroup = new FormGroup({
+        recommendationReject: new FormControl('')
+    })
+
+    onSubmitRejectRecommendation() {
+        if (this.recommendationRejectForm.invalid) {
+            console.log('recommendationRejectForm is Invalid');
+            console.log(this.recommendationRejectForm.hasError('required'));
+            console.log(this.recommendationRejectForm.errors);
+            return
+        }
+
+
+        // this.rejectRecomendationDialogVisible = false
+        let comment: string = this.recommendationRejectForm.value.recommendationReject
+        this.http.post('http://45.85.250.231:8000/api/users/feedback', {}, {
+            params: {
+                comment: comment
+            },
+            headers: {
+                'Authorization': `Bearer ${this.accessToken}`,
+            }
+        }).subscribe((res: RejectRecommendation) => {
+            console.log("api/users/feedback", res);
+            this.messageService.add({ key: 'tc', severity: res.status, summary: res.status, detail: res.message });
+            this.rejectRecomendationDialogVisible = false;
+            this.dataByCompetitorName[this.recommendationIndex].isRecommendationRejected = true
+
+        }, (error) => {
+            console.log(error);
+
+        }, () => { })
+    }
+    closeToast() {
+        this.messageService.clear('c');
     }
 
 }

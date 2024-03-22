@@ -28,6 +28,11 @@
 
 .bg-light-blue {
     background-color: rgba(0, 123, 255, 0.1);
+    transition: all ease 0.3s;
+}
+.bg-light-blue:hover {
+    box-shadow: 0px 0px 20px 1px #ffbb763f;
+    border: 0px solid rgba(255, 255, 255, 0.454);
 }
 
 :host ::ng-deep p-chips .p-chips,
@@ -41,7 +46,7 @@
     border-bottom-right-radius: 6px;
 }
 
-.loading-section{
+.loading-section {
     height: 70vh;
 }
 
