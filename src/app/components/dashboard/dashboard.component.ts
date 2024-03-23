@@ -136,25 +136,13 @@ export class DashboardComponent implements OnInit {
         contract.item.accepted = false;
     }
 
-    regionFilter(event: Event) {
-        const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-
-        if (filterValue) {
-            this.filteredProducts = this.products.filter((contract) =>
-                contract.item.region.toLowerCase().includes(filterValue)
-            );
-        } else {
-            this.filteredProducts = [...this.products];
-        }
-
-        // Reset the table paginator to the first page
-        this.filter.first = 0;
-    }
-
+    inputDirty = false;
     onGlobalFilter(event: Event, searchOption: string) {
         const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-        console.log("Filter Value", filterValue);
-        console.log("Search Option", searchOption);
+        console.log(filterValue.length);
+        if (filterValue.length === 0) {
+            this.inputDirty = true;
+        }
 
         if (searchOption === "CPV Code") {
             if (filterValue) {
@@ -178,6 +166,7 @@ export class DashboardComponent implements OnInit {
         // Reset the table paginator to the first page
         this.filter.first = 0;
     }
+
 
 
     clear(table: Table) {

@@ -12,7 +12,7 @@
             <h5>Tenders list based on CPV Codes</h5>
 
             <!-- Search input for CPV code -->
-            <form class="d-flex gap-3 mb-2 ">
+            <div class="d-flex gap-3 mb-2 ">
                 <div class="p-inputgroup">
                     <span class="p-inputgroup-addon">
                         <i class="pi pi-search"></i>
@@ -23,7 +23,8 @@
                 </div>
                 <p-dropdown [options]="options" (onChange)="onSearchOptionChange($event)" placeholder="Search By"
                     optionLabel="name"></p-dropdown>
-            </form>
+            </div>
+            <small *ngIf="!searchPlaceholder && inputDirty" class="text-danger mb-3 ">Select the Search Option</small>
 
             <p-table #recommendationTable [value]="filteredProducts" [paginator]="true" [rows]="3"
                 responsiveLayout="scroll">
