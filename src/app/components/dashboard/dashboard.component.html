@@ -10,28 +10,41 @@
     <div class="col-12 xl:col-12" *ngIf="!loading">
         <div class="card">
             <h5>Tenders list based on CPV Codes</h5>
-            
-            <!-- Search input for CPV code -->
-            <div class="p-inputgroup">
-        <span class="p-inputgroup-addon">
-          <i class="pi pi-search"></i>
-        </span>
-                <input pInputText type="text" [(ngModel)]="cpvCodeFilter" (input)="onGlobalFilter($event)" placeholder="Search by CPV Code" class="p-inputtext" />
-            </div>
 
-            <p-table [value]="filteredProducts" [paginator]="true" [rows]="3" responsiveLayout="scroll">
+            <!-- Search input for CPV code -->
+            <form class="d-flex gap-3 mb-2 ">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">
+                        <i class="pi pi-search"></i>
+                    </span>
+                    <input pInputText type="text" [(ngModel)]="recomendationFilter"
+                        (input)="onGlobalFilter($event,searchPlaceholder)"
+                        [placeholder]="'Search By'+' '+searchPlaceholder" class="p-inputtext" />
+                </div>
+                <p-dropdown [options]="options" (onChange)="onSearchOptionChange($event)" placeholder="Search By"
+                    optionLabel="name"></p-dropdown>
+            </form>
+
+            <p-table #recommendationTable [value]="filteredProducts" [paginator]="true" [rows]="3"
+                responsiveLayout="scroll">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Notice ID</th>
                         <th pSortableColumn="item.title">Title <p-sortIcon field="item.title"></p-sortIcon></th>
-                        <th pSortableColumn="item.awardedValue">Awarded Value <p-sortIcon field="item.awardedValue"></p-sortIcon></th>
-                        <th pSortableColumn="item.noticeStatus">Notice Status <p-sortIcon field="item.noticeStatus"></p-sortIcon></th>
-                        <th pSortableColumn="item.organisationName">Organization Name <p-sortIcon field="item.organisationName"></p-sortIcon></th>
+                        <th pSortableColumn="item.awardedValue">Awarded Value <p-sortIcon
+                                field="item.awardedValue"></p-sortIcon></th>
+                        <th pSortableColumn="item.noticeStatus">Notice Status <p-sortIcon
+                                field="item.noticeStatus"></p-sortIcon></th>
+                        <th pSortableColumn="item.organisationName">Organization Name <p-sortIcon
+                                field="item.organisationName"></p-sortIcon></th>
                         <th pSortableColumn="item.region">Region <p-sortIcon field="item.region"></p-sortIcon></th>
-                        <th pSortableColumn="item.awardedDate">Awarded Date <p-sortIcon field="item.awardedDate"></p-sortIcon></th>
-                        <th pSortableColumn="item.awardedSupplier">Awarded Supplier <p-sortIcon field="item.awardedSupplier"></p-sortIcon></th>
-                        <th pSortableColumn="item.cpvCodes">CPV Codes <p-sortIcon field="item.cpvCodes"></p-sortIcon></th>
-<!--                        <th>Recomendation Status</th>-->
+                        <th pSortableColumn="item.awardedDate">Awarded Date <p-sortIcon
+                                field="item.awardedDate"></p-sortIcon></th>
+                        <th pSortableColumn="item.awardedSupplier">Awarded Supplier <p-sortIcon
+                                field="item.awardedSupplier"></p-sortIcon></th>
+                        <th pSortableColumn="item.cpvCodes">CPV Codes <p-sortIcon field="item.cpvCodes"></p-sortIcon>
+                        </th>
+                        <!--                        <th>Recomendation Status</th>-->
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-contract>
@@ -41,18 +54,19 @@
                         <td>{{ contract?.item?.awardedValue }}</td>
                         <td>{{ contract?.item?.noticeStatus }}</td>
                         <td>{{ contract?.item?.organisationName }}</td>
-                        <td>{{ contract?.item?.region }}</td>
+                        <td [innerHTML]="highlightMatches(contract?.item?.region)"></td>
                         <td>{{ contract?.item?.awardedDate }}</td>
                         <td>{{ contract?.item?.awardedSupplier }}</td>
                         <td [innerHTML]="highlightMatches(contract?.item?.cpvCodes)"></td>
-<!--                        <td>-->
-<!--                            <button *ngIf="!contract.item.accepted" (click)="acceptContract(contract)" type="button" class="btn btn-success">Accept</button>-->
-<!--                            <br>-->
-<!--                            <br>-->
-<!--                            <button *ngIf="!contract.item.accepted" (click)="rejectContract(contract)" type="button" class="btn btn-danger">Reject</button>-->
-<!--                            <span *ngIf="contract.item.accepted">Accepted</span>-->
-<!--                        </td>-->
-<!--                    </tr>-->
+
+                        <!--                        <td>-->
+                        <!--                            <button *ngIf="!contract.item.accepted" (click)="acceptContract(contract)" type="button" class="btn btn-success">Accept</button>-->
+                        <!--                            <br>-->
+                        <!--                            <br>-->
+                        <!--                            <button *ngIf="!contract.item.accepted" (click)="rejectContract(contract)" type="button" class="btn btn-danger">Reject</button>-->
+                        <!--                            <span *ngIf="contract.item.accepted">Accepted</span>-->
+                        <!--                        </td>-->
+                        <!--                    </tr>-->
                 </ng-template>
             </p-table>
         </div>

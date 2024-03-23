@@ -111,6 +111,7 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {DragDropModule} from "primeng/dragdrop";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import {SignUpComponent} from "./components/login/sign-up/sign-up.component";
+import { FilterService } from 'primeng/api';
 
 // @ts-ignore
 // @ts-ignore

@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Table } from 'primeng/table';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FilterService } from 'primeng/api';
 
 interface UserData {
     status: string;
@@ -22,6 +24,7 @@ interface Contract {
         // ... other fields
         accepted?: boolean;
         cpvCodes: string;
+        region: string;
     };
 }
 
@@ -29,11 +32,17 @@ interface ApiCallData {
     total_count: number;
     data: []
 }
+interface SelectedOption {
+    name: string;
+    code: string;
+}
+
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
+    providers: [FilterService]
 })
 export class DashboardComponent implements OnInit {
     loading = true;
@@ -42,14 +51,25 @@ export class DashboardComponent implements OnInit {
     filteredProducts: Contract[] = [];
     userId: string | null = localStorage.getItem('userId');
     accessToken: string | null = localStorage.getItem('access_token');
-    cpvCodeFilter: string = ''; // New property for filter
+    recomendationFilter: string = ''; // New property for filter
 
     @ViewChild('filter') filter!: Table;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private formBuilder: FormBuilder) { }
+
+
+
 
     ngOnInit(): void {
+        // this.searchOptionsForm = this.formBuilder.group({
+        //     searchOption: ['']
+        // })
+        // this.searchOptions = ['Cpv Codes', 'region']
         // Fetch user data
+        this.options = [
+            { name: 'CPV Code', code: 'NY' },
+            { name: 'Region', code: 'RM' }
+        ];
         this.loading = true;
         this.http
             .get<UserData>('http://45.85.250.231:8000/api/users/me', {
@@ -96,6 +116,18 @@ export class DashboardComponent implements OnInit {
             );
     }
 
+    // searchOptionsForm: FormGroup = new FormGroup({
+    //     searchOption: new FormControl()
+    // })
+    searchPlaceholder: string | undefined = "";
+    options: SelectedOption[] | undefined;
+    selectedOption: SelectedOption | undefined;
+    // selectedOption: string;
+    // searchOptions: string[]
+    onSearchOptionChange(event: any) {
+        console.log(event);
+        this.searchPlaceholder = event.value.name
+    }
     acceptContract(contract: Contract): void {
         contract.item.accepted = true;
     }
@@ -104,17 +136,45 @@ export class DashboardComponent implements OnInit {
         contract.item.accepted = false;
     }
 
-    onGlobalFilter(event: Event) {
+    regionFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
 
         if (filterValue) {
             this.filteredProducts = this.products.filter((contract) =>
-                contract.item.cpvCodes.toLowerCase().includes(filterValue)
+                contract.item.region.toLowerCase().includes(filterValue)
             );
         } else {
             this.filteredProducts = [...this.products];
         }
 
+        // Reset the table paginator to the first page
+        this.filter.first = 0;
+    }
+
+    onGlobalFilter(event: Event, searchOption: string) {
+        const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+        console.log("Filter Value", filterValue);
+        console.log("Search Option", searchOption);
+
+        if (searchOption === "CPV Code") {
+            if (filterValue) {
+                this.filteredProducts = this.products.filter((contract) =>
+                    contract.item.cpvCodes.toLowerCase().includes(filterValue)
+                );
+            } else {
+                this.filteredProducts = [...this.products];
+            }
+        }
+
+        if (searchOption === "Region") {
+            if (filterValue) {
+                this.filteredProducts = this.products.filter((contract) =>
+                    contract.item.region.toLowerCase().includes(filterValue)
+                );
+            } else {
+                this.filteredProducts = [...this.products];
+            }
+        }
         // Reset the table paginator to the first page
         this.filter.first = 0;
     }
@@ -126,11 +186,11 @@ export class DashboardComponent implements OnInit {
     }
 
     highlightMatches(text: string): string {
-        if (!this.cpvCodeFilter || !text) {
+        if (!this.recomendationFilter || !text) {
             return text;
         }
-
-        const regex = new RegExp(this.cpvCodeFilter, 'gi');
+        console.log(this.recomendationFilter);
+        const regex = new RegExp(this.recomendationFilter, 'gi');
         return text.replace(regex, match => `<span class="highlight">${match}</span>`);
     }
 }
