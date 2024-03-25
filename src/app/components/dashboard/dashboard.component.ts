@@ -140,10 +140,9 @@ export class DashboardComponent implements OnInit {
     onGlobalFilter(event: Event, searchOption: string) {
         const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
         console.log(filterValue.length);
-        if (filterValue.length === 0) {
+        if (filterValue.length === 0 || !searchOption) {
             this.inputDirty = true;
         }
-
         if (searchOption === "CPV Code") {
             if (filterValue) {
                 this.filteredProducts = this.products.filter((contract) =>

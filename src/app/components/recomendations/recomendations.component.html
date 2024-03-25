@@ -6,10 +6,18 @@
         <div class="card">
             <h5>AI Recommendations</h5>
             <form class="d-flex flex-wrap justify-content-end  gap-2 my-4" [formGroup]="competitorForm"
-                (ngSubmit)="competitorsSubmit()">
+                (ngSubmit)="competitorsSubmit()" #competitorFormRef="ngForm">
                 <p-multiSelect [options]="competitorNames" [(ngModel)]="selectedCompetitorNames"
                     placeholder="Select Competitors" formControlName="competitor" style="width: 100%;"></p-multiSelect>
-                <button pButton pRipple type="submit" label="search" class="p-button-outlined"></button>
+                <div class="d-flex w-100 justify-content-between">
+                    <div>
+                        <small
+                            *ngIf="competitorForm.get('competitor').hasError('required') && competitorFormRef.submitted"
+                            class="text-danger fw-bold ">This
+                            field is required!</small>
+                    </div>
+                    <button pButton pRipple type="submit" label="search" class="p-button-outlined"></button>
+                </div>
             </form>
 
             <p-table #dt1 [value]="dataByCompetitorName" dataKey="id" [rows]="10" [rowHover]="true"
@@ -56,6 +64,13 @@
                         </th>
                         <th style="min-width: 10rem">
                             <div class="flex justify-content-between align-items-center">
+                                Cpv Codes
+                                <p-columnFilter type="numeric" field="awardedValue" display="menu"
+                                    currency="GBP"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width: 10rem">
+                            <div class="flex justify-content-between align-items-center">
                                 Recomendation Status
                             </div>
                         </th>
@@ -67,8 +82,10 @@
                         <td>{{customer.data[0].item.noticeIdentifier}}</td>
                         <td>{{customer.data[0].item.region }}</td>
                         <td>{{customer.data[0].item.awardedValue }}</td>
+                        <td>{{customer.data[0].item.cpvCodes}}</td>
                         <td>
-                            <button *ngIf="!customer.isRecommendationRejected" (click)="acceptRecommendation(customer, i)" type="button" class="btn btn-success">
+                            <button *ngIf="!customer.isRecommendationRejected"
+                                (click)="acceptRecommendation(customer, i)" type="button" class="btn btn-success">
                                 {{customer.isRecomendationAccepted?"Accepted":"Accept"}}
                             </button>
                             <br>

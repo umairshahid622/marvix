@@ -92,13 +92,13 @@ export class RecomendationsComponent implements OnInit {
         this.fetchRecommendations();
     }
     competitorForm: FormGroup = new FormGroup({
-        competitor: new FormControl()
+        competitor: new FormControl([])
     })
 
 
     ngOnInit(): void {
         this.competitorForm = this.formBuilder.group({
-            competitor: [null, Validators.required]
+            competitor: [[], Validators.required]
         })
 
         this.recommendationRejectForm = this.formBuilder.group({
@@ -173,27 +173,13 @@ export class RecomendationsComponent implements OnInit {
 
     competitorsSubmit() {
         if (this.competitorForm.invalid) {
-            console.log("competitorForm Is Invalid");
+            // console.log("competitorForm Is Invalid", this.competitorForm.getError('required'));
+            console.log("competitorForm Is Invalid", this.competitorForm.get('competitor').hasError('required'));
 
             return
         }
 
         this.dataByCompetitorName = []
-        // let dummyCode = "Greenfisher Contracting Ltd";
-        // this.http.get(`http://45.85.250.231:8000/api/posts/get_data_by_competitor_name?Competitor%20Name=${dummyCode}`, {
-        //     headers: {
-        //         'Authorization': `Bearer ${this.accessToken}`,
-        //     }
-        // }).subscribe((dataByCompetitorName: DataByCompetitorName) => {
-        //     // console.log(`subscribe`, dataByCompetitorName.data);
-        //     dataByCompetitorName.data.forEach((competitor) => {
-        //         console.log(competitor);
-        //     })
-        //     this.dataByCompetitorName.push(dataByCompetitorName)
-        // }, (errr) => { }, () => {
-        //     console.log("DataByCompetitorName", this.dataByCompetitorName);
-        // },
-        // )
         var data_by_competitor_name: number = 0;
         this.competitorForm.value.competitor.forEach((code: string) => {
             // let dummyCode = "Greenfisher Contracting Ltd";
@@ -204,6 +190,7 @@ export class RecomendationsComponent implements OnInit {
                 }
             }).subscribe((dataByCompetitorName: DataByCompetitorName) => {
                 if (dataByCompetitorName.total_count !== 0) {
+                    console.log(dataByCompetitorName);
                     this.dataByCompetitorName.push({ ...dataByCompetitorName, isRecomendationAccepted: false, isRecommendationRejected: false })
                 }
             }, (errr) => { }, () => {
@@ -259,7 +246,7 @@ export class RecomendationsComponent implements OnInit {
         console.log("Rejection Name", customer);
         // this.rejectRecomendationDialogHeader = customer.data[0].item.noticeIdentifier
         this.recommendationIndex = index;
-        
+
         this.rejectRecomendationDialogVisible = true
 
         // customer.accepted = false;
