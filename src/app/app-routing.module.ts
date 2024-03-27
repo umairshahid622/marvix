@@ -6,6 +6,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import {RecomendationsComponent} from "./components/recomendations/recomendations.component";
 import { SignUpComponent } from './components/login/sign-up/sign-up.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { SpecificKeywordsComponent } from './components/specific-keywords/specific-keywords.component';
 
 
 @NgModule({
@@ -18,8 +19,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
                     { path: 'Dashboard', component: DashboardComponent },
                     { path: 'Recomendations/AIModel', component: RecomendationsComponent },
                     { path: 'user-profile', component: UserProfileComponent },
-
-
+                    { path: 'specific-keyword', component: SpecificKeywordsComponent },
                 ],
             },
             { path: 'pages/login', component: LoginComponent },

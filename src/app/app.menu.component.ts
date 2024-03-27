@@ -36,6 +36,7 @@ export class AppMenuComponent implements OnInit {
 
                     {label: 'Dashboard',icon: 'pi pi-fw pi-home', routerLink: ['/']},
                     {label: 'Recomendations',icon: 'pi pi-fw pi-prime',routerLink: ['/Recomendations/AIModel']},
+                    {label: 'Specific Keyword',icon: 'pi pi-fw pi-bolt',routerLink: ['/specific-keyword']},
                     {label: 'User Profile',icon: 'pi pi-fw pi-user',routerLink: ['/user-profile']},
                 ]
             },
