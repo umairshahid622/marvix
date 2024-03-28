@@ -2,7 +2,8 @@ import { Component, OnDestroy } from '@angular/core';
 import { AppMainComponent } from './app.main.component';
 import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
+import { AuthserviceService } from './service/authservice.service';
 
 @Component({
     selector: 'app-topbar',
@@ -11,25 +12,13 @@ import {Router} from "@angular/router";
 export class AppTopBarComponent {
 
     items: MenuItem[];
-    search='';
-    constructor(public appMain: AppMainComponent, private r: Router) { }
+    search = '';
+    constructor(public appMain: AppMainComponent, private readonly r: Router, private readonly authService: AuthserviceService) { }
     ngOnInit(): void {
 
     }
 
     logout() {
-        // Remove the 'userId' from localStorage
-        localStorage.removeItem('userId');
-        localStorage.removeItem('access_token');
-
-        // Clear all cookies
-        document.cookie.split(";").forEach((c) => {
-            document.cookie = c
-                .replace(/^ +/, "")
-                .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-        });
-
-        // Navigate to the login page
-        this.r.navigate(['/pages/login']);
+        this.authService.logout()
     }
 }
