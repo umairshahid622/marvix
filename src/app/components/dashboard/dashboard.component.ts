@@ -45,7 +45,8 @@ interface SelectedOption {
     providers: [FilterService]
 })
 export class DashboardComponent implements OnInit {
-    loading = true;
+    loading = false;
+    dataLoading = false;
     userprofile: UserData;
     products: Contract[] = [];
     filteredProducts: Contract[] = [];
@@ -66,11 +67,13 @@ export class DashboardComponent implements OnInit {
         // })
         // this.searchOptions = ['Cpv Codes', 'region']
         // Fetch user data
+        this.loading = true;
+        this.dataLoading = true;
+
         this.options = [
             { name: 'CPV Code', code: 'NY' },
             { name: 'Region', code: 'RM' }
         ];
-        this.loading = true;
         this.http
             .get<UserData>('http://45.85.250.231:8000/api/users/me', {
                 // withCredentials: true,
@@ -83,11 +86,11 @@ export class DashboardComponent implements OnInit {
                     console.log("Dashboard/api/user/me", datauser);
 
                     this.userprofile = datauser;
-                    this.loading = false;
+                    // this.loading = false;
                 },
                 (error) => {
                     console.error('Error fetching user data:', error);
-                    this.loading = false;
+                    // this.loading = false;
                 }
             );
 
