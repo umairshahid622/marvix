@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AppService } from '../../app.service';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
+import { AuthserviceService } from 'src/app/service/authservice.service';
 interface UserData {
     status: string;
     user: {
@@ -109,10 +110,17 @@ export class LoginComponent implements OnInit, OnDestroy {
         private router: Router,
         private http: HttpClient,
         private messageService: MessageService,
+        private authService: AuthserviceService,
         private appService: AppService
-    ) { }
+    ) {
+
+    }
 
     ngOnInit(): void {
+        if (this.authService.isLoggedIn()) {
+            this.router.navigate(['/dashboard']);
+        }
+
         this.config = this.configService.config;
         this.subscription = this.configService.configUpdate$.subscribe(
             (config) => {
@@ -150,7 +158,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                         // Make the API call to get user data
                         this.getUserId();
 
-                        this.router.navigate(['/']);
+                        this.router.navigate(['/dashboard']);
                     } else {
                         console.error('Invalid response format. Missing status or access_token.');
                         this.loading = false;

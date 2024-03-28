@@ -20,6 +20,7 @@ export class AppTopBarComponent {
     logout() {
         // Remove the 'userId' from localStorage
         localStorage.removeItem('userId');
+        localStorage.removeItem('access_token');
 
         // Clear all cookies
         document.cookie.split(";").forEach((c) => {
