@@ -7,8 +7,8 @@
             <h5>AI Recommendations</h5>
             <form class="d-flex flex-wrap justify-content-end  gap-2 my-4" [formGroup]="competitorForm"
                 (ngSubmit)="competitorsSubmit()" #competitorFormRef="ngForm">
-                <p-multiSelect [options]="competitorNames" [(ngModel)]="selectedCompetitorNames"
-                    placeholder="Select Competitors" formControlName="competitor" style="width: 100%;"></p-multiSelect>
+                <p-multiSelect [options]="competitorNames" placeholder="Select Competitors" formControlName="competitor"
+                    style="width: 100%;"></p-multiSelect>
                 <div class="d-flex w-100 justify-content-between">
                     <div>
                         <small

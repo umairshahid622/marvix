@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -106,23 +106,24 @@ import { ProductService } from './service/productservice';
 import { MenuService } from './service/app.menu.service';
 import { ConfigService } from './service/app.config.service';
 import { LoginComponent } from './components/login/login.component';
-import {GMapModule} from "primeng/gmap";
-import {ProgressSpinnerModule} from "primeng/progressspinner";
-import {DragDropModule} from "primeng/dragdrop";
+import { GMapModule } from "primeng/gmap";
+import { ProgressSpinnerModule } from "primeng/progressspinner";
+import { DragDropModule } from "primeng/dragdrop";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import {SignUpComponent} from "./components/login/sign-up/sign-up.component";
+import { SignUpComponent } from "./components/login/sign-up/sign-up.component";
 import { FilterService } from 'primeng/api';
 
 // @ts-ignore
 // @ts-ignore
 // @ts-ignore
-import {TagCloudModule} from "angular-tag-cloud-module";
+import { TagCloudModule } from "angular-tag-cloud-module";
 import { NotifierModule } from 'angular-notifier';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-import {ConfirmationService} from "primeng/api";
+import { ConfirmationService } from "primeng/api";
 import { RecomendationsComponent } from './components/recomendations/recomendations.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { SpecificKeywordsComponent } from './components/specific-keywords/specific-keywords.component';
+import { ErrorInterceptorService } from './service/error-interceptor.service';
 
 // @ts-ignore
 
@@ -250,9 +251,12 @@ import { SpecificKeywordsComponent } from './components/specific-keywords/specif
 
     ],
     providers: [
-        {provide: LocationStrategy, useClass: HashLocationStrategy},
+
+
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
+        { provide: LocationStrategy, useClass: HashLocationStrategy, },
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, MenuService, ConfigService, ConfirmationService
+        PhotoService, ProductService, MenuService, ConfigService, ConfirmationService,
     ],
     bootstrap: [AppComponent]
 })

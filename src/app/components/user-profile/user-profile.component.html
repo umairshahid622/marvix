@@ -7,24 +7,24 @@
         <div class="row">
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
                 <label class="fw-medium" for="companyid">Company Id</label>
-                <input id="companyid" class="form-control m-0" type="text" [placeholder]="userResponse.user.company_id"
+                <input id="companyid" class="form-control m-0" type="text" [placeholder]="userResponse?.user?.company_id"
                     readonly>
             </div>
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
                 <label class="fw-medium" for="companyname">Company Name</label>
                 <input id="companyname" class="form-control m-0" type="text"
-                    [placeholder]="userResponse.user.company_name" readonly>
+                    [placeholder]="userResponse?.user?.company_name" readonly>
             </div>
         </div>
         <div class="row">
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
                 <label class="fw-medium" for="email">Email</label>
-                <input id="email" class="form-control m-0" type="email" [placeholder]="userResponse.user.email"
+                <input id="email" class="form-control m-0" type="email" [placeholder]="userResponse?.user?.email"
                     readonly>
             </div>
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
                 <label class="fw-medium" for="name">Name</label>
-                <input id="name" class="form-control m-0" type="text" [placeholder]="userResponse.user.name" readonly>
+                <input id="name" class="form-control m-0" type="text" [placeholder]="userResponse?.user?.name" readonly>
             </div>
         </div>
         <div class="row">
@@ -32,7 +32,7 @@
                 <label class="fw-medium" for="tenderMinValue">Tender Min Value</label>
                 <div class="d-flex gap-3 ">
                     <input id="tenderMinValue" class="form-control m-0" type="text"
-                        [placeholder]="userResponse.user.tender_minimum_value" readonly>
+                        [placeholder]="userResponse?.user?.tender_minimum_value" readonly>
                     <div class="d-flex gap-2">
                         <button pButton pRipple type="button" icon="pi pi-pencil"
                             class="p-button-rounded p-button-help p-button-outlined"
@@ -47,7 +47,7 @@
                 <label class="fw-medium" for="tenderMaxValue">Tender Max Value</label>
                 <div class="d-flex gap-3">
                     <input id="tenderMaxValue" class="form-control m-0" type="email"
-                        [placeholder]="userResponse.user.tender_maximum_value" readonly>
+                        [placeholder]="userResponse?.user?.tender_maximum_value" readonly>
                     <div class="d-flex gap-2">
                         <button pButton pRipple type="button" icon="pi pi-pencil"
                             class="p-button-rounded p-button-help p-button-outlined"
@@ -64,7 +64,7 @@
                 <label class="fw-medium" for="">CPV Codes</label>
                 <div class="d-flex flex-column flex-md-row gap-2 gap-md-3 align-items-end align-items-md-center">
                     <div class="input-field d-flex flex-wrap align-items-center gap-1">
-                        <div *ngFor="let item of userResponse.user.cpv_codes"
+                        <div *ngFor="let item of userResponse?.user?.cpv_codes"
                             class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
                             {{item}}
                         </div>
@@ -84,8 +84,8 @@
                 <label class="fw-medium" for="">Keywords</label>
                 <div class="d-flex flex-column flex-md-row gap-2 gap-md-3 align-items-end align-items-md-center">
                     <div class="input-field d-flex flex-wrap align-items-center gap-1">
-                        <ng-container *ngIf="userResponse.user.keywords">
-                            <div *ngFor="let item of userResponse.user.keywords"
+                        <ng-container *ngIf="userResponse?.user?.keywords">
+                            <div *ngFor="let item of userResponse?.user?.keywords"
                                 class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
                                 {{item}}
                             </div>
@@ -105,9 +105,9 @@
                 <label class="fw-medium" for="">Competitors</label>
                 <div class="d-flex flex-column flex-md-row gap-2 gap-md-3 align-items-end align-items-md-center">
                     <div class="input-field d-flex flex-wrap align-items-center gap-1">
-                        <div *ngFor="let item of userResponse.user.competitors"
+                        <div *ngFor="let item of userResponse?.user?.competitors"
                             class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
-                            <div *ngIf="userResponse.user.competitors || userResponse.user.competitors.length !==0">
+                            <div *ngIf="userResponse?.user?.competitors || userResponse?.user?.competitors?.length !==0">
                                 {{item}}
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                 <label class="fw-medium" for="">Locations</label>
                 <div class="d-flex flex-column flex-md-row gap-2 gap-md-3 align-items-end align-items-md-center">
                     <div class="input-field d-flex flex-wrap align-items-center gap-1">
-                        <div *ngFor="let item of userResponse.user.location"
+                        <div *ngFor="let item of userResponse?.user?.location"
                             class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
                             {{item}}
                         </div>
@@ -166,7 +166,7 @@
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
                 <label class="fw-medium" for="tenderMinValue">Current Tender Min Value</label>
                 <input id="tenderMinValue" class="form-control m-0" type="text"
-                    [placeholder]="userResponse.user.tender_minimum_value" readonly>
+                    [placeholder]="userResponse?.user?.tender_minimum_value" readonly>
             </div>
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
                 <label class="fw-medium" for="tenderMinValue">Enter Updated Tender Min Value</label>
@@ -214,7 +214,7 @@
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
                 <label class="fw-medium" for="tenderMaxValue">Current Tender Max Value</label>
                 <input id="tenderMaxValue" class="form-control m-0" type="text"
-                    [placeholder]="userResponse.user.tender_maximum_value" readonly>
+                    [placeholder]="userResponse?.user?.tender_maximum_value" readonly>
             </div>
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
                 <label class="fw-medium" for="tenderMaxValue">Enter Updated Tender Max Value</label>
@@ -259,7 +259,7 @@
     <div class="d-flex flex-column gap-1">
         <label for="" class="fw-medium">Current CPV Codes</label>
         <div class="input-field d-flex flex-wrap align-items-center gap-1">
-            <div *ngFor="let item of userResponse.user.cpv_codes" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
+            <div *ngFor="let item of userResponse?.user?.cpv_codes" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
                 {{item}}
             </div>
         </div>
@@ -286,7 +286,7 @@
     <div class="d-flex flex-column gap-1">
         <label for="" class="fw-medium">Current CPV Codes</label>
         <div class="input-field d-flex flex-wrap align-items-center gap-1 rounded-2 ">
-            <div *ngFor="let item of userResponse.user.cpv_codes" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
+            <div *ngFor="let item of userResponse?.user?.cpv_codes" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
                 {{item}}
             </div>
         </div>
@@ -297,7 +297,7 @@
             <select formControlName="deletedCpvCodes" class="form-select default-padding "
                 aria-label="Default select example">
                 <option selected>Open this select menu</option>
-                <option *ngFor="let item of userResponse.user.cpv_codes" [value]="item">{{item}}
+                <option *ngFor="let item of userResponse?.user?.cpv_codes" [value]="item">{{item}}
                 </option>
             </select>
             <!-- <p-chips separator="," placeholder="Enter cpv codes you wanted to delete" required
@@ -386,7 +386,7 @@
     <div class="d-flex flex-column gap-1">
         <label for="" class="fw-medium">Current Keywords</label>
         <div class="input-field d-flex flex-wrap align-items-center gap-1">
-            <div *ngFor="let item of userResponse.user.keywords" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
+            <div *ngFor="let item of userResponse?.user?.keywords" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
                 {{item}}
             </div>
         </div>
@@ -413,7 +413,7 @@
     <div class="d-flex flex-column gap-1">
         <label for="" class="fw-medium">Current Keywords</label>
         <div class="input-field d-flex flex-wrap align-items-center gap-1">
-            <div *ngFor="let item of userResponse.user.keywords" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
+            <div *ngFor="let item of userResponse?.user?.keywords" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
                 {{item}}
             </div>
         </div>
@@ -424,7 +424,7 @@
             <select id="keywords" formControlName="deletedKeywords" class="form-select default-padding "
                 aria-label="Default select example">
                 <option selected>Open this select menu</option>
-                <option *ngFor="let item of userResponse.user.keywords" [value]="item">{{item}}
+                <option *ngFor="let item of userResponse?.user?.keywords" [value]="item">{{item}}
                 </option>
             </select>
         </div>
@@ -448,7 +448,7 @@
     <div class="d-flex flex-column gap-1">
         <label for="" class="fw-medium">Current Competitors</label>
         <div class="input-field d-flex flex-wrap align-items-center gap-1">
-            <div *ngFor="let item of userResponse.user.competitors" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
+            <div *ngFor="let item of userResponse?.user?.competitors" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
                 {{item}}
             </div>
         </div>
@@ -475,7 +475,7 @@
     <div class="d-flex flex-column gap-1">
         <label for="" class="fw-medium">Current Competitors</label>
         <div class="input-field d-flex flex-wrap align-items-center gap-1">
-            <div *ngFor="let item of userResponse.user.competitors" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
+            <div *ngFor="let item of userResponse?.user?.competitors" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
                 {{item}}
             </div>
         </div>
@@ -486,7 +486,7 @@
             <select id="keywords" formControlName="deletedCompetitors" class="form-select default-padding "
                 aria-label="Default select example">
                 <option selected>Open this select menu</option>
-                <option *ngFor="let item of userResponse.user.competitors" [value]="item">{{item}}
+                <option *ngFor="let item of userResponse?.user?.competitors" [value]="item">{{item}}
                 </option>
             </select>
             <!-- <p-chips separator="," placeholder="Enter competitors you wanted to delete" required
