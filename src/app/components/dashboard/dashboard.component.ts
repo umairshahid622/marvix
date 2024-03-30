@@ -71,8 +71,8 @@ export class DashboardComponent implements OnInit {
         this.dataLoading = true;
 
         this.options = [
-            { name: 'CPV Code', code: 'NY' },
-            { name: 'Region', code: 'RM' }
+            { name: 'CPV Code', code: 'cpvCode' },
+            { name: 'Region', code: 'region' }
         ];
         this.http
             .get<UserData>('http://45.85.250.231:8000/api/users/me', {
