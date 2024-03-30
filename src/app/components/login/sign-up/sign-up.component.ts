@@ -19,6 +19,7 @@ import { Message } from 'primeng/api';
     selector: 'app-sign-up',
     templateUrl: './sign-up.component.html',
     styleUrls: ['./sign-up.component.scss'],
+    providers: [MessageService]
 })
 export class SignUpComponent implements OnInit {
     constructor(
@@ -26,7 +27,7 @@ export class SignUpComponent implements OnInit {
         private r: Router,
         private formBuilder: FormBuilder,
         private http: HttpClient,
-        // private messageService: MessageService
+        private messageService: MessageService
     ) { }
     ngOnInit(): void {
 
@@ -84,11 +85,6 @@ export class SignUpComponent implements OnInit {
         tenderMinValue: new FormControl(),
         tenderMaxValue: new FormControl(),
     });
-    ngOnDestroy(): void {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
-    }
 
     toggleShowPassword() {
         this.showPassword = !this.showPassword;
@@ -116,47 +112,6 @@ export class SignUpComponent implements OnInit {
         this.r.navigate(['/']);
     }
 
-    signUp() {
-        if (this.registerForm.invalid || !this.passwordMatched()) {
-            console.log("Invalid Form");
-            return;
-        }
-
-        const user = {
-            company_id: this.registerForm.value.companyId,
-            company_name: this.registerForm.value.comapanyName,
-            keywords: this.registerForm.value.keywords,
-            recommended_tender_minimum_value: 10,
-            tender_minimum_value: this.registerForm.value.tenderMinValue,
-            tender_maximum_value: this.registerForm.value.tenderMaxValue,
-            cpv_codes: this.registerForm.value.cpvCodes,
-            location: this.registerForm.value.locations,
-            competitors: this.registerForm.value.competitors,
-            name: this.registerForm.value.name,
-            email: this.registerForm.value.email,
-            password: this.registerForm.value.password,
-            passwordConfirm: this.registerForm.value.confirmPassword,
-        };
-        console.log(user);
-
-        this.http
-            .post(
-                'http://45.85.250.231:8000/api/auth/register',
-                user
-            )
-            .subscribe((response) => {
-                console.log("Response", response);
-                // this.registerSucessfullMessage()
-                this.r.navigate(['/pages/login'])
-            }, (err) => {
-                console.log(err);
-
-            });
-    }
-    companyIdBlur(event: any) {
-        console.log(event);
-    }
-
     passwordMatched() {
         const password = this.registerForm.get('password').value;
         const confirmPassword = this.registerForm.get('confirmPassword').value;
@@ -177,5 +132,62 @@ export class SignUpComponent implements OnInit {
 
     goToLoginPage() {
         this.r.navigate(['/pages/login'])
+    }
+
+    tenderValueValidator(): boolean {
+        // let recommendedValue = 4500000;
+        let minValue: number = this.registerForm.get('tenderMinValue').value;
+        let maxValue: number = this.registerForm.get('tenderMaxValue').value;
+
+        if (maxValue <= minValue) {
+            return false;
+        }
+        return true;
+    }
+
+    signUp() {
+        if (this.registerForm.invalid || !this.passwordMatched() || !this.tenderValueValidator()) {
+            console.log("Invalid Form");
+            return;
+        }
+
+        const payLoad = {
+            company_id: this.registerForm.value.companyId,
+            company_name: this.registerForm.value.comapanyName,
+            keywords: this.registerForm.value.keywords,
+            recommended_tender_minimum_value: 10,
+            tender_minimum_value: this.registerForm.value.tenderMinValue,
+            tender_maximum_value: this.registerForm.value.tenderMaxValue,
+            cpv_codes: this.registerForm.value.cpvCodes,
+            location: this.registerForm.value.locations,
+            competitors: this.registerForm.value.competitors,
+            name: this.registerForm.value.name,
+            email: this.registerForm.value.email,
+            password: this.registerForm.value.password,
+            passwordConfirm: this.registerForm.value.confirmPassword,
+        };
+        this.http
+            .post(
+                'http://45.85.250.231:8000/api/auth/register',
+                payLoad
+            )
+            .subscribe((response) => {
+                console.log("Response", response);
+                this.messageService.add({ key: 'tc', severity: 'success', summary: 'success', detail: 'Account created successfully' });
+                this.r.navigate(['/pages/login'])
+            }, (err) => {
+                console.log(err);
+
+            });
+    }
+    companyIdBlur(event: any) {
+        console.log(event);
+    }
+
+
+    ngOnDestroy(): void {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 }
