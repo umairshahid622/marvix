@@ -98,7 +98,7 @@ export class RecomendationsComponent implements OnInit {
 
     ngOnInit(): void {
         this.competitorForm = this.formBuilder.group({
-            competitor: [[], Validators.required]
+            competitor: [["ABCD", "EFGG", "IJKLM"], Validators.required]
         })
 
         this.recommendationRejectForm = this.formBuilder.group({
@@ -116,10 +116,28 @@ export class RecomendationsComponent implements OnInit {
             })
             .subscribe(
                 (datauser) => {
-                    console.log("User", datauser);
+                    // console.log("User", datauser);
                     this.user = datauser
                     this.competitorNames = datauser?.user?.competitors
                     console.log("competitors", this.competitorNames);
+                    this.competitorForm.value.competitor.push(...this.competitorNames)
+                    this.competitorNames.forEach((code: string) => {
+                        this.http.get(`http://45.85.250.231:8000/api/posts/get_data_by_competitor_name?Competitor%20Name=${code}`, {
+                            headers: {
+                                'Authorization': `Bearer ${this.accessToken}`,
+                            }
+                        }).subscribe((dataByCompetitorName: DataByCompetitorName) => {
+                            if (dataByCompetitorName.total_count !== 0) {
+                                console.log(dataByCompetitorName);
+                                this.dataByCompetitorName.push({ ...dataByCompetitorName, isRecomendationAccepted: false, isRecommendationRejected: false })
+                            }
+                        }, (errr) => {
+                            console.log("Error In Fetching competitorNamese", errr);
+                        }, () => {
+                        },
+                        )
+                    })
+
                     // this.http
                     //     .get<any[]>("http://45.85.250.231:8000/api/posts/get_data_by_user_id/api_call?skip=0&limit=10", {
                     //         headers: {
