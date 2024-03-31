@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Table } from 'primeng/table';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FilterService } from 'primeng/api';
+import { FilterService, MessageService } from 'primeng/api';
 
 interface UserData {
     status: string;
@@ -42,7 +42,7 @@ interface SelectedOption {
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
-    providers: [FilterService]
+    providers: [FilterService, MessageService]
 })
 export class DashboardComponent implements OnInit {
     loading = false;
@@ -53,10 +53,11 @@ export class DashboardComponent implements OnInit {
     userId: string | null = localStorage.getItem('userId');
     accessToken: string | null = localStorage.getItem('access_token');
     recomendationFilter: string = ''; // New property for filter
+    isCralwerLoading: boolean = false;
 
     @ViewChild('filter') filter!: Table;
 
-    constructor(private http: HttpClient, private formBuilder: FormBuilder) { }
+    constructor(private http: HttpClient, private formBuilder: FormBuilder, private readonly messageService: MessageService) { }
 
 
 
@@ -183,5 +184,24 @@ export class DashboardComponent implements OnInit {
         console.log(this.recomendationFilter);
         const regex = new RegExp(this.recomendationFilter, 'gi');
         return text.replace(regex, match => `<span class="highlight">${match}</span>`);
+    }
+
+    updateCrawler() {
+        console.log("Update Crawler");
+        this.isCralwerLoading = true;
+        this.http
+            .post('http://45.85.250.231:8000/api/posts/run_crawler_from_user_data', {}, {
+                headers: {
+                    Authorization: `Bearer ${this.accessToken}`,
+                },
+            }).subscribe((response) => {
+                console.log(response);
+                this.isCralwerLoading = false
+                this.messageService.add({ key: 'tc', severity: 'success', summary: 'Success', detail: response[0].message });
+            }, (err) => {
+                console.log(err);
+                this.isCralwerLoading = false
+                this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: "Couldn't processed data" });
+            })
     }
 }

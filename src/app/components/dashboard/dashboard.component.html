@@ -1,10 +1,23 @@
+<p-toast position="top-center" key="tc"></p-toast>
 <div class="grid">
     <div class="col-md-12 d-flex justify-content-center" *ngIf="loading" style="padding-top: 150px;">
         <div class="loader"></div>
     </div>
-    <div class="alert alert-primary col-sm-12 col-xl-12 col-md-12" *ngIf="!loading">
-        <span>Welcome {{ userprofile?.user?.name }}, This is your Tender Dashboard</span>
-        <h1>{{filteredProducts?.total_count}}</h1>
+    <div class="bg-light  px-2 py-2 d-flex align-items-center justify-content-between w-100 rounded-3 m-2 "
+        *ngIf="!loading">
+        <p class="p-0 m-0 fw-bold ">Welcome {{ userprofile?.user?.name }}, This is your Tender Dashboard</p>
+        <button type="button"
+            class="btn btn-primary min-w-120 min-h-40 d-flex justify-content-center align-items-center"
+            [disabled]="isCralwerLoading"
+            (click)="updateCrawler()">
+            <div *ngIf="isCralwerLoading" class="crawlerLoading"></div>
+            <p class="fw-normal  ">
+                {{!isCralwerLoading? 'Update Data':''}}
+            </p>
+        </button>
+        <!-- <button pButton [disabled]="isCralwerLoading" [label]="!isCralwerLoading&&'Update Data'" (click)="updateCrawler()">
+            <div *ngIf="isCralwerLoading" class="crawlerLoading"></div>
+        </button> -->
     </div>
 
     <div class="col-12 xl:col-12" *ngIf="!loading">

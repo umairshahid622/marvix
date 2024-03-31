@@ -297,6 +297,17 @@
     animation: spin 2s linear infinite;
 }
 
+.crawlerLoading {
+    border: 2px solid white;
+    border-radius: 50%;
+    border-top: 2px solid slateblue;
+    border-bottom: 2px solid slateblue;
+    width: 25px;
+    height: 25px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
 @-webkit-keyframes spin {
     0% {
         -webkit-transform: rotate(0deg);
@@ -448,6 +459,14 @@
 :host::ng-deep p-multiselect .p-multiselect {
     width: 100% !important;
 }
-:host::ng-deep p-multiselect .p-element{
+
+:host::ng-deep p-multiselect .p-element {
     width: 100% !important;
+}
+
+.min-w-120 {
+    min-width: 120px;
+}
+.min-h-40{
+    min-height: 40px;
 }

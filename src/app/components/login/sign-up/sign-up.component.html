@@ -230,8 +230,9 @@
                             Maximum Tinder Value is required
                         </small>
                         <small *ngIf="
-                                !this.tenderValueValidator() &&registerFormRef.submitted
-                            
+                                !this.tenderValueValidator() && (this.registerForm.get('tenderMaxValue')
+                                    .dirty ||
+                                    registerFormRef.submitted)
                             " class="text-danger">
                             Tender max value should be less then tender min value
                         </small>
@@ -240,7 +241,7 @@
                 <div class="d-flex align-items-center  mt-4">
                     <h1></h1>
                     <div class="justify-self-center flex-grow-1 text-center">
-                        Already have a account? <a class="link-primary" (click)="goToLoginPage()">Login</a>
+                        Already have a account? <a class="link-primary fw-bold " (click)="goToLoginPage()">Login</a>
                     </div>
                     <button type="submit" class="btn btn-lg btn-primary fw-medium justify-self-end">
                         Register

@@ -14,6 +14,7 @@ import {
 } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { Message } from 'primeng/api';
+import { AuthserviceService } from 'src/app/service/authservice.service';
 
 @Component({
     selector: 'app-sign-up',
@@ -27,10 +28,13 @@ export class SignUpComponent implements OnInit {
         private r: Router,
         private formBuilder: FormBuilder,
         private http: HttpClient,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private authService: AuthserviceService
     ) { }
     ngOnInit(): void {
-
+        if (this.authService.isLoggedIn()) {
+            this.r.navigate(['/dashboard']);
+        }
 
         this.showPassword = false;
         this.showConfirmPassword = false;
@@ -166,19 +170,21 @@ export class SignUpComponent implements OnInit {
             password: this.registerForm.value.password,
             passwordConfirm: this.registerForm.value.confirmPassword,
         };
-        this.http
-            .post(
-                'http://45.85.250.231:8000/api/auth/register',
-                payLoad
-            )
-            .subscribe((response) => {
-                console.log("Response", response);
-                this.messageService.add({ key: 'tc', severity: 'success', summary: 'success', detail: 'Account created successfully' });
-                this.r.navigate(['/pages/login'])
-            }, (err) => {
-                console.log(err);
+        console.log(payLoad);
 
-            });
+        // this.http
+        //     .post(
+        //         'http://45.85.250.231:8000/api/auth/register',
+        //         payLoad
+        //     )
+        //     .subscribe((response) => {
+        //         console.log("Response", response);
+        //         this.messageService.add({ key: 'tc', severity: 'success', summary: 'success', detail: 'Account created successfully' });
+        //         this.r.navigate(['/pages/login'])
+        //     }, (err) => {
+        //         console.log(err);
+
+        //     });
     }
     companyIdBlur(event: any) {
         console.log(event);
