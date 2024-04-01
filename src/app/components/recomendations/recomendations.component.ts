@@ -78,7 +78,7 @@ interface DataByCompetitorName {
 })
 export class RecomendationsComponent implements OnInit {
     // customers1: any;
-    loading = true;
+    loading: boolean = false;
     user: any[];
     competitorNames: any[]
     selectedCompetitorNames: any[]
@@ -88,7 +88,6 @@ export class RecomendationsComponent implements OnInit {
     dataByCompetitorName: DataByCompetitorName[] = []
 
     constructor(private http: HttpClient, private formBuilder: FormBuilder, private messageService: MessageService) {
-        this.loading = true;
         this.fetchRecommendations();
     }
     competitorForm: FormGroup = new FormGroup({
@@ -98,7 +97,7 @@ export class RecomendationsComponent implements OnInit {
 
     ngOnInit(): void {
         this.competitorForm = this.formBuilder.group({
-            competitor: [["ABCD", "EFGG", "IJKLM"], Validators.required]
+            competitor: [[], Validators.required]
         })
 
         this.recommendationRejectForm = this.formBuilder.group({
@@ -107,6 +106,7 @@ export class RecomendationsComponent implements OnInit {
     }
 
     fetchRecommendations(): void {
+        this.loading = true
         this.http
             .get<any>('http://45.85.250.231:8000/api/users/me', {
                 // withCredentials: true,
@@ -130,6 +130,7 @@ export class RecomendationsComponent implements OnInit {
                             if (dataByCompetitorName.total_count !== 0) {
                                 console.log(dataByCompetitorName);
                                 this.dataByCompetitorName.push({ ...dataByCompetitorName, isRecomendationAccepted: false, isRecommendationRejected: false })
+                                this.loading = false;
                             }
                         }, (errr) => {
                             console.log("Error In Fetching competitorNamese", errr);
@@ -193,9 +194,9 @@ export class RecomendationsComponent implements OnInit {
         if (this.competitorForm.invalid) {
             // console.log("competitorForm Is Invalid", this.competitorForm.getError('required'));
             console.log("competitorForm Is Invalid", this.competitorForm.get('competitor').hasError('required'));
-
             return
         }
+        this.loading = true
 
         this.dataByCompetitorName = []
         var data_by_competitor_name: number = 0;
@@ -211,7 +212,12 @@ export class RecomendationsComponent implements OnInit {
                     console.log(dataByCompetitorName);
                     this.dataByCompetitorName.push({ ...dataByCompetitorName, isRecomendationAccepted: false, isRecommendationRejected: false })
                 }
-            }, (errr) => { }, () => {
+
+            }, (errr) => {
+                console.log(errr);
+
+            }, () => {
+                this.loading = false;
             },
             )
 

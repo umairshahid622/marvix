@@ -1,10 +1,13 @@
 <!-- recomendations.component.html -->
 <p-toast position="top-center" key="tc"></p-toast>
 
+
+
 <div class="grid">
     <div class="col-12">
         <div class="card">
             <h5>AI Recommendations</h5>
+
             <form class="d-flex flex-wrap justify-content-end  gap-2 my-4" [formGroup]="competitorForm"
                 (ngSubmit)="competitorsSubmit()" #competitorFormRef="ngForm">
                 <p-multiSelect [options]="competitorNames" placeholder="Select Competitors" formControlName="competitor"
@@ -12,15 +15,17 @@
                 <div class="d-flex w-100 justify-content-between">
                     <div>
                         <small
-                            *ngIf="competitorForm.get('competitor').hasError('required') && competitorFormRef.submitted"
+                            *ngIf="(competitorForm.get('competitor').value?.length ===0 && competitorFormRef.submitted)"
                             class="text-danger fw-bold ">This
                             field is required!</small>
                     </div>
                     <button pButton pRipple type="submit" label="search" class="p-button-outlined"></button>
                 </div>
             </form>
-
-            <p-table #dt1 [value]="dataByCompetitorName" dataKey="id" [rows]="10" [rowHover]="true"
+            <div class="w-100" *ngIf="loading">
+                <div class="loader m-auto "></div>
+            </div>
+            <p-table *ngIf="!loading" #dt1 [value]="dataByCompetitorName" dataKey="id" [rows]="10" [rowHover]="true"
                 styleClass="p-datatable-gridlines" [paginator]="true"
                 [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll">
                 <!-- <ng-template pTemplate="caption">
@@ -34,6 +39,7 @@
                         </span>
                     </div>
                 </ng-template> -->
+
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="min-width: 12rem">
