@@ -49,6 +49,8 @@ export class UserProfileComponent implements OnInit {
   accessToken: string;
   userResponse: User;
   loading: boolean = false;
+  valueLoading: boolean = false;
+
   ngOnInit(): void {
     this.loading = true
     this.accessToken = localStorage.getItem('access_token')
@@ -223,6 +225,10 @@ export class UserProfileComponent implements OnInit {
 
 
   onTenderMinValueUpdateSubmit() {
+    if (this.tenderMinValueForm.invalid) {
+      return;
+    }
+    this.valueLoading = true;
     let tenderMinValue: number = this.tenderMinValueForm.value.tenderMinValue
     console.log("Tender Min Value", tenderMinValue);
     this.http.put('http://45.85.250.231:8000/api/users/update_user_tender_minimum_value', {}, {
@@ -233,16 +239,17 @@ export class UserProfileComponent implements OnInit {
     }).subscribe((data) => {
       console.log("Response", data);
       this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Tender Min Value Updated " });
+      window.location.reload()
     }, (err) => {
       console.log("Error", err);
-
+      this.valueLoading = false;
     }, () => {
-      window.location.reload()
     })
 
   }
 
   onDeleteTenderMinValue() {
+    this.valueLoading = true;
     this.http.delete('http://45.85.250.231:8000/api/users/delete_tender_minimum_value', {
       headers: {
         'Authorization': `Bearer ${this.accessToken}`,
@@ -250,15 +257,19 @@ export class UserProfileComponent implements OnInit {
     }).subscribe((data) => {
       console.log("Response", data);
       this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Tender Min Value Deleted " });
+      window.location.reload()
     }, (err) => {
       console.log("Error", err);
-
+      this.valueLoading = false;
     }, () => {
-      window.location.reload()
     })
   }
 
   onTenderMaxValueUpdateSubmit() {
+    if (this.tenderMaxValueForm.invalid) {
+      return;
+    }
+    this.valueLoading = true;
     let tenderMaxValue: number = this.tenderMaxValueForm.value.tenderMaxValue
     console.log("Tender Max Value", tenderMaxValue);
     this.http.put('http://45.85.250.231:8000/api/users/update_user_tender_maximum_value', {}, {
@@ -272,17 +283,18 @@ export class UserProfileComponent implements OnInit {
     }).subscribe((data) => {
       console.log("Response", data);
       this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Tender Max Value Updated " });
+      window.location.reload()
     }, (err) => {
       console.log("Error", err);
-
+      this.valueLoading = false;
     }, () => {
-      window.location.reload()
     }
     )
 
   }
 
   onDeleteTenderMaxValue() {
+    this.valueLoading = true;
     this.http.delete('http://45.85.250.231:8000/api/users/delete_tender_maximum_value', {
       headers: {
         'Authorization': `Bearer ${this.accessToken}`,
@@ -290,23 +302,24 @@ export class UserProfileComponent implements OnInit {
     }).subscribe((data) => {
       console.log("Response", data);
       this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Tender Max Value Deleted " });
+      window.location.reload()
     }, (err) => {
       console.log("Error", err);
-
+      this.valueLoading = false;
     }, () => {
-      window.location.reload()
     })
   }
 
 
   onUpdateCpvCodesSubmit() {
+    if (this.updateCpvCodesForm.invalid) {
+      return;
+    }
+    this.valueLoading = true;
     let updatedCpvCodes: string[] = this.updateCpvCodesForm.value.updatedCpvCodes
     console.log("CPV Codes", updatedCpvCodes);
-    let body = updatedCpvCodes.map((code) => {
-      return code.toString()
-    })
     this.http.put('http://45.85.250.231:8000/api/users/update_user_cpv_codes',
-      body, {
+      updatedCpvCodes, {
       headers: {
         'Authorization': `Bearer ${this.accessToken}`,
       }
@@ -314,16 +327,20 @@ export class UserProfileComponent implements OnInit {
       (res) => {
         console.log("Response", res);
         this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "CpvCode Added " });
+        window.location.reload()
       }, (err) => {
         console.log("Error", err);
+        this.valueLoading = false;
       },
       () => {
-        this.cpv_codes_update_visible = false
-        window.location.reload()
       }
     )
   }
   onDeleteCpvCodesSubmit() {
+    if (this.deleteCpvCodesForm.invalid) {
+      return;
+    }
+    this.valueLoading = true;
     let deletedCpvCode: string = this.deleteCpvCodesForm.value.deletedCpvCodes
     console.log("Deleted CPV Code", deletedCpvCode);
     this.http.delete('http://45.85.250.231:8000/api/users/delete_cpv_code', {
@@ -336,10 +353,11 @@ export class UserProfileComponent implements OnInit {
     }).subscribe((res) => {
       console.log(res);
       this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "CpvCode Deleted " });
+      window.location.reload()
     }, (err) => {
       console.log(err);
+      this.valueLoading = false;
     }, () => {
-      window.location.reload()
     })
 
   }
@@ -355,6 +373,10 @@ export class UserProfileComponent implements OnInit {
   // }
 
   onUpdateKeywordsSubmit() {
+    if (this.updateKeywordsForm.invalid) {
+      return
+    }
+    this.valueLoading = true;
     let updatedKeywords: string[] = this.updateKeywordsForm.value.updatedKeywords
     console.log("keywords", updatedKeywords);
     this.http.put('http://45.85.250.231:8000/api/users/update_user_keywords',
@@ -367,16 +389,20 @@ export class UserProfileComponent implements OnInit {
         (res) => {
           console.log("Response", res);
           this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Keyword Added " });
+          window.location.reload()
         }, (err) => {
           console.log("Error", err);
+          this.valueLoading = false;
         },
         () => {
-          this.keywords_update_visible = false;
-          window.location.reload()
         }
       )
   }
   onDeleteKeywordsSubmit() {
+    if (this.deleteKeywordsForm.invalid) {
+      return;
+    }
+    this.valueLoading = true;
     let deletedKeyword: string = this.deleteKeywordsForm.value.deletedKeywords;
     console.log("Deleted keywords", deletedKeyword);
     this.http.delete('http://45.85.250.231:8000/api/users/delete_keywords', {
@@ -389,15 +415,20 @@ export class UserProfileComponent implements OnInit {
     }).subscribe((res) => {
       console.log(res);
       this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Keyword Deleted" });
+      window.location.reload()
     }, (err) => {
       console.log(err);
+      this.valueLoading = false;
     }, () => {
-      window.location.reload()
     }
     )
   }
 
   onUpdateCompetitorsSubmit() {
+    if (this.updateCompetitorsForm.invalid) {
+      return;
+    }
+    this.valueLoading = true;
     let updatedCompetitors: string[] = this.updateCompetitorsForm.value.updatedCompetitors
     console.log("Competitors", updatedCompetitors);
     this.http.put('http://45.85.250.231:8000/api/users/update_user_competitor_names',
@@ -409,15 +440,21 @@ export class UserProfileComponent implements OnInit {
       (res) => {
         console.log("Response", res);
         this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Competitors Added" });
+        window.location.reload()
       }, (err) => {
         console.log("Error", err);
+        this.valueLoading = false;
       },
       () => {
-        window.location.reload()
       }
     )
   }
   onDeleteCompetitorsSubmit() {
+    if (this.deleteCompetitorsForm.invalid) {
+      console.log("Invalid On Del Comp");
+      return;
+    }
+    this.valueLoading = true;
     let deletedCompetitor: string = this.deleteCompetitorsForm.value.deletedCompetitors;
     console.log("Deleted Competitors", deletedCompetitor);
     this.http.delete('http://45.85.250.231:8000/api/users/delete_competitor_name',
@@ -432,10 +469,11 @@ export class UserProfileComponent implements OnInit {
         (res) => {
           console.log("onDeleteCompetitorsSubmitResponse", res);
           this.messageService.add({ key: 'tc', severity: "success", summary: "success", detail: "Competitor Deleted" });
+          window.location.reload()
         }, (err) => {
           console.log("onDeleteCompetitorsSubmitError", err);
+          this.valueLoading = false;
         }, () => {
-          window.location.reload()
         }
       )
   }

@@ -7,8 +7,8 @@
         <div class="row">
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
                 <label class="fw-medium" for="companyid">Company Id</label>
-                <input id="companyid" class="form-control m-0" type="text" [placeholder]="userResponse?.user?.company_id"
-                    readonly>
+                <input id="companyid" class="form-control m-0" type="text"
+                    [placeholder]="userResponse?.user?.company_id" readonly>
             </div>
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
                 <label class="fw-medium" for="companyname">Company Name</label>
@@ -107,7 +107,8 @@
                     <div class="input-field d-flex flex-wrap align-items-center gap-1">
                         <div *ngFor="let item of userResponse?.user?.competitors"
                             class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
-                            <div *ngIf="userResponse?.user?.competitors || userResponse?.user?.competitors?.length !==0">
+                            <div
+                                *ngIf="userResponse?.user?.competitors || userResponse?.user?.competitors?.length !==0">
                                 {{item}}
                             </div>
                         </div>
@@ -158,7 +159,7 @@
     [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
-            <span class="font-bold white-space-nowrap">Umar Awan</span>
+            <span class="font-bold white-space-nowrap">{{userResponse?.user?.name}}</span>
         </div>
     </ng-template>
     <form action="" [formGroup]="tenderMinValueForm" (ngSubmit)="onTenderMinValueUpdateSubmit()">
@@ -174,8 +175,10 @@
                     formControlName="tenderMinValue" min="0">
             </div>
         </div>
-        <div class="mt-2 d-flex justify-content-end ">
-            <button pButton pRipple type="submit" icon="pi pi-pencil" label="Update"></button>
+        <div class="mt-2 d-flex justify-content-end align-items-center ">
+            <div *ngIf="valueLoading" class="valueLoader"></div>
+            <button *ngIf="!valueLoading" pButton pRipple type="submit" icon="pi pi-pencil" label="Update">
+            </button>
         </div>
     </form>
 </p-dialog>
@@ -185,7 +188,7 @@
     [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
-            <span class="font-bold white-space-nowrap">Umar Awan</span>
+            <span class="font-bold white-space-nowrap">{{userResponse?.user?.name}}</span>
         </div>
     </ng-template>
     <form action="" (ngSubmit)="onDeleteTenderMinValue()">
@@ -193,8 +196,10 @@
             <i class="pi pi-exclamation-triangle" style="font-size: 2rem"></i>
             <p class="m-0 fw-medium ">Are you sure you wanted to delete tender min value?</p>
         </div>
-        <div class="mt-2 d-flex justify-content-end ">
-            <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
+        <div class="mt-2 d-flex justify-content-end align-items-center ">
+            <div *ngIf="valueLoading" class="valueLoader"></div>
+            <button *ngIf="!valueLoading" pButton pRipple type="submit" icon="pi pi-times" label="Delete"
+                class="p-button-danger"></button>
         </div>
     </form>
 </p-dialog>
@@ -206,7 +211,7 @@
     [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
-            <span class="font-bold white-space-nowrap">Amy Elsner</span>
+            <span class="font-bold white-space-nowrap">{{userResponse?.user?.name}}</span>
         </div>
     </ng-template>
     <form action="" [formGroup]="tenderMaxValueForm" (ngSubmit)="onTenderMaxValueUpdateSubmit()">
@@ -222,8 +227,9 @@
                     placeholder="Enter New Tender Max Value" formControlName="tenderMaxValue">
             </div>
         </div>
-        <div class="mt-2 d-flex justify-content-end ">
-            <button pButton pRipple type="submit" icon="pi pi-pencil" label="Update"></button>
+        <div class="mt-2 d-flex justify-content-end align-items-center ">
+            <div *ngIf="valueLoading" class="valueLoader"></div>
+            <button *ngIf="!valueLoading" pButton pRipple type="submit" icon="pi pi-pencil" label="Update"></button>
         </div>
     </form>
 </p-dialog>
@@ -232,7 +238,7 @@
     [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
-            <span class="font-bold white-space-nowrap">Umar Awan</span>
+            <span class="font-bold white-space-nowrap">{{userResponse?.user?.name}}</span>
         </div>
     </ng-template>
     <form action="" (ngSubmit)="onDeleteTenderMaxValue()">
@@ -240,8 +246,9 @@
             <i class="pi pi-exclamation-triangle" style="font-size: 2rem"></i>
             <p class="m-0 fw-medium ">Are you sure you wanted to delete tender max value?</p>
         </div>
-        <div class="mt-2 d-flex justify-content-end ">
-            <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
+        <div class="mt-2 d-flex justify-content-end align-items-center ">
+            <div *ngIf="valueLoading" class="valueLoader"></div>
+            <button *ngIf="!valueLoading" pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
         </div>
     </form>
 </p-dialog>
@@ -253,7 +260,7 @@
     [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
-            <span class="font-bold white-space-nowrap">Umar Awan</span>
+            <span class="font-bold white-space-nowrap">{{userResponse?.user?.name}}</span>
         </div>
     </ng-template>
     <div class="d-flex flex-column gap-1">
@@ -270,8 +277,10 @@
             <p-chips separator="," placeholder="Enter cpv codes you wanted to add" required
                 formControlName="updatedCpvCodes"></p-chips>
         </div>
-        <div class="mt-3 d-flex justify-content-end ">
-            <button pButton pRipple type="submit" icon="pi pi-plus" label="Add" class=""></button>
+        <div class="mt-3 d-flex justify-content-end align-items-center ">
+            <div *ngIf="valueLoading" class="valueLoader"></div>
+            <button *ngIf="!valueLoading" pButton pRipple type="submit" icon="pi pi-plus" label="Add" class=""></button>
+            
         </div>
     </form>
 </p-dialog>
@@ -280,7 +289,7 @@
     [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
-            <span class="font-bold white-space-nowrap">Umar Awan</span>
+            <span class="font-bold white-space-nowrap">{{userResponse?.user?.name}}</span>
         </div>
     </ng-template>
     <div class="d-flex flex-column gap-1">
@@ -303,8 +312,10 @@
             <!-- <p-chips separator="," placeholder="Enter cpv codes you wanted to delete" required
                 formControlName="deletedCpvCodes"></p-chips> -->
         </div>
-        <div class="mt-3 d-flex justify-content-end ">
-            <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
+        <div class="mt-3 d-flex justify-content-end align-items-center ">
+            <div *ngIf="valueLoading" class="valueLoader"></div>
+            <button *ngIf="!valueLoading" pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
+            
         </div>
     </form>
 </p-dialog>
@@ -317,7 +328,7 @@
     [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
-            <span class="font-bold white-space-nowrap">Umar Awan</span>
+            <span class="font-bold white-space-nowrap">{{userResponse?.user?.name}}</span>
         </div>
     </ng-template>
     <div class="d-flex flex-column gap-1">
@@ -344,7 +355,7 @@
     [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
-            <span class="font-bold white-space-nowrap">Umar Awan</span>
+            <span class="font-bold white-space-nowrap">{{userResponse?.user?.name}}</span>
         </div>
     </ng-template>
     <div class="d-flex flex-column gap-1">
@@ -380,7 +391,7 @@
     [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
-            <span class="font-bold white-space-nowrap">Umar Awan</span>
+            <span class="font-bold white-space-nowrap">{{userResponse?.user?.name}}</span>
         </div>
     </ng-template>
     <div class="d-flex flex-column gap-1">
@@ -397,8 +408,9 @@
             <p-chips separator="," placeholder="Enter keywords you wanted to add" required
                 formControlName="updatedKeywords"></p-chips>
         </div>
-        <div class="mt-3 d-flex justify-content-end ">
-            <button pButton pRipple type="submit" icon="pi pi-plus" label="Add" class=""></button>
+        <div class="mt-3 d-flex justify-content-end align-items-center ">
+            <div *ngIf="valueLoading" class="valueLoader"></div>
+            <button *ngIf="!valueLoading" pButton pRipple type="submit" icon="pi pi-plus" label="Add" class=""></button>
         </div>
     </form>
 </p-dialog>
@@ -407,7 +419,7 @@
     [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
-            <span class="font-bold white-space-nowrap">Umar Awan</span>
+            <span class="font-bold white-space-nowrap">{{userResponse?.user?.name}}</span>
         </div>
     </ng-template>
     <div class="d-flex flex-column gap-1">
@@ -428,8 +440,9 @@
                 </option>
             </select>
         </div>
-        <div class="mt-3 d-flex justify-content-end ">
-            <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
+        <div class="mt-3 d-flex justify-content-end align-items-center ">
+            <div *ngIf="valueLoading" class="valueLoader"></div>
+            <button *ngIf="!valueLoading" pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
         </div>
     </form>
 </p-dialog>
@@ -442,13 +455,14 @@
     [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
-            <span class="font-bold white-space-nowrap">Umar Awan</span>
+            <span class="font-bold white-space-nowrap">{{userResponse?.user?.name}}</span>
         </div>
     </ng-template>
     <div class="d-flex flex-column gap-1">
         <label for="" class="fw-medium">Current Competitors</label>
         <div class="input-field d-flex flex-wrap align-items-center gap-1">
-            <div *ngFor="let item of userResponse?.user?.competitors" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
+            <div *ngFor="let item of userResponse?.user?.competitors"
+                class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
                 {{item}}
             </div>
         </div>
@@ -459,8 +473,9 @@
             <p-chips separator="," placeholder="Enter competitors you wanted to add" required
                 formControlName="updatedCompetitors"></p-chips>
         </div>
-        <div class="mt-3 d-flex justify-content-end ">
-            <button pButton pRipple type="submit" icon="pi pi-plus" label="Add" class=""></button>
+        <div class="mt-3 d-flex justify-content-end align-items-center ">
+            <div *ngIf="valueLoading" class="valueLoader"></div>
+            <button *ngIf="!valueLoading" pButton pRipple type="submit" icon="pi pi-plus" label="Add" class=""></button>
         </div>
     </form>
 </p-dialog>
@@ -469,13 +484,14 @@
     [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
-            <span class="font-bold white-space-nowrap">Umar Awan</span>
+            <span class="font-bold white-space-nowrap">{{userResponse?.user?.name}}</span>
         </div>
     </ng-template>
     <div class="d-flex flex-column gap-1">
         <label for="" class="fw-medium">Current Competitors</label>
         <div class="input-field d-flex flex-wrap align-items-center gap-1">
-            <div *ngFor="let item of userResponse?.user?.competitors" class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
+            <div *ngFor="let item of userResponse?.user?.competitors"
+                class="bg-light-blue px-3 py-1 rounded-1 fw-medium">
                 {{item}}
             </div>
         </div>
@@ -492,8 +508,10 @@
             <!-- <p-chips separator="," placeholder="Enter competitors you wanted to delete" required
                 formControlName="deletedCompetitors"></p-chips> -->
         </div>
-        <div class="mt-3 d-flex justify-content-end ">
-            <button pButton pRipple type="submit" icon="pi pi-times" label="Delete" class="p-button-danger"></button>
+        <div class="mt-3 d-flex justify-content-end align-items-center ">
+            <div *ngIf="valueLoading" class="valueLoader"></div>
+            <button *ngIf="!valueLoading" pButton pRipple type="submit" icon="pi pi-times" label="Delete"
+                class="p-button-danger"></button>
         </div>
     </form>
 </p-dialog>

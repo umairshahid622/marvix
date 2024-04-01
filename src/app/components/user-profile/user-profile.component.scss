@@ -30,6 +30,7 @@
     background-color: rgba(0, 123, 255, 0.1);
     transition: all ease 0.3s;
 }
+
 .bg-light-blue:hover {
     box-shadow: 0px 0px 20px 1px #ffbb763f;
     border: 0px solid rgba(255, 255, 255, 0.454);
@@ -57,6 +58,17 @@
     border-bottom: 16px solid slateblue;
     width: 120px;
     height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+.valueLoader {
+    border: 3px solid white;
+    border-radius: 50%;
+    border-top: 3px solid slateblue;
+    border-bottom: 3px solid slateblue;
+    width: 35px;
+    height: 35px;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
 }
