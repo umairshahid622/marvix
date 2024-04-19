@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -15,6 +15,13 @@ import {
 import { MessageService } from 'primeng/api';
 import { Message } from 'primeng/api';
 import { AuthserviceService } from 'src/app/service/authservice.service';
+import { Chips } from 'primeng/chips';
+
+
+interface City {
+    name: string,
+    code: string
+}
 
 @Component({
     selector: 'app-sign-up',
@@ -22,7 +29,7 @@ import { AuthserviceService } from 'src/app/service/authservice.service';
     styleUrls: ['./sign-up.component.scss'],
     providers: [MessageService]
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, AfterViewInit {
     constructor(
         public configService: ConfigService,
         private r: Router,
@@ -30,19 +37,45 @@ export class SignUpComponent implements OnInit {
         private http: HttpClient,
         private messageService: MessageService,
         private authService: AuthserviceService
-    ) { }
+    ) {
+    }
+    @ViewChild('chips', { static: true }) chips: Chips;
+    ngAfterViewInit(): void {
+        (this.chips.inputViewChild.nativeElement as HTMLInputElement).type = 'number'
+    }
+
+
+    registerForm: FormGroup = new FormGroup({
+        companyId: new FormControl(''),
+        comapanyName: new FormControl(''),
+        emailAddress: new FormControl(''),
+        name: new FormControl(''),
+        password: new FormControl(''),
+        confirmPassword: new FormControl(''),
+        cpvCodes: new FormControl([]),
+        locations: new FormControl([]),
+        keywords: new FormControl([]),
+        competitors: new FormControl([]),
+        imageUrl: new FormControl('ImageURL'),
+        tenderMinValue: new FormControl(),
+        tenderMaxValue: new FormControl(),
+    });
+
+    locs: string[] = ["konsortia group", "Manchester Group", "Preston Group", "Liverpool Group"];
     ngOnInit(): void {
         if (this.authService.isLoggedIn()) {
             this.r.navigate(['/dashboard']);
         }
 
+
         this.showPassword = false;
         this.showConfirmPassword = false;
+
 
         this.registerForm = this.formBuilder.group({
             companyId: ['', Validators.required],
             comapanyName: ['', Validators.required],
-            email: ['', [Validators.email, Validators.required]],
+            emailAddress: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
             name: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(8)]],
             confirmPassword: [
@@ -64,6 +97,7 @@ export class SignUpComponent implements OnInit {
             }
         );
     }
+
     //======== chips ========
     separatorExp: RegExp = /,| /;
     //================
@@ -73,22 +107,8 @@ export class SignUpComponent implements OnInit {
 
     showPassword: boolean;
     showConfirmPassword: boolean;
+    // registerForm: FormGroup
 
-    registerForm: FormGroup = new FormGroup({
-        companyId: new FormControl(''),
-        comapanyName: new FormControl(''),
-        email: new FormControl(''),
-        name: new FormControl(''),
-        password: new FormControl(''),
-        confirmPassword: new FormControl(''),
-        cpvCodes: new FormControl(''),
-        locations: new FormControl(''),
-        keywords: new FormControl(''),
-        competitors: new FormControl(''),
-        imageUrl: new FormControl('ImageURL'),
-        tenderMinValue: new FormControl(),
-        tenderMaxValue: new FormControl(),
-    });
 
     toggleShowPassword() {
         this.showPassword = !this.showPassword;
@@ -133,15 +153,23 @@ export class SignUpComponent implements OnInit {
         return true;
     }
 
+    emailValidator() {
+        const regex =
+            /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const email: string = this.registerForm.get('emailAddress').value
+        if (regex.test(email.toLocaleLowerCase().trim())) {
+            return true
+        }
+        return false;
+    }
 
     goToLoginPage() {
         this.r.navigate(['/pages/login'])
     }
 
     tenderValueValidator(): boolean {
-        // let recommendedValue = 4500000;
-        let minValue: number = this.registerForm.get('tenderMinValue').value;
-        let maxValue: number = this.registerForm.get('tenderMaxValue').value;
+        const minValue: number = this.registerForm.get('tenderMinValue').value;
+        const maxValue: number = this.registerForm.get('tenderMaxValue').value;
 
         if (maxValue <= minValue) {
             return false;
@@ -150,8 +178,23 @@ export class SignUpComponent implements OnInit {
     }
 
     signUp() {
-        if (this.registerForm.invalid || !this.passwordMatched() || !this.tenderValueValidator()) {
-            console.log("Invalid Form");
+        this.emailValidator();
+        if (this.registerForm.invalid || !this.passwordMatched() || !this.tenderValueValidator() || !this.emailValidator()) {
+            const err: string = '';
+            if (!this.passwordMatched()) {
+                console.log("Password Does not match");
+            }
+
+            if (!this.tenderValueValidator()) {
+                console.log("tender value is not valid");
+                
+            }
+
+            if (!this.emailValidator()) {
+                console.log("Email not valid");
+                
+            }
+            console.log("Invalid Form", this.registerForm.status);
             return;
         }
 
@@ -166,31 +209,29 @@ export class SignUpComponent implements OnInit {
             location: this.registerForm.value.locations,
             competitors: this.registerForm.value.competitors,
             name: this.registerForm.value.name,
-            email: this.registerForm.value.email,
+            email: this.registerForm.value.emailAddress,
             password: this.registerForm.value.password,
             passwordConfirm: this.registerForm.value.confirmPassword,
         };
         console.log(payLoad);
 
-        // this.http
-        //     .post(
-        //         'http://45.85.250.231:8000/api/auth/register',
-        //         payLoad
-        //     )
-        //     .subscribe((response) => {
-        //         console.log("Response", response);
-        //         this.messageService.add({ key: 'tc', severity: 'success', summary: 'success', detail: 'Account created successfully' });
-        //         this.r.navigate(['/pages/login'])
-        //     }, (err) => {
-        //         console.log(err);
+        this.http
+            .post(
+                'http://45.85.250.231:8000/api/auth/register',
+                payLoad
+            )
+            .subscribe((response) => {
+                console.log("Response", response);
+                this.messageService.add({ key: 'tc', severity: 'success', summary: 'success', detail: 'Account created successfully' });
+                this.r.navigate(['/pages/login'])
+            }, (err) => {
+                console.log(err);
 
-        //     });
+            });
     }
     companyIdBlur(event: any) {
         console.log(event);
     }
-
-
     ngOnDestroy(): void {
         if (this.subscription) {
             this.subscription.unsubscribe();

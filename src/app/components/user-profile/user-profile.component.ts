@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { Chips } from 'primeng/chips';
 
 
 
@@ -38,7 +39,7 @@ interface User {
   providers: [MessageService]
 })
 
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent implements OnInit, AfterViewInit {
 
   constructor(
     private readonly http: HttpClient,
@@ -50,6 +51,11 @@ export class UserProfileComponent implements OnInit {
   userResponse: User;
   loading: boolean = false;
   valueLoading: boolean = false;
+
+  @ViewChild('chips', { static: true }) chips: Chips;
+  ngAfterViewInit(): void {
+    (this.chips.inputViewChild.nativeElement as HTMLInputElement).type = 'number'
+  }
 
   ngOnInit(): void {
     this.loading = true
@@ -265,6 +271,11 @@ export class UserProfileComponent implements OnInit {
     })
   }
 
+
+  tenderMaxValueValidator() {
+
+  }
+
   onTenderMaxValueUpdateSubmit() {
     if (this.tenderMaxValueForm.invalid) {
       return;
@@ -272,6 +283,9 @@ export class UserProfileComponent implements OnInit {
     this.valueLoading = true;
     let tenderMaxValue: number = this.tenderMaxValueForm.value.tenderMaxValue
     console.log("Tender Max Value", tenderMaxValue);
+    if (tenderMaxValue <= this.userResponse.user.tender_minimum_value) {
+      return
+    }
     this.http.put('http://45.85.250.231:8000/api/users/update_user_tender_maximum_value', {}, {
       params: {
         tender_maximum_value: tenderMaxValue

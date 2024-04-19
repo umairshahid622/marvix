@@ -1,7 +1,7 @@
 <p-toast position="top-center" key="tc"></p-toast>
 <div
-    class="surface-0 container flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
-    <div class="col-12 col-md-10 col-xl-8 card">
+    class="surface-0 container flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden ">
+    <div class="col-12 col-md-10 m-0 rounded-3 card">
         <div class="card-body">
             <div class="text-center mb-1 mb-md-4">
                 <span class="font-medium display-6">Sign-up to continue</span>
@@ -41,22 +41,20 @@
                     <div class="form-group flex flex-column gap-1 col-12 col-md-6">
                         <label for="email" class="fw-medium">Email</label>
                         <input type="email" id="email" class="form-control m-0" placeholder="Enter your email"
-                            formControlName="email" required />
+                            formControlName="emailAddress" required />
                         <small *ngIf="
                                 this.registerForm
-                                    .get('email')
+                                    .get('emailAddress')
                                     .hasError('required') &&
-                                (this.registerForm.get('email').dirty ||
+                                (this.registerForm.get('emailAddress').dirty ||
                                     registerFormRef.submitted)
                             " class="text-danger">
                             Email is required
                         </small>
                         <small *ngIf="
-                                this.registerForm
-                                    .get('email')
-                                    .hasError('email') &&
-                                (this.registerForm.get('email').dirty ||
-                                    registerFormRef.submitted)
+                                !emailValidator()  &&
+                                this.registerForm.get('emailAddress').value
+                                    .length !== 0
                             " class="text-danger">
                             Plz provide valid email
                         </small>
@@ -143,7 +141,7 @@
                     <div class="flex flex-column gap-1 col-12 col-md-6">
                         <label for="cpCode" class="fw-medium">CPV Code</label>
                         <p-chips separator="," placeholder="you can enter multiple cpv codes here"
-                            formControlName="cpvCodes" required></p-chips>
+                            formControlName="cpvCodes" #chips required></p-chips>
                         <small *ngIf="
                                 this.registerForm
                                     .get('cpvCodes')
@@ -156,8 +154,10 @@
                     </div>
                     <div class="flex flex-column gap-1 col-12 col-md-6">
                         <label for="locations" class="fw-medium">Locations</label>
-                        <p-chips [separator]="separatorExp" placeholder="you can enter multiple locations here"
-                            formControlName="locations" required></p-chips>
+                        <!-- <p-chips [separator]="separatorExp" placeholder="you can enter multiple locations here"
+                            formControlName="locations" required></p-chips> -->
+                        <p-multiSelect [options]="locs" placeholder="Select Locations" formControlName="locations"
+                            style="width: 100%;"></p-multiSelect>
                         <small *ngIf="
                                 this.registerForm
                                     .get('locations')
@@ -171,7 +171,7 @@
                 </div>
                 <div class="row">
                     <div class="flex flex-column gap-1 col-12 col-md-6">
-                        <label for="keywords" class="fw-medium">Key Words</label>
+                        <label for="keywords" class="fw-medium">Key Words </label>
                         <p-chips separator="," placeholder="you can your key words codes here"
                             formControlName="keywords" required></p-chips>
                         <small *ngIf="
@@ -185,9 +185,18 @@
                         </small>
                     </div>
                     <div class="flex flex-column gap-1 col-12 col-md-6">
-                        <label for="competitors" class="fw-medium">Competitors</label>
+
+                        <div class="d-flex align-items-center gap-2">
+                            <label for="competitors" class="fw-medium">Competitors </label>
+
+                            <i data-toggle="tooltip" data-placement="top" title="Tooltip on top"
+                                pTooltip="Chose upto 10 companies that you can recognize as direct competitors"
+                                class="pi pi-info-circle ml-2">
+                            </i>
+                        </div>
+
                         <p-chips [separator]="separatorExp" placeholder="Who's your competitors?"
-                            formControlName="competitors" required></p-chips>
+                            formControlName="competitors" [max]="10" required></p-chips>
                         <small *ngIf="
                                 this.registerForm
                                     .get('competitors')
@@ -217,8 +226,10 @@
                     </div>
                     <div class="flex flex-column gap-1 col-12 col-md-6">
                         <label for="tinderMaxValue" class="fw-medium">Tender max value</label>
-                        <input type="number" id="tenderMaxValue" class="form-control m-0" placeholder="£0"
-                            formControlName="tenderMaxValue" required />
+                        <input type="number" id="tenderMaxValue" class="form-control m-0"
+                            [placeholder]=" '£' +(registerForm.get('tenderMinValue').value +1)"
+                            formControlName="tenderMaxValue" [min]="(registerForm.get('tenderMinValue').value +1)"
+                            required />
                         <small *ngIf="
                                 this.registerForm
                                     .get('tenderMaxValue')
@@ -234,7 +245,7 @@
                                     .dirty ||
                                     registerFormRef.submitted)
                             " class="text-danger">
-                            Tender max value should be less then tender min value
+                            Tender max value should be more then tender min value
                         </small>
                     </div>
                 </div>
