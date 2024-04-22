@@ -30,6 +30,7 @@ interface City {
     providers: [MessageService]
 })
 export class SignUpComponent implements OnInit, AfterViewInit {
+
     constructor(
         public configService: ConfigService,
         private r: Router,
@@ -187,12 +188,12 @@ export class SignUpComponent implements OnInit, AfterViewInit {
 
             if (!this.tenderValueValidator()) {
                 console.log("tender value is not valid");
-                
+
             }
 
             if (!this.emailValidator()) {
                 console.log("Email not valid");
-                
+
             }
             console.log("Invalid Form", this.registerForm.status);
             return;
@@ -215,23 +216,32 @@ export class SignUpComponent implements OnInit, AfterViewInit {
         };
         console.log(payLoad);
 
-        this.http
-            .post(
-                'http://45.85.250.231:8000/api/auth/register',
-                payLoad
-            )
-            .subscribe((response) => {
-                console.log("Response", response);
-                this.messageService.add({ key: 'tc', severity: 'success', summary: 'success', detail: 'Account created successfully' });
-                this.r.navigate(['/pages/login'])
-            }, (err) => {
-                console.log(err);
+        // this.http
+        //     .post(
+        //         'http://45.85.250.231:8000/api/auth/register',
+        //         payLoad
+        //     )
+        //     .subscribe((response) => {
+        //         console.log("Response", response);
+        //         this.messageService.add({ key: 'tc', severity: 'success', summary: 'success', detail: 'Account created successfully' });
+        //         this.r.navigate(['/pages/login'])
+        //     }, (err) => {
+        //         console.log(err);
 
-            });
+        //     });
     }
     companyIdBlur(event: any) {
         console.log(event);
     }
+
+    removeClass(element: HTMLInputElement, status: string) {
+        if (element.classList.contains('border-danger') && status === 'VALID') {
+            element.classList.remove('border-danger')
+        }
+    };
+
+
+
     ngOnDestroy(): void {
         if (this.subscription) {
             this.subscription.unsubscribe();
