@@ -187,12 +187,12 @@
                     <div class="flex flex-column gap-1 col-12 col-md-6">
                         <label for="tinderMaxValue" class="fw-medium">Tender max value</label>
                         <input #inputElement [ngClass]="{'border-danger':(this.registerForm
-                        .get('tenderMinValue')
+                        .get('tenderMaxValue')
                         .hasError('required')
                         ||!tenderValueValidator()
                         ) &&
-                    (this.registerForm.get('tenderMinValue').dirty)}" (focus)="removeClass(inputElement,this.registerForm
-                        .get('tenderMinValue').status)" type="number" id="tenderMaxValue" class="form-control m-0"
+                    (this.registerForm.get('tenderMaxValue').dirty)}" (focus)="removeClass(inputElement,this.registerForm
+                        .get('tenderMaxValue').status)" type="number" id="tenderMaxValue" class="form-control m-0"
                             [placeholder]=" '£' +(registerForm.get('tenderMinValue').value +1)"
                             formControlName="tenderMaxValue" [min]="(registerForm.get('tenderMinValue').value +1)"
                             required />
