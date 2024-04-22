@@ -185,7 +185,12 @@
                         </small>
                     </div>
                     <div class="flex flex-column gap-1 col-12 col-md-6">
-                        <label for="tinderMaxValue" class="fw-medium">Tender max value</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <label class="fw-medium" for="tenderMaxValue">Tender Max Value</label>
+                            <i data-toggle="tooltip" data-placement="top"
+                                pTooltip=" Recommendation upto 2x annual turnover" class="pi pi-info-circle ml-2">
+                            </i>
+                        </div>
                         <input #inputElement [ngClass]="{'border-danger':(this.registerForm
                         .get('tenderMaxValue')
                         .hasError('required')
@@ -215,7 +220,13 @@
                 </div>
                 <div class="row">
                     <div class="flex flex-column gap-1 col-12 col-md-6">
-                        <label for="keywords" class="fw-medium">Key Words</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <label class="fw-medium" for="">Keywords</label>
+                            <i data-toggle="tooltip" data-placement="top"
+                                pTooltip="Associated with CPV codes above for tenders without CPV codes"
+                                class="pi pi-info-circle ml-2">
+                            </i>
+                        </div>
                         <p-chips separator="," placeholder="you can your key words codes here"
                             formControlName="keywords" required></p-chips>
                         <small *ngIf="
@@ -231,8 +242,7 @@
                     <div class="flex flex-column gap-1 col-12 col-md-6">
 
                         <div class="d-flex align-items-center gap-2">
-                            <label for="competitors" class="fw-medium">Competitors </label>
-
+                            <label class="fw-medium" for="">Competitors</label>
                             <i data-toggle="tooltip" data-placement="top"
                                 pTooltip="Chose upto 10 companies that you can recognize as direct competitors"
                                 class="pi pi-info-circle ml-2">
@@ -254,7 +264,12 @@
                 </div>
                 <div class="row">
                     <div class="flex flex-column gap-1 col-12 col-sm-6 col-lg-4">
-                        <label for="cpCode" class="fw-medium">CPV Code</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <label class="fw-medium" for="">CPV Codes</label>
+                            <i data-toggle="tooltip" data-placement="top" pTooltip="From the list of CPV codes provided"
+                                class="pi pi-info-circle ml-2">
+                            </i>
+                        </div>
                         <p-chips separator="," placeholder="you can enter multiple cpv codes here"
                             formControlName="cpvCodes" #chips required></p-chips>
                         <small *ngIf="
@@ -268,7 +283,12 @@
                         </small>
                     </div>
                     <div class="flex flex-column gap-1 col-12 col-sm-6 col-lg-4">
-                        <label for="locations" class="fw-medium">Locations</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <label class="fw-medium" for="">Locations</label>
+                            <i data-toggle="tooltip" data-placement="top" pTooltip="Postcodes within Region@ AB1 level"
+                                class="pi pi-info-circle ml-2">
+                            </i>
+                        </div>
                         <!-- <p-chips [separator]="separatorExp" placeholder="you can enter multiple locations here"
                             formControlName="locations" required></p-chips> -->
                         <p-multiSelect [options]="locs" placeholder="Select Locations" formControlName="locations"
