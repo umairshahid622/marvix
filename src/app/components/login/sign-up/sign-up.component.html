@@ -154,10 +154,10 @@
                     </div>
                     <div class="flex flex-column gap-1 col-12 col-md-6">
                         <label for="locations" class="fw-medium">Locations</label>
-                        <!-- <p-chips [separator]="separatorExp" placeholder="you can enter multiple locations here"
-                            formControlName="locations" required></p-chips> -->
-                        <p-multiSelect [options]="locs" placeholder="Select Locations" formControlName="locations"
-                            style="width: 100%;"></p-multiSelect>
+                        <p-chips [separator]="separatorExp" placeholder="you can enter multiple locations here"
+                            formControlName="locations" required></p-chips>
+                        <!-- <p-multiSelect [options]="locs" placeholder="Select Locations" formControlName="locations"
+                            style="width: 100%;"></p-multiSelect> -->
                         <small *ngIf="
                                 this.registerForm
                                     .get('locations')

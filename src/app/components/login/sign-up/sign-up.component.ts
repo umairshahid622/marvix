@@ -61,7 +61,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
         tenderMaxValue: new FormControl(),
     });
 
-    locs: string[] = ["konsortia group", "Manchester Group", "Preston Group", "Liverpool Group"];
+    locs: string[] = ["Konsortia Group", "Manchester Group", "Preston Group", "Liverpool Group"];
     ngOnInit(): void {
         if (this.authService.isLoggedIn()) {
             this.r.navigate(['/dashboard']);

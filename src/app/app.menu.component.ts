@@ -34,8 +34,8 @@ export class AppMenuComponent implements OnInit {
 
                 items:[
 
-                    {label: 'Open Tender',icon: 'pi pi-fw pi-bolt',routerLink: ['/dashboard/specific-keyword']},
-                    {label: 'Awarded Tender',icon: 'pi pi-fw pi-home', routerLink: ['/dashboard']},
+                    // {label: 'Open Tender',icon: 'pi pi-fw pi-bolt',routerLink: ['/dashboard/specific-keyword']},
+                    {label: 'Awarded Tenders',icon: 'pi pi-fw pi-home', routerLink: ['/dashboard']},
                     {label: 'AI Recomendations',icon: 'pi pi-fw pi-prime',routerLink: ['/dashboard/Recomendations/AIModel']},
                     {label: 'User Profile',icon: 'pi pi-fw pi-user',routerLink: ['/dashboard/user-profile']},
                 ]
