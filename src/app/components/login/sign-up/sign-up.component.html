@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group flex flex-column gap-1 col-12 col-md-6">
                         <label for="comapany_name" class="fw-medium">Company Name</label>
-                        <input id="comapany_name" class="form-control m-0" type="text"
+                        <input  id="comapany_name" class="form-control m-0" type="text"
                             placeholder="Enter name of company" formControlName="comapanyName" required />
                         <small *ngIf="
                                 this.registerForm
@@ -139,77 +139,6 @@
                 </div>
                 <div class="row">
                     <div class="flex flex-column gap-1 col-12 col-md-6">
-                        <label for="cpCode" class="fw-medium">CPV Code</label>
-                        <p-chips separator="," placeholder="you can enter multiple cpv codes here"
-                            formControlName="cpvCodes" #chips required></p-chips>
-                        <small *ngIf="
-                                this.registerForm
-                                    .get('cpvCodes')
-                                    .hasError('required') &&
-                                (this.registerForm.get('cpvCodes').dirty ||
-                                    registerFormRef.submitted)
-                            " class="text-danger">
-                            At least 1 cpv code is required
-                        </small>
-                    </div>
-                    <div class="flex flex-column gap-1 col-12 col-md-6">
-                        <label for="locations" class="fw-medium">Locations</label>
-                        <p-chips [separator]="separatorExp" placeholder="you can enter multiple locations here"
-                            formControlName="locations" required></p-chips>
-                        <!-- <p-multiSelect [options]="locs" placeholder="Select Locations" formControlName="locations"
-                            style="width: 100%;"></p-multiSelect> -->
-                        <small *ngIf="
-                                this.registerForm
-                                    .get('locations')
-                                    .hasError('required') &&
-                                (this.registerForm.get('locations').dirty ||
-                                    registerFormRef.submitted)
-                            " class="text-danger">
-                            At least 1 location is required
-                        </small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="flex flex-column gap-1 col-12 col-md-6">
-                        <label for="keywords" class="fw-medium">Key Words </label>
-                        <p-chips separator="," placeholder="you can your key words codes here"
-                            formControlName="keywords" required></p-chips>
-                        <small *ngIf="
-                                this.registerForm
-                                    .get('keywords')
-                                    .hasError('required') &&
-                                (this.registerForm.get('keywords').dirty ||
-                                    registerFormRef.submitted)
-                            " class="text-danger">
-                            At least 1 keyword is required
-                        </small>
-                    </div>
-                    <div class="flex flex-column gap-1 col-12 col-md-6">
-
-                        <div class="d-flex align-items-center gap-2">
-                            <label for="competitors" class="fw-medium">Competitors </label>
-
-                            <i data-toggle="tooltip" data-placement="top"
-                                pTooltip="Chose upto 10 companies that you can recognize as direct competitors"
-                                class="pi pi-info-circle ml-2">
-                            </i>
-                        </div>
-
-                        <p-chips [separator]="separatorExp" placeholder="Who's your competitors?"
-                            formControlName="competitors" [max]="10" required></p-chips>
-                        <small *ngIf="
-                                this.registerForm
-                                    .get('competitors')
-                                    .hasError('required') &&
-                                (this.registerForm.get('competitors').dirty ||
-                                    registerFormRef.submitted)
-                            " class="text-danger">
-                            At least 1 competitor is required
-                        </small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="flex flex-column gap-1 col-12 col-md-6">
                         <label for="tinder_min_value" class="fw-medium">Tender min value</label>
                         <input type="number" id="tenderMinValue" class="form-control m-0" placeholder="£0"
                             formControlName="tenderMinValue" required min="0" />
@@ -249,8 +178,83 @@
                         </small>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="flex flex-column gap-1 col-12 col-md-6">
+                        <label for="keywords" class="fw-medium">Key Words</label>
+                        <p-chips separator="," placeholder="you can your key words codes here"
+                            formControlName="keywords" required></p-chips>
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('keywords')
+                                    .hasError('required') &&
+                                (this.registerForm.get('keywords').dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            At least 1 keyword is required
+                        </small>
+                    </div>
+                    <div class="flex flex-column gap-1 col-12 col-md-6">
+
+                        <div class="d-flex align-items-center gap-2">
+                            <label for="competitors" class="fw-medium">Competitors </label>
+
+                            <i data-toggle="tooltip" data-placement="top"
+                                pTooltip="Chose upto 10 companies that you can recognize as direct competitors"
+                                class="pi pi-info-circle ml-2">
+                            </i>
+                        </div>
+
+                        <p-chips [separator]="separatorExp" placeholder="Who's your competitors?"
+                            formControlName="competitors" [max]="10" required></p-chips>
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('competitors')
+                                    .hasError('required') &&
+                                (this.registerForm.get('competitors').dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            At least 1 competitor is required
+                        </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="flex flex-column gap-1 col-12 col-sm-6 col-lg-4">
+                        <label for="cpCode" class="fw-medium">CPV Code</label>
+                        <p-chips separator="," placeholder="you can enter multiple cpv codes here"
+                            formControlName="cpvCodes" #chips required></p-chips>
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('cpvCodes')
+                                    .hasError('required') &&
+                                (this.registerForm.get('cpvCodes').dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            At least 1 cpv code is required
+                        </small>
+                    </div>
+                    <div class="flex flex-column gap-1 col-12 col-sm-6 col-lg-4">
+                        <label for="locations" class="fw-medium">Locations</label>
+                        <!-- <p-chips [separator]="separatorExp" placeholder="you can enter multiple locations here"
+                            formControlName="locations" required></p-chips> -->
+                        <p-multiSelect [options]="locs" placeholder="Select Locations" formControlName="locations"
+                            style="width: 100%;"></p-multiSelect>
+                        <small *ngIf="
+                                this.registerForm
+                                    .get('locations')
+                                    .hasError('required') &&
+                                (this.registerForm.get('locations').dirty ||
+                                    registerFormRef.submitted)
+                            " class="text-danger">
+                            At least 1 location is required
+                        </small>
+                    </div>
+                    <div class="flex flex-column gap-1 col-12 col-sm-12 col-lg-4">
+                        <label for="operationalArea" class="fw-medium">Operational Area</label>
+                        <input id="operationalArea" formControlName="operationalArea" placeholder="St George's Quarter"
+                            class="form-control m-0" type="text">
+                    </div>
+                </div>
                 <div class="d-flex align-items-center  mt-4">
-                    <h1></h1>
                     <div class="justify-self-center flex-grow-1 text-center">
                         Already have a account? <a class="link-primary fw-bold " (click)="goToLoginPage()">Login</a>
                     </div>
