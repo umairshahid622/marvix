@@ -44,7 +44,13 @@
                 </div>
             </div>
             <div class="col-12 col-md-6 d-flex flex-column gap-1">
-                <label class="fw-medium" for="tenderMaxValue">Tender Max Value Recommendation upto 2x annual turnover</label>
+                <div class="d-flex align-items-center gap-2">
+                    <label class="fw-medium" for="tenderMaxValue">Tender Max Value</label>
+                    <i data-toggle="tooltip" data-placement="top" pTooltip=" Recommendation upto 2x annual turnover"
+                        class="pi pi-info-circle ml-2">
+                    </i>
+                </div>
+
                 <div class="d-flex gap-3">
                     <input id="tenderMaxValue" class="form-control m-0" type="email"
                         [placeholder]="userResponse?.user?.tender_maximum_value" readonly>
@@ -61,7 +67,12 @@
         </div>
         <div class="row">
             <div class="d-flex flex-column gap-1 col-12">
-                <label class="fw-medium" for="">CPV Codes From the list of  CPV Codes Provided</label>
+                <div class="d-flex align-items-center gap-2">
+                    <label class="fw-medium" for="">CPV Codes</label>
+                    <i data-toggle="tooltip" data-placement="top" pTooltip="From the list of CPV codes provided"
+                        class="pi pi-info-circle ml-2">
+                    </i>
+                </div>
                 <div class="d-flex flex-column flex-md-row gap-2 gap-md-3 align-items-end align-items-md-center">
                     <div tabindex="1" class="input-field d-flex flex-wrap align-items-center gap-1">
                         <div *ngFor="let item of userResponse?.user?.cpv_codes"
@@ -81,7 +92,13 @@
             </div>
 
             <div class="d-flex flex-column gap-1 col-12">
-                <label class="fw-medium" for="">Keywords Associated with CPV Codes above for tenders without CPV Codes</label>
+                <div class="d-flex align-items-center gap-2">
+                    <label class="fw-medium" for="">Keywords</label>
+                    <i data-toggle="tooltip" data-placement="top"
+                        pTooltip="Associated with CPV codes above for tenders without CPV codes"
+                        class="pi pi-info-circle ml-2">
+                    </i>
+                </div>
                 <div class="d-flex flex-column flex-md-row gap-2 gap-md-3 align-items-end align-items-md-center">
                     <div tabindex="1" class="input-field d-flex flex-wrap align-items-center gap-1">
                         <ng-container *ngIf="userResponse?.user?.keywords">
@@ -102,7 +119,14 @@
                 </div>
             </div>
             <div class="d-flex flex-column gap-1 col-12">
-                <label class="fw-medium" for="">Competitors Choose upto 10 companies that you recognize as direct competitors</label>
+                <div class="d-flex align-items-center gap-2">
+                    <label class="fw-medium" for="">Competitors</label>
+                    <i data-toggle="tooltip" data-placement="top"
+                        pTooltip="Choose upto 10 companies that you recognize as direct competitors"
+                        class="pi pi-info-circle ml-2">
+                    </i>
+                </div>
+
                 <div class="d-flex flex-column flex-md-row gap-2 gap-md-3 align-items-end align-items-md-center">
                     <div tabindex="1" class="input-field d-flex flex-wrap align-items-center gap-1">
                         <div *ngFor="let item of userResponse?.user?.competitors"
@@ -124,7 +148,13 @@
                 </div>
             </div>
             <div class="d-flex flex-column gap-1 col-12">
-                <label class="fw-medium" for="">Locations Postcodes within Region@ AB1 level</label>
+                <div class="d-flex align-items-center gap-2">
+                    <label class="fw-medium" for="">Locations</label>
+                    <i data-toggle="tooltip" data-placement="top" pTooltip="Postcodes within Region@ AB1 level"
+                        class="pi pi-info-circle ml-2">
+                    </i>
+                </div>
+
                 <div class="d-flex flex-column flex-md-row gap-2 gap-md-3 align-items-end align-items-md-center">
                     <div tabindex="1" class="input-field d-flex flex-wrap align-items-center gap-1">
                         <div *ngFor="let item of userResponse?.user?.location"
