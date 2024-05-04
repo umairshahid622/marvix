@@ -1,8 +1,7 @@
-:host ::ng-deep p-chips .p-chips .p-inputtext {
-    width: 100% !important;
-}
-
-:host ::ng-deep p-chips .p-chips {
+:host ::ng-deep p-chips .p-chips .p-inputtext,
+:host ::ng-deep p-chips .p-chips,
+:host::ng-deep p-multiselect .p-multiselect,
+:host::ng-deep p-dropdown .p-dropdown {
     width: 100% !important;
 }
 
@@ -27,9 +26,6 @@
     color: bisque;
 }
 
-:host::ng-deep p-multiselect .p-multiselect {
-    width: 100% !important;
-}
 
 .password-field {
     padding-right: 3.2rem;

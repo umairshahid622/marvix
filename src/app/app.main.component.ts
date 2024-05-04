@@ -4,6 +4,35 @@ import { AppComponent } from './app.component';
 import { ConfigService } from './service/app.config.service';
 import { AppConfig } from './api/appconfig';
 import { Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
+
+
+interface User {
+    status: string
+    user: {
+        company_id: string
+        company_name: string
+        competitors: string[]
+        cpv_codes: number[]
+        created_at: string
+        email: string
+        id: string
+        keywords: string[]
+        location: string[]
+        name: string
+        photo: string
+        recommended_tender_minimum_value: number
+        role: string
+        tender_maximum_value: number
+        tender_minimum_value: number
+        updated_at: string
+    }
+}
+
+
+
+
 
 @Component({
     selector: 'app-main',
@@ -52,12 +81,50 @@ export class AppMainComponent implements AfterViewInit, OnDestroy, OnInit {
     config: AppConfig;
 
     subscription: Subscription;
-    
-    constructor(public renderer: Renderer2, public app: AppComponent, public configService: ConfigService) { }
 
+    constructor(public renderer: Renderer2, public app: AppComponent, public configService: ConfigService, private readonly http: HttpClient,) { }
+    accessToken: string;
     ngOnInit() {
         this.config = this.configService.config;
         this.subscription = this.configService.configUpdate$.subscribe(config => this.config = config);
+        this.accessToken = localStorage.getItem('access_token')
+        this.http.get('http://45.85.250.231:8000/api/users/me', {
+            headers: {
+                'Authorization': `Bearer ${this.accessToken}`,
+            },
+        }).subscribe((response: User) => {
+            console.log("Main Component", response);
+            console.log("CPV CODES LENGTH", response.user.cpv_codes.length);
+            console.log("Keywords LENGTH", response.user.keywords.length);
+
+            for (let index = 0; index < response.user.cpv_codes.length; index++) {
+                this.http.get(`http://45.85.250.231:9000/api/open/get_contracts_keywords_cpv_open`, {
+                    headers: {
+                        'Authorization': `Bearer ${this.accessToken}`,
+                    },
+                    // params: {
+                    //     cpv_code: "45262212",
+                    //     keyword: "Trench sheeting work",
+                    //     skip: 0,
+                    //     limit: 10
+                    // }
+                    params: {
+                        cpv_code: response.user.cpv_codes[index].toString(),
+                        keyword: response.user.keywords[index],
+                        skip: 0,
+                        limit: 10
+                    }
+                }).subscribe((res) => {
+                    console.log("api/open/get_contracts_keywords_cpv_open", res);
+                }, (err) => {
+                    console.log("api/open/get_contracts_keywords_cpv_open", err);
+                })
+            }
+
+
+        }, (err) => {
+            console.log(err);
+        })
     }
 
     ngAfterViewInit() {
@@ -76,7 +143,7 @@ export class AppMainComponent implements AfterViewInit, OnDestroy, OnInit {
                 if (!this.menuClick && this.isOverlay()) {
                     this.menuInactiveDesktop = true;
                 }
-                if (!this.menuClick){
+                if (!this.menuClick) {
                     this.overlayMenuActive = false;
                 }
             }
@@ -96,7 +163,7 @@ export class AppMainComponent implements AfterViewInit, OnDestroy, OnInit {
 
         if (this.isDesktop()) {
             if (this.app.menuMode === 'overlay') {
-                if(this.menuActiveMobile === true) {
+                if (this.menuActiveMobile === true) {
                     this.overlayMenuActive = true;
                 }
 
@@ -161,7 +228,7 @@ export class AppMainComponent implements AfterViewInit, OnDestroy, OnInit {
         return window.innerWidth > 992;
     }
 
-    isMobile(){
+    isMobile() {
         return window.innerWidth < 1024;
     }
 

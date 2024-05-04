@@ -39,6 +39,12 @@ export class SignUpComponent implements OnInit, AfterViewInit {
         private messageService: MessageService,
         private authService: AuthserviceService
     ) {
+        this.locs = [
+            { label: "Konsortia Group", name: "konsortiaGroup", value: ["KG Keyword-1", "KG Keyword-2", "KG Keyword-3", "KG Keyword-4"] },
+            { label: "Manchester Group", name: "manchesterGroup", value: ["Bolton", "Bury", "Manchester", "Oldham", "Rochdale", "Stockport", "Salford", "Tameside", "Trafford"] },
+            { label: "Preston Group", name: "prestonGroup", value: ["West Lancashire", "Burnley", "Chorley", "Fylde", "Hyndburn", "Pendle", "Preston", "Ribble Valley", "Rossendale", "South Ribble", "Wyre", "Lancaster City"] },
+            { label: "Liverpool Group", name: "liverpoolGroup", value: ["LG keyword-1", "LG keyword-2", "LG keyword-3", "LG keyword-4"] },
+        ];
     }
     @ViewChild('chips', { static: true }) chips: Chips;
     ngAfterViewInit(): void {
@@ -60,14 +66,34 @@ export class SignUpComponent implements OnInit, AfterViewInit {
         imageUrl: new FormControl('ImageURL'),
         tenderMinValue: new FormControl(),
         tenderMaxValue: new FormControl(),
-    });
+        operationalArea: new FormControl(),
 
-    locs: string[] = ["Konsortia Group", "Manchester Group", "Preston Group", "Liverpool Group"];
+    });
+    konsortiaGroup: string[] = ["KG Keyword-1", "KG Keyword-2", "KG Keyword-3", "KG Keyword-4"];
+    manchesterGroup: string[] = ["Bolton", "Bury", "Manchester", "Oldham", "Rochdale", "Stockport", "Salford", "Tameside", "Trafford"];
+    prestonGroup: string[] = ["West Lancashire", "Burnley", "Chorley", "Fylde", "Hyndburn", "Pendle", "Preston", "Ribble Valley", "Rossendale", "South Ribble", "Wyre", "Lancaster City"];
+    liverpoolGroup: string[] = ["LG keyword-1", "LG keyword-2", "LG keyword-3", "LG keyword-4"];
+
+    locationOnChange(event: any) {
+        console.log(event);
+        console.log(this.registerForm.get('locations').value?.value);
+    }
+
+
+    cities: City[] | undefined;
+
     ngOnInit(): void {
         if (this.authService.isLoggedIn()) {
             this.r.navigate(['/dashboard']);
         }
 
+        this.cities = [
+            { name: 'New York', code: 'NY' },
+            { name: 'Rome', code: 'RM' },
+            { name: 'London', code: 'LDN' },
+            { name: 'Istanbul', code: 'IST' },
+            { name: 'Paris', code: 'PRS' }
+        ];
 
         this.showPassword = false;
         this.showConfirmPassword = false;
@@ -89,6 +115,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
             competitors: [[], Validators.required],
             tenderMinValue: [null, Validators.required],
             tenderMaxValue: [null, Validators.required],
+            operationalArea: [null, Validators.required],
             imageUrl: ['ImageURL'],
         });
         this.config = this.configService.config;
@@ -98,6 +125,8 @@ export class SignUpComponent implements OnInit, AfterViewInit {
             }
         );
     }
+    locat: string[]
+    locs: any[] = [];
 
     //======== chips ========
     separatorExp: RegExp = /,| /;
@@ -179,7 +208,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     }
 
     signUp() {
-        this.emailValidator();
+
         if (this.registerForm.invalid || !this.passwordMatched() || !this.tenderValueValidator() || !this.emailValidator()) {
             const err: string = '';
             if (!this.passwordMatched()) {
@@ -199,6 +228,13 @@ export class SignUpComponent implements OnInit, AfterViewInit {
             return;
         }
 
+        if (this.registerForm.get('operationalArea').value) {
+            console.log(this.registerForm.get('operationalArea').value);
+            let selectedLocation: string[] = this.registerForm.get('locations').value?.value;
+            selectedLocation.push(...this.registerForm.get('operationalArea').value)
+            console.log(selectedLocation);
+        }
+
         const payLoad = {
             company_id: this.registerForm.value.companyId,
             company_name: this.registerForm.value.comapanyName,
@@ -207,7 +243,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
             tender_minimum_value: this.registerForm.value.tenderMinValue,
             tender_maximum_value: this.registerForm.value.tenderMaxValue,
             cpv_codes: this.registerForm.value.cpvCodes,
-            location: this.registerForm.value.locations,
+            location: { [this.registerForm.value.locations?.name]: this.registerForm.value.locations?.value, additionalProp2: [], additionalProp3: [] },
             competitors: this.registerForm.value.competitors,
             name: this.registerForm.value.name,
             email: this.registerForm.value.emailAddress,
@@ -215,20 +251,19 @@ export class SignUpComponent implements OnInit, AfterViewInit {
             passwordConfirm: this.registerForm.value.confirmPassword,
         };
         console.log(payLoad);
+        this.http
+            .post(
+                'http://45.85.250.231:8000/api/auth/register',
+                payLoad
+            )
+            .subscribe((response) => {
+                console.log("Response", response);
+                this.messageService.add({ key: 'tc', severity: 'success', summary: 'success', detail: 'Account created successfully' });
+                this.r.navigate(['/pages/login'])
+            }, (err) => {
+                console.log(err);
 
-        // this.http
-        //     .post(
-        //         'http://45.85.250.231:8000/api/auth/register',
-        //         payLoad
-        //     )
-        //     .subscribe((response) => {
-        //         console.log("Response", response);
-        //         this.messageService.add({ key: 'tc', severity: 'success', summary: 'success', detail: 'Account created successfully' });
-        //         this.r.navigate(['/pages/login'])
-        //     }, (err) => {
-        //         console.log(err);
-
-        //     });
+            });
     }
     companyIdBlur(event: any) {
         console.log(event);

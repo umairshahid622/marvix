@@ -10,9 +10,9 @@ const routes: Routes = [
   {
     path: '', component: AppMainComponent,
     children: [
-      { path: '', component: DashboardComponent },
-      { path: 'Dashboard', component: DashboardComponent },
-      { path: 'Recomendations/AIModel', component: RecomendationsComponent },
+      { path: '', redirectTo:'awardedTenders', pathMatch:'full' },
+      { path: 'awardedTenders', component: DashboardComponent },
+      { path: 'recomendations/AIModel', component: RecomendationsComponent },
       { path: 'user-profile', component: UserProfileComponent },
       { path: 'specific-keyword', component: SpecificKeywordsComponent },
     ],

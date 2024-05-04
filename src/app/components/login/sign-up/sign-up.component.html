@@ -198,7 +198,7 @@
                         ) &&
                     (this.registerForm.get('tenderMaxValue').dirty)}" (focus)="removeClass(inputElement,this.registerForm
                         .get('tenderMaxValue').status)" type="number" id="tenderMaxValue" class="form-control m-0"
-                            [placeholder]=" '£' +(registerForm.get('tenderMinValue').value +1)"
+                            placeholder="tender max value should be greater then tender min value"
                             formControlName="tenderMaxValue" [min]="(registerForm.get('tenderMinValue').value +1)"
                             required />
                         <small *ngIf="
@@ -291,8 +291,11 @@
                         </div>
                         <!-- <p-chips [separator]="separatorExp" placeholder="you can enter multiple locations here"
                             formControlName="locations" required></p-chips> -->
-                        <p-multiSelect [options]="locs" placeholder="Select Locations" formControlName="locations"
-                            style="width: 100%;"></p-multiSelect>
+                        <!-- <p-multiSelect [options]="locs" placeholder="Select Locations" formControlName="locations"
+                            style="width: 100%;"></p-multiSelect> -->
+                        <p-dropdown formControlName="locations" [options]="locs" optionLabel="label"
+                            (onChange)="locationOnChange($event)" placeholder="Select a Location">
+                        </p-dropdown>
                         <small *ngIf="
                                 this.registerForm
                                     .get('locations')
@@ -304,9 +307,12 @@
                         </small>
                     </div>
                     <div class="flex flex-column gap-1 col-12 col-sm-12 col-lg-4">
-                        <label for="operationalArea" class="fw-medium">Operational Area</label>
-                        <input id="operationalArea" formControlName="operationalArea" placeholder="St George's Quarter"
-                            class="form-control m-0" type="text">
+                        <label for="operationalArea" class="fw-medium">Operational Area <small
+                                class="text-body">(optional)</small> </label>
+                        <p-chips separator="," placeholder="West Lancashire" formControlName="operationalArea"
+                            required></p-chips>
+                        <!-- <input id="operationalArea" formControlName="operationalArea" placeholder="St George's Quarter"
+                            class="form-control m-0" type="text"> -->
                     </div>
                 </div>
                 <div class="d-flex align-items-center  mt-4">

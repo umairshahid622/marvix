@@ -121,8 +121,10 @@ export class RecomendationsComponent implements OnInit {
                     this.competitorNames = datauser?.user?.competitors
                     console.log("competitors", this.competitorNames);
                     this.competitorForm.value.competitor.push(...this.competitorNames)
-                    this.competitorNames.forEach((code: string) => {
-                        this.http.get(`http://45.85.250.231:8000/api/posts/get_data_by_competitor_name?Competitor%20Name=${code}`, {
+                    this.competitorNames.forEach((name: string) => {
+                        console.log(name);
+
+                        this.http.get(`http://45.85.250.231:8000/api/posts/get_data_by_competitor_name?Competitor%20Name=${name}`, {
                             headers: {
                                 'Authorization': `Bearer ${this.accessToken}`,
                             }
@@ -130,11 +132,14 @@ export class RecomendationsComponent implements OnInit {
                             if (dataByCompetitorName.total_count !== 0) {
                                 console.log(dataByCompetitorName);
                                 this.dataByCompetitorName.push({ ...dataByCompetitorName, isRecomendationAccepted: false, isRecommendationRejected: false })
-                                this.loading = false;
+
                             }
                         }, (errr) => {
                             console.log("Error In Fetching competitorNamese", errr);
                         }, () => {
+                            this.loading = false;
+                            console.log(this.dataByCompetitorName);
+
                         },
                         )
                     })
