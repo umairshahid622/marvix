@@ -28,13 +28,10 @@ export class AppMenuComponent implements OnInit {
         this.model = [
             {
                 label: 'Home',
-
             },
             {
-
                 items:[
-
-                    // {label: 'Open Tender',icon: 'pi pi-fw pi-bolt',routerLink: ['/dashboard/specific-keyword']},
+                    {label: 'Open Tenders',icon: 'pi pi-fw pi-bolt',routerLink: ['/dashboard/openTenders']},
                     {label: 'Awarded Tenders',icon: 'pi pi-fw pi-home', routerLink: ['/dashboard/awardedTenders']},
                     {label: 'AI Recomendations',icon: 'pi pi-fw pi-prime',routerLink: ['/dashboard/recomendations/AIModel']},
                     {label: 'User Profile',icon: 'pi pi-fw pi-user',routerLink: ['/dashboard/user-profile']},

@@ -1,0 +1,87 @@
+<p-toast position="top-center" key="tc"></p-toast>
+<div class="grid">
+    <div class="col-md-12 d-flex justify-content-center" *ngIf="loading" style="padding-top: 150px;">
+        <div class="loader"></div>
+    </div>
+    <div class="bg-light  px-2 py-2 d-flex align-items-center justify-content-between w-100 rounded-3 m-2 "
+        *ngIf="!loading">
+        <p class="p-0 m-0 fw-bold ">Welcome {{ userprofile?.user?.name }}, This is your Tender Dashboard</p>
+        <button type="button"
+            class="btn btn-primary min-w-120 min-h-40 d-flex justify-content-center align-items-center"
+            [disabled]="isCralwerLoading" (click)="updateCrawler()">
+            <div *ngIf="isCralwerLoading" class="crawlerLoading"></div>
+            <p class="fw-medium   ">
+                {{!isCralwerLoading? 'Update Data':''}}
+            </p>
+        </button>
+        <!-- <button pButton [disabled]="isCralwerLoading" [label]="!isCralwerLoading&&'Update Data'" (click)="updateCrawler()">
+            <div *ngIf="isCralwerLoading" class="crawlerLoading"></div>
+        </button> -->
+    </div>
+
+    <div class="col-12 xl:col-12" *ngIf="!loading">
+        <div class="card">
+            <h5>Tenders Awarded to competitors based on CPV Code </h5>
+
+            <!-- Search input for CPV code -->
+            <div class="d-flex gap-3 mb-2 ">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">
+                        <i class="pi pi-search"></i>
+                    </span>
+                    <input pInputText type="text" [(ngModel)]="recomendationFilter"
+                        (input)="onGlobalFilter($event,searchPlaceholder)"
+                        [placeholder]="'Search By'+' '+searchPlaceholder" class="p-inputtext" />
+                </div>
+                <p-dropdown [options]="options" (onChange)="onSearchOptionChange($event)" placeholder="Search By"
+                    optionLabel="name"></p-dropdown>
+            </div>
+            <small *ngIf="!searchPlaceholder && inputDirty" class="text-danger mb-3 ">Select the Search Option</small>
+
+            <p-table #recommendationTable [value]="filteredProducts" [paginator]="true" [rows]="3"
+                responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Tender ID</th>
+                        <th pSortableColumn="item.title">Title <p-sortIcon field="item.title"></p-sortIcon></th>
+                        <th pSortableColumn="item.awardedValue">Awarded Value <p-sortIcon
+                                field="item.awardedValue"></p-sortIcon></th>
+                        <th pSortableColumn="item.noticeStatus">Notice Status <p-sortIcon
+                                field="item.noticeStatus"></p-sortIcon></th>
+                        <th pSortableColumn="item.organisationName">Organization Name <p-sortIcon
+                                field="item.organisationName"></p-sortIcon></th>
+                        <th pSortableColumn="item.region">Region <p-sortIcon field="item.region"></p-sortIcon></th>
+                        <th pSortableColumn="item.awardedDate">Awarded Date <p-sortIcon
+                                field="item.awardedDate"></p-sortIcon></th>
+                        <th pSortableColumn="item.awardedSupplier">Awarded Supplier <p-sortIcon
+                                field="item.awardedSupplier"></p-sortIcon></th>
+                        <th pSortableColumn="item.cpvCodes">CPV Codes <p-sortIcon field="item.cpvCodes"></p-sortIcon>
+                        </th>
+                        <!--                        <th>Recomendation Status</th>-->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-contract>
+                    <tr>
+                        <td>{{ contract?.item?.noticeIdentifier }}</td>
+                        <td>{{ contract?.item?.title }}</td>
+                        <td>{{ contract?.item?.awardedValue }}</td>
+                        <td>{{ contract?.item?.noticeStatus }}</td>
+                        <td>{{ contract?.item?.organisationName }}</td>
+                        <td [innerHTML]="highlightMatches(contract?.item?.region)"></td>
+                        <td>{{ contract?.item?.awardedDate }}</td>
+                        <td>{{ contract?.item?.awardedSupplier }}</td>
+                        <td [innerHTML]="highlightMatches(contract?.item?.cpvCodes)"></td>
+
+                        <!--                        <td>-->
+                        <!--                            <button *ngIf="!contract.item.accepted" (click)="acceptContract(contract)" type="button" class="btn btn-success">Accept</button>-->
+                        <!--                            <br>-->
+                        <!--                            <br>-->
+                        <!--                            <button *ngIf="!contract.item.accepted" (click)="rejectContract(contract)" type="button" class="btn btn-danger">Reject</button>-->
+                        <!--                            <span *ngIf="contract.item.accepted">Accepted</span>-->
+                        <!--                        </td>-->
+                        <!--                    </tr>-->
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

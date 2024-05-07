@@ -6,7 +6,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RecomendationsComponent } from "./components/recomendations/recomendations.component";
 import { SignUpComponent } from './components/login/sign-up/sign-up.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { SpecificKeywordsComponent } from './components/specific-keywords/specific-keywords.component';
+import { OpenTenderComponent } from './components/open-tender/open-tender.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { AuthGuard } from './guards/auth.guard';
 

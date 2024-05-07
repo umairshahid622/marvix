@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SpecificKeywordsComponent } from './specific-keywords.component';
+import { OpenTendersComponent } from './open-tenders.component';
 
-describe('SpecificKeywordsComponent', () => {
-  let component: SpecificKeywordsComponent;
-  let fixture: ComponentFixture<SpecificKeywordsComponent>;
+describe('OpenTendersComponent', () => {
+  let component: OpenTendersComponent;
+  let fixture: ComponentFixture<OpenTendersComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SpecificKeywordsComponent ]
+      declarations: [ OpenTendersComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SpecificKeywordsComponent);
+    fixture = TestBed.createComponent(OpenTendersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

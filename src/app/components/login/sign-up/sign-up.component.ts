@@ -66,7 +66,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
         imageUrl: new FormControl('ImageURL'),
         tenderMinValue: new FormControl(),
         tenderMaxValue: new FormControl(),
-        operationalArea: new FormControl(),
+        operationalArea: new FormControl(''),
 
     });
     konsortiaGroup: string[] = ["KG Keyword-1", "KG Keyword-2", "KG Keyword-3", "KG Keyword-4"];
@@ -115,7 +115,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
             competitors: [[], Validators.required],
             tenderMinValue: [null, Validators.required],
             tenderMaxValue: [null, Validators.required],
-            operationalArea: [null, Validators.required],
+            operationalArea: [],
             imageUrl: ['ImageURL'],
         });
         this.config = this.configService.config;
@@ -208,7 +208,6 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     }
 
     signUp() {
-
         if (this.registerForm.invalid || !this.passwordMatched() || !this.tenderValueValidator() || !this.emailValidator()) {
             const err: string = '';
             if (!this.passwordMatched()) {
@@ -224,31 +223,49 @@ export class SignUpComponent implements OnInit, AfterViewInit {
                 console.log("Email not valid");
 
             }
-            console.log("Invalid Form", this.registerForm.status);
+            console.log("Invalid Form");
+
+
+
+            console.log("companyId", this.registerForm.get('companyId').status);
+            console.log("comapanyName", this.registerForm.get('comapanyName').status);
+            console.log("emailAddress", this.registerForm.get('emailAddress').status);
+            console.log("name", this.registerForm.get('name').status);
+            console.log("password", this.registerForm.get('password').status);
+            console.log("confirmPassword", this.registerForm.get('confirmPassword').status);
+            console.log("cpvCodes", this.registerForm.get('cpvCodes').status);
+            console.log("locations", this.registerForm.get('locations').status);
+            console.log("competitors", this.registerForm.get('competitors').status);
+            console.log("tenderMinValuel", this.registerForm.get('tenderMinValue').status);
+            console.log("tenderMaxValue", this.registerForm.get('tenderMaxValue').status);
+            console.log("operationalArea", this.registerForm.get('operationalArea').status);
             return;
         }
 
         if (this.registerForm.get('operationalArea').value) {
             console.log(this.registerForm.get('operationalArea').value);
-            let selectedLocation: string[] = this.registerForm.get('locations').value?.value;
-            selectedLocation.push(...this.registerForm.get('operationalArea').value)
-            console.log(selectedLocation);
+            this.registerForm.get('locations').value?.value.push(...this.registerForm.get('operationalArea').value);
         }
+        console.log(this.registerForm.get('operationalArea').value);
+
 
         const payLoad = {
             company_id: this.registerForm.value.companyId,
             company_name: this.registerForm.value.comapanyName,
             keywords: this.registerForm.value.keywords,
-            recommended_tender_minimum_value: 10,
+            recommended_tender_minimum_value: 100000,
             tender_minimum_value: this.registerForm.value.tenderMinValue,
             tender_maximum_value: this.registerForm.value.tenderMaxValue,
             cpv_codes: this.registerForm.value.cpvCodes,
-            location: { [this.registerForm.value.locations?.name]: this.registerForm.value.locations?.value, additionalProp2: [], additionalProp3: [] },
+            location: { additionalProp1: this.registerForm.get('locations').value?.value, additionalProp2: ["string"], additionalProp3: ["string"] },
             competitors: this.registerForm.value.competitors,
             name: this.registerForm.value.name,
             email: this.registerForm.value.emailAddress,
             password: this.registerForm.value.password,
             passwordConfirm: this.registerForm.value.confirmPassword,
+            photo: "string",
+            role: "string",
+            verified: false
         };
         console.log(payLoad);
         this.http

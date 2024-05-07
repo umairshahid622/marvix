@@ -164,9 +164,14 @@ export class LoginComponent implements OnInit, OnDestroy {
                         this.loading = false;
                     }
                 },
-                (err) => {
+                (err: HttpErrorResponse) => {
                     this.loading = false;
                     console.error('Login error:', err);
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: err.error.detail,
+                        detail: this.error,
+                    });
 
                     switch (err.status) {
                         case 500:

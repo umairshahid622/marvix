@@ -4,17 +4,18 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppMainComponent } from '../app.main.component';
 import { RecomendationsComponent } from './recomendations/recomendations.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { SpecificKeywordsComponent } from './specific-keywords/specific-keywords.component';
+import { OpenTendersComponent } from './open-tenders/open-tenders.component';
 
 const routes: Routes = [
   {
     path: '', component: AppMainComponent,
     children: [
-      { path: '', redirectTo:'awardedTenders', pathMatch:'full' },
+      { path: '', redirectTo:'openTenders', pathMatch:'full' },
+      { path: 'openTenders', component: OpenTendersComponent },
       { path: 'awardedTenders', component: DashboardComponent },
       { path: 'recomendations/AIModel', component: RecomendationsComponent },
       { path: 'user-profile', component: UserProfileComponent },
-      { path: 'specific-keyword', component: SpecificKeywordsComponent },
+      // { path: 'openTenders', component: OpenTenderComponent },
     ],
   },
 ];

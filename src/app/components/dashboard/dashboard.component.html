@@ -3,9 +3,24 @@
     <div class="col-md-12 d-flex justify-content-center" *ngIf="loading" style="padding-top: 150px;">
         <div class="loader"></div>
     </div>
-    <div class="bg-light  px-2 py-2 d-flex align-items-center justify-content-between w-100 rounded-3 m-2 "
+    <div class="card rounded-4 w-100 m-2 p-3">
+        <div class="d-flex align-items-center justify-content-between">
+            <p class="p-0 m-0 fw-bold ">Welcome {{ userprofile?.user?.name }}, This is your Tender Dashboard</p>
+            <button type="button"
+                class="btn btn-primary min-w-120 min-h-40 d-flex justify-content-center align-items-center"
+                [disabled]="isCralwerLoading" (click)="updateCrawler()">
+                <div *ngIf="isCralwerLoading" class="crawlerLoading"></div>
+                <p class="fw-medium   ">
+                    {{!isCralwerLoading? 'Update Data':''}}
+                </p>
+            </button>
+        </div>
+    </div>
+    <!-- <div class="card d-flex align-items-center justify-content-between w-100 rounded-4 m-2 "
         *ngIf="!loading">
-        <p class="p-0 m-0 fw-bold ">Welcome {{ userprofile?.user?.name }}, This is your Tender Dashboard</p>
+        <div>
+            <p class="p-0 m-0 fw-bold ">Welcome {{ userprofile?.user?.name }}, This is your Tender Dashboard</p>
+        </div>
         <button type="button"
             class="btn btn-primary min-w-120 min-h-40 d-flex justify-content-center align-items-center"
             [disabled]="isCralwerLoading"
@@ -15,13 +30,13 @@
                 {{!isCralwerLoading? 'Update Data':''}}
             </p>
         </button>
-        <!-- <button pButton [disabled]="isCralwerLoading" [label]="!isCralwerLoading&&'Update Data'" (click)="updateCrawler()">
+        <button pButton [disabled]="isCralwerLoading" [label]="!isCralwerLoading&&'Update Data'" (click)="updateCrawler()">
             <div *ngIf="isCralwerLoading" class="crawlerLoading"></div>
-        </button> -->
-    </div>
+        </button>
+    </div> -->
 
     <div class="col-12 xl:col-12" *ngIf="!loading">
-        <div class="card">
+        <div class="card rounded-4 ">
             <h5>Tenders Awarded to competitors based on CPV Code </h5>
 
             <!-- Search input for CPV code -->
