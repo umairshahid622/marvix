@@ -1,10 +1,11 @@
+<p-toast position="top-center" key="tc"></p-toast>
+
 <div class="card rounded-4 w-100 p-3">
     <div class="d-flex align-items-center justify-content-between">
         <p class="p-0 m-0 fw-bold ">Welcome {{ userProfile?.user?.name }}, This is your Tender Dashboard</p>
         <button type="button"
             class="btn btn-primary min-w-120 min-h-40 d-flex justify-content-center align-items-center"
-            (click)="updateCrawler()"
-            [disabled]="isCrawlerLoading">
+            (click)="updateCrawler()" [disabled]="isCrawlerLoading">
             <div *ngIf="isCrawlerLoading" class="crawlerLoading"></div>
             <p class="fw-medium">
                 {{!isCrawlerLoading? 'Update Data':''}}
@@ -14,24 +15,38 @@
 </div>
 <div class="card rounded-4 ">
 
-    <p-table #recommendationTable [value]="" [paginator]="true" [rows]="3" responsiveLayout="scroll">
+    <p-table #recommendationTable [value]="openTendersData" [paginator]="true" [rows]="3"
+        responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
                 <th>Tender ID</th>
                 <th pSortableColumn="item.title">Title <p-sortIcon field="item.title"></p-sortIcon></th>
-                <th pSortableColumn="item.awardedValue">Awarded Value <p-sortIcon
-                        field="item.awardedValue"></p-sortIcon></th>
-                <th pSortableColumn="item.noticeStatus">Notice Status <p-sortIcon
+                <!-- <th pSortableColumn="item.awardedValue">Awarded Value <p-sortIcon
+                        field="item.awardedValue"></p-sortIcon></th> -->
+                <th pSortableColumn="item.noticeStatus">Published Date<p-sortIcon
                         field="item.noticeStatus"></p-sortIcon></th>
+                <th pSortableColumn="item.noticeStatus">Deadline Date<p-sortIcon field="item.noticeStatus"></p-sortIcon>
+                </th>
                 <th pSortableColumn="item.organisationName">Organization Name <p-sortIcon
                         field="item.organisationName"></p-sortIcon></th>
                 <th pSortableColumn="item.region">Region <p-sortIcon field="item.region"></p-sortIcon></th>
-                <th pSortableColumn="item.awardedDate">Awarded Date <p-sortIcon field="item.awardedDate"></p-sortIcon>
-                </th>
+                <!-- <th pSortableColumn="item.awardedDate">Awarded Date <p-sortIcon field="item.awardedDate"></p-sortIcon>
+                </th> -->
                 <th pSortableColumn="item.awardedSupplier">Awarded Supplier <p-sortIcon
                         field="item.awardedSupplier"></p-sortIcon></th>
-                <th pSortableColumn="item.cpvCodes">CPV Codes <p-sortIcon field="item.cpvCodes"></p-sortIcon>
-                </th>
+                <!-- <th pSortableColumn="item.cpvCodes">CPV Codes <p-sortIcon field="item.cpvCodes"></p-sortIcon>
+                </th> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-opentTender>
+            <tr>
+                <td>{{ opentTender.id }}</td>
+                <td>{{ opentTender.title }}</td>
+                <td>{{ opentTender.publishedDate }}</td>
+                <td>{{ opentTender.deadlineDate }}</td>
+                <td>{{ opentTender.organisationName }}</td>
+                <td>{{ opentTender.region }}</td>
+                <td>{{ opentTender.awardedSupplier }}</td>
             </tr>
         </ng-template>
     </p-table>

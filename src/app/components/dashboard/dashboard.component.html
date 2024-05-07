@@ -3,7 +3,7 @@
     <div class="col-md-12 d-flex justify-content-center" *ngIf="loading" style="padding-top: 150px;">
         <div class="loader"></div>
     </div>
-    <div class="card rounded-4 w-100 m-2 p-3">
+    <div *ngIf="!loading" class="card rounded-4 w-100 m-2 p-3">
         <div class="d-flex align-items-center justify-content-between">
             <p class="p-0 m-0 fw-bold ">Welcome {{ userprofile?.user?.name }}, This is your Tender Dashboard</p>
             <button type="button"
@@ -62,8 +62,8 @@
                         <th pSortableColumn="item.title">Title <p-sortIcon field="item.title"></p-sortIcon></th>
                         <th pSortableColumn="item.awardedValue">Awarded Value <p-sortIcon
                                 field="item.awardedValue"></p-sortIcon></th>
-                        <th pSortableColumn="item.noticeStatus">Notice Status <p-sortIcon
-                                field="item.noticeStatus"></p-sortIcon></th>
+                        <!-- <th pSortableColumn="item.noticeStatus">Notice Status <p-sortIcon
+                                field="item.noticeStatus"></p-sortIcon></th> -->
                         <th pSortableColumn="item.organisationName">Organization Name <p-sortIcon
                                 field="item.organisationName"></p-sortIcon></th>
                         <th pSortableColumn="item.region">Region <p-sortIcon field="item.region"></p-sortIcon></th>
@@ -81,7 +81,7 @@
                         <td>{{ contract?.item?.noticeIdentifier }}</td>
                         <td>{{ contract?.item?.title }}</td>
                         <td>{{ contract?.item?.awardedValue }}</td>
-                        <td>{{ contract?.item?.noticeStatus }}</td>
+                        <!-- <td>{{ contract?.item?.noticeStatus }}</td> -->
                         <td>{{ contract?.item?.organisationName }}</td>
                         <td [innerHTML]="highlightMatches(contract?.item?.region)"></td>
                         <td>{{ contract?.item?.awardedDate }}</td>
