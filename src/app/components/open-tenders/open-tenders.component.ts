@@ -166,14 +166,14 @@ export class OpenTendersComponent implements OnInit {
     return newDate[0]
   }
 
-  delay = async (index: number) => {
-    return new Promise<void>(resolve => {
-      setTimeout(() => {
-        console.log("Waiting...", index);
-        resolve();
-      }, 3000);
-    });
-  }
+  // delay = async (index: number) => {
+  //   return new Promise<void>(resolve => {
+  //     setTimeout(() => {
+  //       console.log("Waiting...", index);
+  //       resolve();
+  //     }, 3000);
+  //   });
+  // }
 
   updateCrawler() {
     this.isCrawlerLoading = true;
