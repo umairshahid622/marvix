@@ -15,8 +15,7 @@
 </div>
 <div class="card rounded-4 ">
 
-    <p-table #recommendationTable [value]="openTendersData" [paginator]="true" [rows]="3"
-        responsiveLayout="scroll">
+    <p-table #recommendationTable [value]="openTendersData" [paginator]="true" [rows]="3" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
                 <th>Tender ID</th>
@@ -32,8 +31,8 @@
                 <th pSortableColumn="item.region">Region <p-sortIcon field="item.region"></p-sortIcon></th>
                 <!-- <th pSortableColumn="item.awardedDate">Awarded Date <p-sortIcon field="item.awardedDate"></p-sortIcon>
                 </th> -->
-                <th pSortableColumn="item.awardedSupplier">Awarded Supplier <p-sortIcon
-                        field="item.awardedSupplier"></p-sortIcon></th>
+                <!-- <th pSortableColumn="item.awardedSupplier">Awarded Supplier <p-sortIcon
+                        field="item.awardedSupplier"></p-sortIcon></th> -->
                 <!-- <th pSortableColumn="item.cpvCodes">CPV Codes <p-sortIcon field="item.cpvCodes"></p-sortIcon>
                 </th> -->
             </tr>
@@ -42,11 +41,12 @@
             <tr>
                 <td>{{ opentTender.id }}</td>
                 <td>{{ opentTender.title }}</td>
-                <td>{{ opentTender.publishedDate }}</td>
-                <td>{{ opentTender.deadlineDate }}</td>
+                <td>{{ dateFormater(opentTender.publishedDate) }}</td>
+                <td>{{ dateFormater(opentTender.deadlineDate)}}</td>
+                <!-- <td>{{ opentTender.deadlineDate }}</td> -->
                 <td>{{ opentTender.organisationName }}</td>
                 <td>{{ opentTender.region }}</td>
-                <td>{{ opentTender.awardedSupplier }}</td>
+                <!-- <td>{{ opentTender.awardedSupplier }}</td> -->
             </tr>
         </ng-template>
     </p-table>

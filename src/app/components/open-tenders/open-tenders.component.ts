@@ -159,6 +159,13 @@ export class OpenTendersComponent implements OnInit {
     })
   }
 
+
+  dateFormater(dateTime: string) {
+    let newDate: string[] = dateTime.split('T');
+    console.log(newDate);
+    return newDate[0]
+  }
+
   delay = async (index: number) => {
     return new Promise<void>(resolve => {
       setTimeout(() => {
