@@ -97,7 +97,10 @@ export class OpenTendersComponent implements OnInit {
   loading: boolean = false;
   isCrawlerLoading: boolean = false;
   openTendersData: openTenderTable[];
+
+
   ngOnInit(): void {
+    this.loading = true
     this.accessToken = localStorage.getItem('access_token')
     this.http.get('http://45.85.250.231:8000/api/users/me', {
       headers: {
@@ -106,6 +109,8 @@ export class OpenTendersComponent implements OnInit {
     }).subscribe(async (res: User) => {
       console.log("Open Tenders", res);
       this.userProfile = res;
+
+
       // for (let index = 0; index < 5; index++) {
       //   await new Promise<void>(resolve => {
       //     setTimeout(() => {
@@ -125,6 +130,7 @@ export class OpenTendersComponent implements OnInit {
       }).subscribe(async (res) => {
         console.log("api/open/get_data_by_user_id", res[0]);
         this.openTendersData = res[0].data
+        this.loading = false
 
       }, (err) => {
         console.log("api/open/get_data_by_user_id", err);

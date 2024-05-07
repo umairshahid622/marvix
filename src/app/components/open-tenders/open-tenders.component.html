@@ -1,6 +1,9 @@
 <p-toast position="top-center" key="tc"></p-toast>
+<div class="col-md-12 d-flex justify-content-center" *ngIf="loading" style="padding-top: 150px;">
+    <div class="loader"></div>
+</div>
 
-<div class="card rounded-4 w-100 p-3">
+<div *ngIf="!loading" class="card rounded-4 w-100 p-3">
     <div class="d-flex align-items-center justify-content-between">
         <p class="p-0 m-0 fw-bold ">Welcome {{ userProfile?.user?.name }}, This is your Tender Dashboard</p>
         <button type="button"
@@ -13,8 +16,7 @@
         </button>
     </div>
 </div>
-<div class="card rounded-4 ">
-
+<div *ngIf="!loading" class="card rounded-4 ">
     <p-table #recommendationTable [value]="openTendersData" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
