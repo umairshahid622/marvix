@@ -470,3 +470,7 @@
 .min-h-40{
     min-height: 40px;
 }
+
+div:has(.loader){
+    height: 80vh;
+}

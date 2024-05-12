@@ -1,7 +1,9 @@
 <p-toast position="top-center" key="tc"></p-toast>
-<div class="col-md-12 d-flex justify-content-center" *ngIf="loading" style="padding-top: 150px;">
+<!-- <div class="d-flex justify-content-center align-content-center  border-2 h-screen" *ngIf="!loading" style="padding-top: 150px;"> -->
+<div *ngIf="loading" class="d-flex justify-content-center align-items-center ">
     <div class="loader"></div>
 </div>
+<!-- </div> -->
 
 <div *ngIf="!loading" class="card rounded-4 w-100 p-3">
     <div class="d-flex align-items-center justify-content-between">
@@ -17,6 +19,21 @@
     </div>
 </div>
 <div *ngIf="!loading" class="card rounded-4 ">
+    <h5>Tenders Awarded to competitors based on CPV Code </h5>
+
+    <!-- Search input for CPV code -->
+    <div class="d-flex gap-3 mb-2 ">
+        <div class="p-inputgroup">
+            <span class="p-inputgroup-addon">
+                <i class="pi pi-search"></i>
+            </span>
+            <input pInputText type="text" [(ngModel)]="recomendationFilter" (input)="onGlobalFilter($event,searchCode)"
+                [placeholder]="'Search By'+' '+searchPlaceholder" class="p-inputtext" />
+        </div>
+        <p-dropdown [options]="options" (onChange)="onSearchOptionChange($event)" placeholder="Search By"
+            optionLabel="name"></p-dropdown>
+    </div>
+    <small *ngIf="!searchPlaceholder && inputDirty" class="text-danger mb-3 ">Select the Search Option</small>
     <p-table #recommendationTable [value]="openTendersData" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
@@ -31,6 +48,7 @@
                 <th pSortableColumn="item.organisationName">Organization Name <p-sortIcon
                         field="item.organisationName"></p-sortIcon></th>
                 <th pSortableColumn="item.region">Region <p-sortIcon field="item.region"></p-sortIcon></th>
+                <th pSortableColumn="item.region">CPV Codes <p-sortIcon field="item.region"></p-sortIcon></th>
                 <!-- <th pSortableColumn="item.awardedDate">Awarded Date <p-sortIcon field="item.awardedDate"></p-sortIcon>
                 </th> -->
                 <!-- <th pSortableColumn="item.awardedSupplier">Awarded Supplier <p-sortIcon
@@ -39,15 +57,66 @@
                 </th> -->
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-opentTender>
+        <ng-template pTemplate="body" let-openTender>
             <tr>
-                <td>{{ opentTender.id }}</td>
-                <td>{{ opentTender.title }}</td>
-                <td>{{ dateFormater(opentTender.publishedDate) }}</td>
-                <td>{{ dateFormater(opentTender.deadlineDate)}}</td>
-                <!-- <td>{{ opentTender.deadlineDate }}</td> -->
-                <td>{{ opentTender.organisationName }}</td>
-                <td>{{ opentTender.region }}</td>
+                <td>{{ openTender.id }}</td>
+                <td [innerHTML]="highlightMatches(openTender.title)"></td>
+                <td>{{ dateFormater(openTender.publishedDate) }}</td>
+                <td>{{ dateFormater(openTender.deadlineDate)}}</td>
+                <td>{{ openTender.organisationName }}</td>
+                <td [innerHTML]="highlightMatches(openTender.region)"></td>
+                <td [innerHTML]="highlightMatches(openTender.cpvCodes)"></td>
+                <!-- <td>{{ opentTender.region }}</td> -->
+                <!-- <td>{{ opentTender.awardedSupplier }}</td> -->
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<div *ngIf="!loading" class="card rounded-4 ">
+    <h5>Tenders Awarded to competitors based on CPV Code </h5>
+
+    <!-- Search input for CPV code -->
+    <!-- <div class="d-flex gap-3 mb-2 ">
+        <div class="p-inputgroup">
+            <span class="p-inputgroup-addon">
+                <i class="pi pi-search"></i>
+            </span>
+            
+    </div> -->
+    <small *ngIf="!searchPlaceholder && inputDirty" class="text-danger mb-3 ">Select the Search Option</small>
+    <p-table #recommendationTable [value]="dataByCpvCode" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Tender ID</th>
+                <th pSortableColumn="item.title">Title <p-sortIcon field="item.title"></p-sortIcon></th>
+                <!-- <th pSortableColumn="item.awardedValue">Awarded Value <p-sortIcon
+                        field="item.awardedValue"></p-sortIcon></th> -->
+                <th pSortableColumn="item.noticeStatus">Published Date<p-sortIcon
+                        field="item.noticeStatus"></p-sortIcon></th>
+                <th pSortableColumn="item.noticeStatus">Deadline Date<p-sortIcon field="item.noticeStatus"></p-sortIcon>
+                </th>
+                <th pSortableColumn="item.organisationName">Organization Name <p-sortIcon
+                        field="item.organisationName"></p-sortIcon></th>
+                <th pSortableColumn="item.region">Region <p-sortIcon field="item.region"></p-sortIcon></th>
+                <th pSortableColumn="item.region">CPV Codes <p-sortIcon field="item.region"></p-sortIcon></th>
+                <!-- <th pSortableColumn="item.awardedDate">Awarded Date <p-sortIcon field="item.awardedDate"></p-sortIcon>
+                </th> -->
+                <!-- <th pSortableColumn="item.awardedSupplier">Awarded Supplier <p-sortIcon
+                        field="item.awardedSupplier"></p-sortIcon></th> -->
+                <!-- <th pSortableColumn="item.cpvCodes">CPV Codes <p-sortIcon field="item.cpvCodes"></p-sortIcon>
+                </th> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-openTender>
+            <tr>
+                <td>{{ openTender.id }}</td>
+                <td [innerHTML]="highlightMatches(openTender.title)"></td>
+                <td>{{ dateFormater(openTender.publishedDate) }}</td>
+                <td>{{ dateFormater(openTender.deadlineDate)}}</td>
+                <td>{{ openTender.organisationName }}</td>
+                <td [innerHTML]="highlightMatches(openTender.region)"></td>
+                <td [innerHTML]="highlightMatches(openTender.cpvCodes)"></td>
+                <!-- <td>{{ opentTender.region }}</td> -->
                 <!-- <td>{{ opentTender.awardedSupplier }}</td> -->
             </tr>
         </ng-template>

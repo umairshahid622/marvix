@@ -1,6 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 
 
 
@@ -74,7 +75,10 @@ interface openTenderTable {
   _id: string
   // },
 }
-
+interface SelectedOption {
+  name: string;
+  code: string;
+}
 
 
 @Component({
@@ -90,6 +94,7 @@ export class OpenTendersComponent implements OnInit {
     private readonly http: HttpClient,
     private messageService: MessageService,
   ) { }
+  @ViewChild('filter') filter!: Table;
   // http://45.85.250.231:8000/api/users/me
   // http://45.85.250.231:9000/api/open/get_contracts_keywords_cpv_open
   accessToken: string;
@@ -97,78 +102,85 @@ export class OpenTendersComponent implements OnInit {
   loading: boolean = false;
   isCrawlerLoading: boolean = false;
   openTendersData: openTenderTable[];
+  open_tender_data: openTenderTable[];
+  dataByCpvCode: openTenderTable[];
+  options: SelectedOption[];
+  searchPlaceholder: string | undefined = "";
+  searchCode: string | undefined = "";
+  recomendationFilter: string | undefined = "";
 
 
   ngOnInit(): void {
-    this.loading = true
+    this.loading = true;
+    this.options = [
+      { name: 'CPV Code', code: 'cpvCode' },
+      { name: 'Region', code: 'region' },
+      { name: 'Title', code: 'title' }
+    ];
     this.accessToken = localStorage.getItem('access_token')
     this.http.get('http://45.85.250.231:8000/api/users/me', {
       headers: {
         'Authorization': `Bearer ${this.accessToken}`,
       }
-    }).subscribe(async (res: User) => {
+    }).subscribe((res: User) => {
       console.log("Open Tenders", res);
       this.userProfile = res;
-
-
-      // for (let index = 0; index < 5; index++) {
-      //   await new Promise<void>(resolve => {
-      //     setTimeout(() => {
-      //       console.log("Waiting...", index);
-      //       resolve();
-      //     }, 30000);
-      //   });
-      // }
-      this.http.get('http://45.85.250.231:9000/api/open/get_data_by_user_id', {
+      this.http.get('http://45.85.250.231:9000/api/open/get_contracts_by_keywords', {
         headers: {
           'Authorization': `Bearer ${this.accessToken}`,
         },
         params: {
+          keyword: res.user.keywords,
           skip: 0,
           limit: 10
         },
-      }).subscribe(async (res) => {
-        console.log("api/open/get_data_by_user_id", res[0]);
-        this.openTendersData = res[0].data
+      }).subscribe((res: any) => {
+        console.log("api/open/get_contracts_by_keywords", res);
+        this.open_tender_data = res.data;
+        this.openTendersData = [...this.open_tender_data];
         this.loading = false
 
       }, (err) => {
         console.log("api/open/get_data_by_user_id", err);
+        this.loading = false
+      }, () => {
+        this.loading = false
+      })
+      this.http.get('http://45.85.250.231:9000/api/open/get_contracts_by_keywords_and_regions', {
+        headers: {
+          'Authorization': `Bearer ${this.accessToken}`,
+        },
+        params: {
+          keyword: res.user.keywords,
+          region: res.user.location.additionalProp1,
+          skip: 0,
+          limit: 10
+        },
+      }).subscribe((res: any) => {
+        console.log("api/open/get_contracts_by_keywords_and_regions", res);
+        this.dataByCpvCode = res.data;
+
+      }, (err) => {
+        console.log(err);
 
       })
-
-
-      // for (let index = 0; index < res.user.location.additionalProp1.length; index++) {
-      //   await new Promise<void>((resolve, reject) => {
-      //     this.http.get('http://45.85.250.231:9000/api/open/get_contracts_keywords_cpv_open', {
-      //       params: {
-      //         region: res.user.location.additionalProp1[index].toString(),
-      //         keyword: null,
-      //         skip: 0,
-      //         limit: 10
-      //       },
-      //       headers: {
-      //         'Authorization': `Bearer ${this.accessToken}`,
-      //       }
-      //     }).subscribe((res) => {
-      //       console.log(res);
-      //       resolve();
-
-      //     }, (err) => {
-      //       console.log(err);
-      //       reject()
-      //     })
-      //   })
-      // }
     }, (err) => {
       console.log(err);
+      this.loading = false
+    }, () => {
+      this.loading = false
     })
   }
 
 
+  onSearchOptionChange(event: any) {
+    console.log(event);
+    this.searchPlaceholder = event.value.name
+    this.searchCode = event.value.code
+  }
+
   dateFormater(dateTime: string) {
     let newDate: string[] = dateTime.split('T');
-    console.log(newDate);
     return newDate[0]
   }
 
@@ -183,20 +195,67 @@ export class OpenTendersComponent implements OnInit {
 
   updateCrawler() {
     this.isCrawlerLoading = true;
-    setTimeout(() => {
+    // setTimeout(() => {
+    //   this.isCrawlerLoading = false;
+    //   this.messageService.add({ key: 'tc', severity: 'success', summary: 'success', detail: 'Crawler Updated Succesffuly' });
+    // }, 2500);
+    this.http.post('http://45.85.250.231:9000/api/open/run_crawler_from_db_open', {}, {
+      headers: {
+        'Authorization': `Bearer ${this.accessToken}`,
+      },
+    }).subscribe((res) => {
+      console.log("api/open/run_crawler_from_db_open", res);
       this.isCrawlerLoading = false;
-      this.messageService.add({ key: 'tc', severity: 'success', summary: 'success', detail: 'Crawler Updated Succesffuly' });
-    }, 2500);
-    // this.http.post('http://45.85.250.231:9000/api/open/run_crawler_from_db_open', {}, {
-    //   headers: {
-    //     'Authorization': `Bearer ${this.accessToken}`,
-    //   },
-    // }).subscribe((res) => {
-    //   console.log("api/open/run_crawler_from_db_open", res);
-    //   this.isCrawlerLoading = false;
-    // }, (err) => {
-    //   console.log("api/open/run_crawler_from_db_open", err);
-    //   this.isCrawlerLoading = false;
-    // })
+    }, (err) => {
+      console.log("api/open/run_crawler_from_db_open", err);
+      this.isCrawlerLoading = false;
+    })
+  }
+  inputDirty = false;
+  onGlobalFilter(event: Event, searchOption: string) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    if (filterValue.length === 0 || !searchOption) {
+      this.inputDirty = true;
+    }
+    if (searchOption === "cpvCode") {
+      if (filterValue) {
+        this.openTendersData = this.open_tender_data.filter((contract: openTenderTable) =>
+          contract.cpvCodes.toLowerCase().includes(filterValue)
+        );
+      } else {
+        this.openTendersData = [...this.open_tender_data];
+      }
+    }
+
+    if (searchOption === "region") {
+      if (filterValue) {
+        this.openTendersData = this.open_tender_data.filter((contract: openTenderTable) =>
+          contract.region.toLowerCase().includes(filterValue)
+        );
+      } else {
+        this.openTendersData = [...this.open_tender_data];
+      }
+    }
+
+    if (searchOption === "title") {
+      if (filterValue) {
+        this.openTendersData = this.open_tender_data.filter((contract: openTenderTable) =>
+          contract.title.toLowerCase().includes(filterValue)
+        );
+      } else {
+        this.openTendersData = [...this.open_tender_data];
+      }
+    }
+    // Reset the table paginator to the first page
+    this.filter.first = 0;
+  }
+
+  highlightMatches(text: string): string {
+    if (!this.recomendationFilter || !text) {
+      return text;
+    }
+    console.log(this.recomendationFilter);
+    const regex = new RegExp(this.recomendationFilter, 'gi');
+    return text.replace(regex, match => `<span class="highlight">${match}</span>`);
   }
 }

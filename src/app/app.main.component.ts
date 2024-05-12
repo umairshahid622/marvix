@@ -93,6 +93,7 @@ export class AppMainComponent implements AfterViewInit, OnDestroy, OnInit {
                 'Authorization': `Bearer ${this.accessToken}`,
             },
         }).subscribe((response: User) => {
+            
             // console.log("Main Component", response);
             // console.log("CPV CODES LENGTH", response.user.cpv_codes.length);
             // console.log("Keywords LENGTH", response.user.keywords.length);
