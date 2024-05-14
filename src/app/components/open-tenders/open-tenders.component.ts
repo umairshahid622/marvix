@@ -146,24 +146,24 @@ export class OpenTendersComponent implements OnInit {
       }, () => {
         this.loading = false
       })
-      this.http.get('http://45.85.250.231:9000/api/open/get_contracts_by_keywords_and_regions', {
-        headers: {
-          'Authorization': `Bearer ${this.accessToken}`,
-        },
-        params: {
-          keyword: res.user.keywords,
-          region: res.user.location.additionalProp1,
-          skip: 0,
-          limit: 10
-        },
-      }).subscribe((res: any) => {
-        console.log("api/open/get_contracts_by_keywords_and_regions", res);
-        this.dataByCpvCode = res.data;
+      // this.http.get('http://45.85.250.231:9000/api/open/get_contracts_by_keywords_and_regions', {
+      //   headers: {
+      //     'Authorization': `Bearer ${this.accessToken}`,
+      //   },
+      //   params: {
+      //     keyword: res.user.keywords,
+      //     region: res.user.location.additionalProp1,
+      //     skip: 0,
+      //     limit: 10
+      //   },
+      // }).subscribe((res: any) => {
+      //   console.log("api/open/get_contracts_by_keywords_and_regions", res);
+      //   this.dataByCpvCode = res.data;
 
-      }, (err) => {
-        console.log(err);
+      // }, (err) => {
+      //   console.log(err);
 
-      })
+      // })
     }, (err) => {
       console.log(err);
       this.loading = false
