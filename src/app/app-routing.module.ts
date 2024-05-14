@@ -1,12 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { AppMainComponent } from './app.main.component';
 import { LoginComponent } from './components/login/login.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { RecomendationsComponent } from "./components/recomendations/recomendations.component";
 import { SignUpComponent } from './components/login/sign-up/sign-up.component';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { OpenTenderComponent } from './components/open-tender/open-tender.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { AuthGuard } from './guards/auth.guard';
 

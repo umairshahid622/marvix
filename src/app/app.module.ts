@@ -122,7 +122,6 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { ConfirmationService } from "primeng/api";
 import { RecomendationsComponent } from './components/recomendations/recomendations.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { OpenTenderComponent } from './components/open-tender/open-tender.component';
 import { ErrorInterceptorService } from './service/error-interceptor.service';
 import { OpenTendersComponent } from './components/open-tenders/open-tenders.component';
 
@@ -244,7 +243,6 @@ import { OpenTendersComponent } from './components/open-tenders/open-tenders.com
         DashboardComponent,
         RecomendationsComponent,
         UserProfileComponent,
-        OpenTenderComponent,
         OpenTendersComponent,
         // UserProfileComponent,
 

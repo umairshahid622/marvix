@@ -46,7 +46,7 @@
                         <i class="pi pi-search"></i>
                     </span>
                     <input pInputText type="text" [(ngModel)]="recomendationFilter"
-                        (input)="onGlobalFilter($event,searchPlaceholder)"
+                        (input)="onGlobalFilter($event,searchCode)"
                         [placeholder]="'Search By'+' '+searchPlaceholder" class="p-inputtext" />
                 </div>
                 <p-dropdown [options]="options" (onChange)="onSearchOptionChange($event)" placeholder="Search By"
@@ -54,24 +54,24 @@
             </div>
             <small *ngIf="!searchPlaceholder && inputDirty" class="text-danger mb-3 ">Select the Search Option</small>
 
-            <p-table #recommendationTable [value]="tableData.data" [paginator]="true" [rows]="3"
+            <p-table #recommendationTable [value]="tableData" [paginator]="true" [rows]="3"
                 responsiveLayout="scroll">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Tender ID</th>
-                        <th pSortableColumn="item.title">Title <p-sortIcon field="item.title"></p-sortIcon></th>
-                        <th pSortableColumn="item.awardedValue">Awarded Value <p-sortIcon
+                        <th pSortableColumn="item.title">Title<p-sortIcon field="item.title"></p-sortIcon></th>
+                        <th pSortableColumn="item.awardedValue">Awarded Value<p-sortIcon
                                 field="item.awardedValue"></p-sortIcon></th>
                         <!-- <th pSortableColumn="item.noticeStatus">Notice Status <p-sortIcon
                                 field="item.noticeStatus"></p-sortIcon></th> -->
-                        <th pSortableColumn="item.organisationName">Organization Name <p-sortIcon
+                        <th pSortableColumn="item.organisationName">Organization Name<p-sortIcon
                                 field="item.organisationName"></p-sortIcon></th>
-                        <th pSortableColumn="item.region">Region <p-sortIcon field="item.region"></p-sortIcon></th>
-                        <th pSortableColumn="item.awardedDate">Awarded Date <p-sortIcon
+                        <th pSortableColumn="item.region">Region<p-sortIcon field="item.region"></p-sortIcon></th>
+                        <th pSortableColumn="item.awardedDate">Awarded Date<p-sortIcon
                                 field="item.awardedDate"></p-sortIcon></th>
-                        <th pSortableColumn="item.awardedSupplier">Awarded Supplier <p-sortIcon
+                        <th pSortableColumn="item.awardedSupplier">Awarded Supplier<p-sortIcon
                                 field="item.awardedSupplier"></p-sortIcon></th>
-                        <th pSortableColumn="item.cpvCodes">CPV Codes <p-sortIcon field="item.cpvCodes"></p-sortIcon>
+                        <th pSortableColumn="item.cpvCodes">CPV Codes<p-sortIcon field="item.cpvCodes"></p-sortIcon>
                         </th>
                         <!--                        <th>Recomendation Status</th>-->
                     </tr>

@@ -28,7 +28,7 @@ interface SelectedOption {
     code: string;
 }
 
-interface TableData {
+interface TableResponse {
     total_count: number;
     data: [{
         SearchCPVCode: string[];
@@ -75,6 +75,50 @@ interface TableData {
     }]
 }
 
+interface TableData {
+    SearchCPVCode: string[];
+    createdAt: string;
+    item: {
+        approachMarketDate: any
+        awardedDate: string
+        awardedSupplier: string
+        awardedToSme: boolean
+        awardedToVcse: boolean
+        awardedValue: number
+        coordinates: string
+        cpvCodes: string
+        cpvCodesExtended: string
+        cpvDescription: string
+        cpvDescriptionExpanded: string
+        deadlineDate: string
+        description: string
+        end: string
+        id: string
+        isSubNotice: boolean
+        isSuitableForSme: boolean
+        isSuitableForVco: boolean
+        lastNotifableUpdate: string
+        noticeIdentifier: string
+        noticeStatus: string
+        noticeType: string
+        organisationName: string
+        parentId: string
+        postcode: string
+        publishedDate: string
+        region: string
+        regionText: string
+        sector: string
+        start: string
+        title: string
+        valueHigh: number
+        valueLow: number
+    };
+    score: string;
+    updatedAt: string;
+    user_id: string;
+    _id: string;
+}
+
 
 @Component({
     selector: 'app-dashboard',
@@ -86,7 +130,8 @@ export class DashboardComponent implements OnInit {
     loading = false;
     dataLoading = false;
     userprofile: UserData;
-    tableData: TableData;
+    tableData: TableData[];
+    table_data: TableData[];
     userId: string | null = localStorage.getItem('userId');
     accessToken: string | null = localStorage.getItem('access_token');
     recomendationFilter: string = ''; // New property for filter
@@ -134,18 +179,14 @@ export class DashboardComponent implements OnInit {
                         headers: {
                             Authorization: `Bearer ${this.accessToken}`,
                         }
-                    }).subscribe((res: TableData) => {
-                        console.log("api/posts/get_contracts_by_keywords", res.data[0]);
-                        this.tableData = res;
-                        // this.tableData.data.forEach((item) => {
-                        //     item.item.cpvCodes = item.item.cpvCodes.split(' ')
-                        // })
-                        // for (let index = 0; index < this.tableData.data.length; index++) {
-                        //     this.tableData.data[index].item.cpvCodes.split(' ');
-                        // }
-                        console.log("table", this.tableData);
-
+                    }).subscribe((res: TableResponse) => {
+                        console.log("api/posts/get_contracts_by_keywords", res);
+                        this.table_data = res.data;
+                        this.tableData = [...this.table_data];
                         // this.tableData = res;
+                        // this.table_data.data = res.data;
+                        // this.tableData.data = [...this.table_data.data];
+                        // console.log("table", this.tableData);
                     }, (err) => {
                         console.log(err);
                     }, () => {
@@ -187,6 +228,7 @@ export class DashboardComponent implements OnInit {
     //     searchOption: new FormControl()
     // })
     searchPlaceholder: string | undefined = "";
+    searchCode: string | undefined = "";
     options: SelectedOption[] | undefined;
     selectedOption: SelectedOption | undefined;
     // selectedOption: string;
@@ -194,6 +236,7 @@ export class DashboardComponent implements OnInit {
     onSearchOptionChange(event: any) {
         console.log(event);
         this.searchPlaceholder = event.value.name
+        this.searchCode = event.value.code;
     }
     // acceptContract(contract: Contract): void {
     //     contract.item.accepted = true;
@@ -209,6 +252,36 @@ export class DashboardComponent implements OnInit {
         if (filterValue.length === 0 || !searchOption) {
             this.inputDirty = true;
         }
+        if (searchOption === "cpvCode") {
+            if (filterValue) {
+                console.log(searchOption);
+                this.tableData = this.table_data.filter((contract: TableData) =>
+                    contract.item.cpvCodes.toLowerCase().includes(filterValue)
+                );
+            } else {
+                this.tableData = [...this.table_data];
+            }
+        }
+        if (searchOption === "region") {
+            if (filterValue) {
+                this.tableData = this.table_data.filter((contract: TableData) =>
+                    contract.item.region.toLowerCase().includes(filterValue)
+                );
+            } else {
+                this.tableData = [...this.table_data];
+            }
+        }
+
+        if (searchOption === "awardedSupplier") {
+            if (filterValue) {
+                this.tableData = this.table_data.filter((contract: TableData) =>
+                    contract.item.awardedSupplier.toLowerCase().includes(filterValue)
+                );
+            } else {
+                this.tableData = [...this.table_data];
+            }
+        }
+
         this.filter.first = 0;
     }
 
