@@ -84,9 +84,13 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-customer let-i='rowIndex'>
-                    <tr *ngIf="customer.total_count !==0">
+                    <tr>
                         <td>{{customer.data[0].item.noticeIdentifier}}</td>
-                        <td>{{customer.data[0].item.awardedSupplier}}</td>
+                        <td>
+                            <div class="bg-warning p-1 rounded-1 ">
+                                {{customer.data[0].item.awardedSupplier}}
+                            </div>
+                        </td>
                         <td>{{customer.data[0].item.region }}</td>
                         <td>{{customer.data[0].item.awardedValue }}</td>
                         <td>{{customer.data[0].item.cpvCodes}}</td>
