@@ -22,6 +22,7 @@ interface DataByCompetitorName {
     total_count: number,
     isRecomendationAccepted: boolean,
     isRecommendationRejected: boolean,
+    awardedSupplier: String[]
     data: [
         {
             _id: string
@@ -80,7 +81,7 @@ export class RecomendationsComponent implements OnInit {
     // customers1: any;
     loading: boolean = false;
     user: any[];
-    competitorNames: any[]
+    competitorNames: string[]
     selectedCompetitorNames: any[]
     userId: string | null = localStorage.getItem('userId');
     accessToken: string | null = localStorage.getItem('access_token');
@@ -130,7 +131,7 @@ export class RecomendationsComponent implements OnInit {
                             }).subscribe((dataByCompetitorName: DataByCompetitorName) => {
                                 if (dataByCompetitorName.total_count !== 0) {
                                     console.log(dataByCompetitorName);
-                                    this.dataByCompetitorName.push({ ...dataByCompetitorName, isRecomendationAccepted: false, isRecommendationRejected: false })
+                                    this.dataByCompetitorName.push({ ...dataByCompetitorName, awardedSupplier: dataByCompetitorName.data[0].item.awardedSupplier.split(","), isRecomendationAccepted: false, isRecommendationRejected: false })
 
                                 }
                                 resolve();
@@ -139,56 +140,13 @@ export class RecomendationsComponent implements OnInit {
                                 reject()
                             }, () => {
                                 this.loading = false;
-                                console.log(this.dataByCompetitorName);
+                                console.log("========", this.dataByCompetitorName);
 
                             },
                             )
                         })
                     })
-
-                    // this.http
-                    //     .get<any[]>("http://45.85.250.231:8000/api/posts/get_data_by_user_id/api_call?skip=0&limit=10", {
-                    //         headers: {
-                    //             'Authorization': `Bearer ${this.accessToken}`,
-                    //         },
-                    //     })
-                    //     .subscribe(
-                    //         (data) => {
-                    //             // this.customers1 = data;
-                    //             // console.log('Data from API:', this.customers1.data);
-                    //             this.loading = false;
-                    //         },
-                    //         (error) => {
-                    //             console.error('Error fetching recommendations:', error);
-                    //             this.loading = false;
-                    //         }
-                    //     );
-
-                    // const userEmail = datauser.user.email;
-                    // const apiUrl = this.getApiUrlBasedOnEmail(userEmail);
-
-                    // if (apiUrl) {
-                    //     this.http
-                    //         .get<any[]>(apiUrl, {
-                    //             // withCredentials: true,
-                    //             headers: {
-                    //                 'Authorization': `Bearer ${this.accessToken}`,
-                    //             },
-                    //         })
-                    //         .subscribe(
-                    //             (data) => {
-                    //                 this.customers1 = data;
-                    //                 console.log('Data from API:', this.customers1);
-                    //                 this.loading = false;
-                    //             },
-                    //             (error) => {
-                    //                 console.error('Error fetching recommendations:', error);
-                    //                 this.loading = false;
-                    //             }
-                    //         );
-                    // } else {
-                    //     this.loading = false;
-                    // }
+                    console.log("For-Each Completed", this.dataByCompetitorName);
                 },
                 (error) => {
                     console.error('Error fetching user data:', error);
@@ -207,28 +165,35 @@ export class RecomendationsComponent implements OnInit {
 
         this.dataByCompetitorName = []
         var data_by_competitor_name: number = 0;
-        this.competitorForm.value.competitor.forEach((code: string) => {
-            // let dummyCode = "Greenfisher Contracting Ltd";
-            data_by_competitor_name++;
-            this.http.get(`http://45.85.250.231:8000/api/posts/get_data_by_competitor_name?Competitor%20Name=${code}`, {
-                headers: {
-                    'Authorization': `Bearer ${this.accessToken}`,
-                }
-            }).subscribe((dataByCompetitorName: DataByCompetitorName) => {
-                if (dataByCompetitorName.total_count !== 0) {
-                    console.log(dataByCompetitorName);
-                    this.dataByCompetitorName.push({ ...dataByCompetitorName, isRecomendationAccepted: false, isRecommendationRejected: false })
-                }
+        this.competitorForm.value.competitor.forEach(async (code: string) => {
+            await new Promise<void>((resolve, reject) => {
+                data_by_competitor_name++;
+                this.http.get(`http://45.85.250.231:8000/api/posts/get_data_by_competitor_name?Competitor%20Name=${code}`, {
+                    headers: {
+                        'Authorization': `Bearer ${this.accessToken}`,
+                    }
+                }).subscribe((dataByCompetitorName: DataByCompetitorName) => {
+                    if (dataByCompetitorName.total_count !== 0) {
 
-            }, (errr) => {
-                console.log(errr);
+                        this.dataByCompetitorName.push({ ...dataByCompetitorName, ...dataByCompetitorName.data[0].item.awardedSupplier.split(","), isRecomendationAccepted: false, isRecommendationRejected: false })
+                    }
+                    resolve();
 
-            }, () => {
-                this.loading = false;
-            },
+                }, (errr) => {
+                    console.log(errr);
+                    reject();
+                }, () => {
+                    this.loading = false;
+                    console.log("===========", this.dataByCompetitorName);
+                },
+                )
+            }
             )
+            // let dummyCode = "Greenfisher Contracting Ltd";
 
         })
+
+
         console.log("For Each Completed", this.dataByCompetitorName);
 
     }
@@ -319,6 +284,14 @@ export class RecomendationsComponent implements OnInit {
     }
     closeToast() {
         this.messageService.clear('c');
+    }
+
+    isCompetitor(awarded_supplier: string) {
+        if (this.competitorNames.includes(awarded_supplier)) {
+            return true
+        } else {
+            return false
+        }
     }
 
 }

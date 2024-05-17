@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Table } from 'primeng/table';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FilterService, MessageService } from 'primeng/api';
+import { Observable } from 'rxjs';
 
 interface UserData {
     status: string;
@@ -144,7 +145,7 @@ export class DashboardComponent implements OnInit {
 
 
 
-    ngOnInit(): void {
+    async ngOnInit() {
         // this.searchOptionsForm = this.formBuilder.group({
         //     searchOption: ['']
         // })
@@ -158,70 +159,61 @@ export class DashboardComponent implements OnInit {
             { name: 'Region', code: 'region' },
             { name: 'Awarded Supplier', code: 'awardedSupplier' }
         ];
-        this.http
-            .get<UserData>('http://45.85.250.231:8000/api/users/me', {
-                // withCredentials: true,
-                headers: {
-                    Authorization: `Bearer ${this.accessToken}`,
-                },
-            })
-            .subscribe(
-                (datauser) => {
-                    console.log("Dashboard/api/user/me", datauser);
-                    this.userprofile = datauser;
-                    this.loading = false;
-                    this.http.get('http://45.85.250.231:8000/api/posts/get_contracts_by_keywords', {
-                        params: {
-                            keywords: this.userprofile.user.keywords,
-                            skip: 0,
-                            limit: 10
-                        },
-                        headers: {
-                            Authorization: `Bearer ${this.accessToken}`,
-                        }
-                    }).subscribe((res: TableResponse) => {
-                        console.log("api/posts/get_contracts_by_keywords", res);
-                        this.table_data = res.data;
-                        this.tableData = [...this.table_data];
-                        // this.tableData = res;
-                        // this.table_data.data = res.data;
-                        // this.tableData.data = [...this.table_data.data];
-                        // console.log("table", this.tableData);
-                    }, (err) => {
-                        console.log(err);
+        await new Promise<void>((resolve, reject) => {
+            this.http
+                .get<UserData>('http://45.85.250.231:8000/api/users/me', {
+                    // withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${this.accessToken}`,
+                    },
+                })
+                .subscribe(
+                    (datauser) => {
+                        console.log("Dashboard/api/user/me", datauser);
+                        this.userprofile = datauser;
+                        this.loading = false;
+                        this.http.get('http://45.85.250.231:8000/api/posts/get_contracts_by_keywords', {
+                            params: {
+                                keywords: this.userprofile.user.keywords,
+                                skip: 0,
+                                limit: 100
+                            },
+                            headers: {
+                                Authorization: `Bearer ${this.accessToken}`,
+                            }
+                        }).subscribe(async (res: TableResponse) => {
+                            console.log("api/posts/get_contracts_by_keywords", res);
+                            await new Promise((resolve, reject) => {
+                                this.table_data = res.data;
+                                this.tableData = [...this.table_data];
+                                resolve;
+                            })
+
+                            // this.tableData = res;
+                            // this.table_data.data = res.data;
+                            // this.tableData.data = [...this.table_data.data];
+                            // console.log("table", this.tableData);
+
+                        }, (err) => {
+                            console.log(err);
+
+                        }, () => {
+                            this.loading = false;
+                            console.log("api/posts/get_contracts_by_keywords---Completed");
+                        }),
+                            resolve();
+                    },
+                    (error) => {
+                        console.error('Error fetching user data:', error);
+                        reject
                     }, () => {
-                    })
-                },
-                (error) => {
-                    console.error('Error fetching user data:', error);
-                    this.loading = false;
-                }
-            );
+                        console.log("User/me -- Completed");
+
+                    }
+                );
+        })
 
 
-        // this.http
-        //     .get<any>('http://45.85.250.231:8000/api/posts/get_data_by_user_id/api_call?skip=0&limit=1000', {
-        //         // withCredentials: true,
-        //         headers: {
-        //             Authorization: `Bearer ${this.accessToken}`,
-        //         },
-        //     })
-        //     .subscribe(
-        //         (data) => {
-        //             console.log("api/posts/get_data_by_user", data);
-
-        //             this.products = data.data.map((contract: Contract) => ({
-        //                 ...contract,
-        //                 item: { ...contract.item, accepted: false },
-        //             }));
-        //             this.filteredProducts = [...this.products];
-        //             this.loading = false;
-        //         },
-        //         (error) => {
-        //             console.error('Error fetching data:', error);
-        //             this.loading = false;
-        //         }
-        //     );
     }
 
     // searchOptionsForm: FormGroup = new FormGroup({

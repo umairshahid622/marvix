@@ -132,7 +132,7 @@ export class OpenTendersComponent implements OnInit {
         params: {
           keyword: res.user.keywords,
           skip: 0,
-          limit: 10
+          limit: 100
         },
       }).subscribe((res: any) => {
         console.log("api/open/get_contracts_by_keywords", res);

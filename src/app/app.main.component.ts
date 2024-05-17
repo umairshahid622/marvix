@@ -98,17 +98,17 @@ export class AppMainComponent implements AfterViewInit, OnDestroy, OnInit {
             // console.log("CPV CODES LENGTH", response.user.cpv_codes.length);
             // console.log("Keywords LENGTH", response.user.keywords.length);
 
-            // this.http.post(`http://45.85.250.231:9000/api/open/run_crawler_from_db_open`, {}, {
-            //     headers: {
-            //         'Authorization': `Bearer ${this.accessToken}`,
-            //     },
-            // }).subscribe((res) => {
-            //     console.log("api/open/run_crawler_from_db_open", res);
+            this.http.post(`http://45.85.250.231:9000/api/open/run_crawler_from_db_open`, {}, {
+                headers: {
+                    'Authorization': `Bearer ${this.accessToken}`,
+                },
+            }).subscribe((res) => {
+                console.log("api/open/run_crawler_from_db_open", res);
 
-            // }, (err) => {
-            //     console.log(err);
+            }, (err) => {
+                console.log(err);
 
-            // })
+            })
 
             // for (let index = 0; index < response.user.cpv_codes.length; index++) {
             //     this.http.get(`http://45.85.250.231:9000/api/open/get_contracts_keywords_cpv_open`, {

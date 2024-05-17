@@ -87,9 +87,14 @@
                     <tr>
                         <td>{{customer.data[0].item.noticeIdentifier}}</td>
                         <td>
-                            <div class="bg-warning p-1 rounded-1 ">
-                                {{customer.data[0].item.awardedSupplier}}
+                            <div class="py-1" *ngFor="let item of customer.awardedSupplier">
+                                <div [ngClass]="{'bg-warning p-1 rounded-1':
+                                isCompetitor(item)
+                            }">
+                                    {{item}}
+                                </div>
                             </div>
+
                         </td>
                         <td>{{customer.data[0].item.region }}</td>
                         <td>{{customer.data[0].item.awardedValue }}</td>
