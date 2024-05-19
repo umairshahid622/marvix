@@ -89,7 +89,7 @@
                         <td>
                             <div class="py-1" *ngFor="let item of customer.awardedSupplier">
                                 <div [ngClass]="{'bg-warning p-1 rounded-1':
-                                isCompetitor(item)
+                                competitorNames.includes(item)
                             }">
                                     {{item}}
                                 </div>

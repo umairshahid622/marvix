@@ -286,12 +286,4 @@ export class RecomendationsComponent implements OnInit {
         this.messageService.clear('c');
     }
 
-    isCompetitor(awarded_supplier: string) {
-        if (this.competitorNames.includes(awarded_supplier)) {
-            return true
-        } else {
-            return false
-        }
-    }
-
 }

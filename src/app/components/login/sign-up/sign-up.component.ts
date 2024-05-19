@@ -227,18 +227,18 @@ export class SignUpComponent implements OnInit, AfterViewInit {
 
 
 
-            console.log("companyId", this.registerForm.get('companyId').status);
-            console.log("comapanyName", this.registerForm.get('comapanyName').status);
-            console.log("emailAddress", this.registerForm.get('emailAddress').status);
-            console.log("name", this.registerForm.get('name').status);
-            console.log("password", this.registerForm.get('password').status);
-            console.log("confirmPassword", this.registerForm.get('confirmPassword').status);
-            console.log("cpvCodes", this.registerForm.get('cpvCodes').status);
-            console.log("locations", this.registerForm.get('locations').status);
-            console.log("competitors", this.registerForm.get('competitors').status);
-            console.log("tenderMinValuel", this.registerForm.get('tenderMinValue').status);
-            console.log("tenderMaxValue", this.registerForm.get('tenderMaxValue').status);
-            console.log("operationalArea", this.registerForm.get('operationalArea').status);
+            // console.log("companyId", this.registerForm.get('companyId').status);
+            // console.log("comapanyName", this.registerForm.get('comapanyName').status);
+            // console.log("emailAddress", this.registerForm.get('emailAddress').status);
+            // console.log("name", this.registerForm.get('name').status);
+            // console.log("password", this.registerForm.get('password').status);
+            // console.log("confirmPassword", this.registerForm.get('confirmPassword').status);
+            // console.log("cpvCodes", this.registerForm.get('cpvCodes').status);
+            // console.log("locations", this.registerForm.get('locations').status);
+            // console.log("competitors", this.registerForm.get('competitors').status);
+            // console.log("tenderMinValuel", this.registerForm.get('tenderMinValue').status);
+            // console.log("tenderMaxValue", this.registerForm.get('tenderMaxValue').status);
+            // console.log("operationalArea", this.registerForm.get('operationalArea').status);
             return;
         }
 
@@ -276,6 +276,14 @@ export class SignUpComponent implements OnInit, AfterViewInit {
             .subscribe((response) => {
                 console.log("Response", response);
                 this.messageService.add({ key: 'tc', severity: 'success', summary: 'success', detail: 'Account created successfully' });
+                // this.http.post('http://45.85.250.231:9000/api/posts/fetch_and_save_data', {}, {
+                //     params: {
+
+                //     },
+                //     headers: {
+
+                //     }
+                // })
                 this.r.navigate(['/pages/login'])
             }, (err) => {
                 console.log(err);
